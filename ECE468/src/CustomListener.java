@@ -13,7 +13,7 @@ import java.util.List;
  * of the available methods.
  */
 public class CustomListener extends MicroBaseListener {
-    private int printIr = 1;
+    private int printIr = 0;
     private int tempNo;
     private int rn = 0;
     private Stack<Scope> scopes;
@@ -24,8 +24,8 @@ public class CustomListener extends MicroBaseListener {
     private Stack<Irnode> tnode;
     private ArrayList<Acode> acode;
     private HashMap<String, String> rtable;
-    private HashMap<String, String> paramTable;
-    private HashMap<String, String> localTable;
+    private HashMap<String, Symbol> globalTable;
+    private HashMap<String, Function> funcTable;
     private Stack<String> labels;
     private Irnode none = new Irnode("none", "none", "none");
     private Irnode done = new Irnode("done", "done", "done");
@@ -33,9 +33,10 @@ public class CustomListener extends MicroBaseListener {
     public boolean in_incr = false;
     public boolean enterfor = false;
     public boolean enterif = false;
-    public Scope curFun;
+    public Function curFun;
     public int call_expr = 0;
     public String callname;
+    public String rettype;
     
     public CustomListener() {
         scopes = new Stack<Scope>();
@@ -47,8 +48,8 @@ public class CustomListener extends MicroBaseListener {
         rtable = new HashMap<String, String>();
         labels = new Stack<String>();
         incr_irnode = new Stack<Irnode>();
-        paramTable = new HashMap<String, String>();
-        localTable = new HashMap<String, String>();
+        globalTable = new HashMap<String, Symbol>();
+        funcTable = new HashMap<String, Function>();
     }
     @Override public void enterProgram(MicroParser.ProgramContext ctx){
         Scope scope = new Scope("GLOBAL");
@@ -129,15 +130,19 @@ public class CustomListener extends MicroBaseListener {
         Symbol var = new Symbol(varType, varValue);
         Scope top = scopes.peek();
         checkDeclError(top.table, varName);
-        top.table.put(varName, var);
+        //top.table.put(varName, var);
         //top.keys.add(varName);
-
-        lv = String.format("$L%d", top.ln);
-        top.ln++;
-        localTable.put(varName, lv);
+        
         if(top.type.equals("GLOBAL")){
             Acode c = new Acode("str", varName, varValue);
             acode.add(c);
+            globalTable.put(varName,var);
+        }
+        else{
+            lv = String.format("$L%d", curFun.ln);
+            var = new Symbol(varType, lv);
+            curFun.localTable.put(varName, var);
+            curFun.ln++;    
         }
     }
     @Override public void exitString_decl(MicroParser.String_declContext ctx) {
@@ -159,18 +164,26 @@ public class CustomListener extends MicroBaseListener {
             Symbol var = new Symbol(varType, varValue);
             checkDeclError(top.table, name);
             top.table.put(name, var);
-            lv = String.format("$L%d", top.ln);
-            top.ln++;
-            localTable.put(name, lv);
+            
             if(top.type.equals("GLOBAL")){
                 System.out.println(top.type);
                 Acode c = new Acode("var", name);
                 acode.add(c);
+                globalTable.put(name,var);
+            }
+            else{
+                lv = String.format("$L%d", curFun.ln);
+                curFun.ln++;
+                var = new Symbol(varType, lv);
+                curFun.localTable.put(name, var);
             }
         }
     }
     @Override public void enterFunc_decl(MicroParser.Func_declContext ctx){
         String varName = ctx.id().getText();
+        //funcTable.put(varName, ctx.any_type().getText());
+        Function f = new Function(varName, ctx.any_type().getText());
+        funcTable.put(varName,f);
         Scope scope = new Scope("FUNCTION", varName);
         if(printIr == 0){
             tempNo = 1;
@@ -186,13 +199,11 @@ public class CustomListener extends MicroBaseListener {
         }
         scopes.push(scope);
         p_scopes.push(scope);
-        curFun = scope;
+        curFun = f;
     }
 
     @Override public void exitFunc_decl(MicroParser.Func_declContext ctx){
         Ircode c;
-        paramTable.clear();
-        localTable.clear();
         if(printIr == 0)
         {
             /*Irnode left = irnode.pop();
@@ -225,10 +236,11 @@ public class CustomListener extends MicroBaseListener {
         //System.out.println(scope.type +"  " + varName);
         checkDeclError(scope.table, varName);
         scope.table.put(varName, var);
-        param = String.format("$P%d", scope.pn);
-        scope.pn++;
+        param = String.format("$P%d", curFun.pn);
+        curFun.pn++;
         //System.out.println(param);
-        paramTable.put(varName, param);
+        var = new Symbol(varType, param);
+        curFun.paramTable.put(varName, var);
 
         //System.out.println(scope.type);
         //scope.keys.add(varName);
@@ -443,22 +455,22 @@ public class CustomListener extends MicroBaseListener {
 
     @Override public void enterPrimary(MicroParser.PrimaryContext ctx) {
         Irnode in;
-        Scope global;
+        Symbol var;
         if(ctx.id() != null)
         {
-            Symbol var = curFun.table.get(ctx.id().getText());
-            if(var == null){
-                global = p_scopes.firstElement();
-                var = global.table.get(ctx.id().getText());
+            if(globalTable.get(ctx.id().getText()) != null){
+                var = globalTable.get(ctx.id().getText());
                 in = new Irnode("id", var.type, ctx.id().getText());
                 irnode.push(in);
             }
-            else if(paramTable.get(ctx.id().getText())!= null){
-                in = new Irnode("param", var.type, paramTable.get(ctx.id().getText()));
+            else if(curFun.paramTable.get(ctx.id().getText())!= null){
+                var = curFun.paramTable.get(ctx.id().getText());
+                in = new Irnode("param", var.type, var.value);
                 irnode.push(in);
             }
             else{
-                in = new Irnode("local", var.type, localTable.get(ctx.id().getText()));
+                var = curFun.localTable.get(ctx.id().getText());
+                in = new Irnode("local", var.type, var.value);
                 irnode.push(in);
             }
         }
@@ -499,21 +511,22 @@ public class CustomListener extends MicroBaseListener {
         //look up type from the hashtable\
         Irnode in;
         Scope global;
+        Symbol var;
         if(ctx.id() != null)
         {
-            Symbol var = curFun.table.get(ctx.id().getText());
-            if(var == null){
-                global = p_scopes.firstElement();
-                var = global.table.get(ctx.id().getText());
+            if(globalTable.get(ctx.id().getText()) != null){
+                var = globalTable.get(ctx.id().getText());
                 in = new Irnode("id", var.type, ctx.id().getText());
                 irnode.push(in);
             }
-            else if(paramTable.get(ctx.id().getText())!= null){
-                in = new Irnode("param", var.type, paramTable.get(ctx.id().getText()));
+            else if(curFun.paramTable.get(ctx.id().getText()) != null){
+                var = curFun.paramTable.get(ctx.id().getText());
+                in = new Irnode("param", var.type, var.value);
                 irnode.push(in);
             }
             else{
-                in = new Irnode("local", var.type, localTable.get(ctx.id().getText()));
+                var = curFun.localTable.get(ctx.id().getText());
+                in = new Irnode("local", var.type, var.value);
                 irnode.push(in);
             }
         }
@@ -593,7 +606,8 @@ public class CustomListener extends MicroBaseListener {
                         ircode.add(c);
                     }
                     String tempr = String.format("$T%d", tempNo);
-                    Irnode r = new Irnode("temp", "INT", tempr);
+
+                    Irnode r = new Irnode("temp", funcTable.get(callname).retType, tempr);
                     tnode.push(r);
                     tempNo++;
                     c = new Ircode("POP",none, none, r);
@@ -633,20 +647,21 @@ public class CustomListener extends MicroBaseListener {
         String op;
     	String[] ids = ctx.id_list().getText().split(",");
         String name;
+        String type;
         //System.out.println("I am writing");
         //Scope top = scopes.peek();
     	for(String id: ids){
-            Symbol var = curFun.table.get(id);
-            if(var == null){
-                Scope global = p_scopes.firstElement();
-                var = global.table.get(id);
+            Symbol var = globalTable.get(id);
+            if(var != null){
                 name = id;
             }
-            else if(paramTable.get(id)!= null){
-                name = paramTable.get(id);
+            else if(curFun.paramTable.get(id)!= null){
+                var = curFun.paramTable.get(id);
+                name = var.value;
             }
             else{
-                name = localTable.get(id);
+                var = curFun.localTable.get(id);
+                name = var.value;
             }
             if(var.type.equals("INT")){
                 op = "WRITEI";
@@ -675,17 +690,17 @@ public class CustomListener extends MicroBaseListener {
         //System.out.println("I am writing");
         //Scope top = scopes.peek();
         for(String id: ids){
-            Symbol var = curFun.table.get(id);
-            if(var == null){
-                Scope global = p_scopes.firstElement();
-                var = global.table.get(id);
+            Symbol var = globalTable.get(id);
+            if(var != null){
                 name = id;
             }
-            else if(paramTable.get(id)!= null){
-                name = paramTable.get(id);
+            else if(curFun.paramTable.get(id)!= null){
+                var = curFun.paramTable.get(id);
+                name = var.value;
             }
             else{
-                name = localTable.get(id);
+                var = curFun.localTable.get(id);
+                name = var.value;
             }
             if(var.type.equals("INT")){
                 op = "READI";
@@ -709,6 +724,7 @@ public class CustomListener extends MicroBaseListener {
 
     @Override public void enterCall_expr(MicroParser.Call_exprContext ctx) { 
         callname = ctx.id().getText();
+        rettype = ctx.id().getText();
         Irnode ir = new Irnode("enterpush","none","none");
         irnode.push(ir);
     }
@@ -1111,6 +1127,12 @@ public class CustomListener extends MicroBaseListener {
                 op = "label";
                 ac = new Acode(op, c.result.value);
                 acode.add(ac);
+            }
+            else if(c.opcode.equals("LINK")){
+                /*op = "link";
+                ac = new Acode(op);
+                acode.add(ac);
+                */
             }
             else if(c.opcode.equals("WRITEI")||c.opcode.equals("WRITEF")||c.opcode.equals("WRITES")){
                 writeOp(c);

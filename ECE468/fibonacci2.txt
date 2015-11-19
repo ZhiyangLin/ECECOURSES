@@ -1,61 +1,70 @@
-exitass none none
-enterass none none
-local INT $L3
-:= none :=
-enterpush none none
-local INT $L1
-exitCall none none
-exitass none none
-FUNCTION none F
-comp none >
-param INT $P1
-INTLITERAL INT 2
-enterass none none
-local INT $L1
-:= none :=
-enterpush none none
-op none -
-param INT $P1
-INTLITERAL INT 1
-exitCall none none
-exitass none none
-enterass none none
-local INT $L2
-:= none :=
-enterpush none none
-op none -
-param INT $P1
-INTLITERAL INT 2
-exitCall none none
-exitass none none
-op none +
-local INT $L1
-local INT $L2
-comp none =
-param INT $P1
-INTLITERAL INT 0
-INTLITERAL INT 0
-comp none =
-param INT $P1
-INTLITERAL INT 1
-INTLITERAL INT 1
-INTLITERAL INT 1
-exitFunc none F
-FUNCTION none main
-enterass none none
-local INT $L1
-:= none :=
-INTLITERAL INT 0
-exitass none none
-comp none !=
-local INT $L1
-local INT $L2
-enterass none none
-local INT $L1
-:= none :=
-op none +
-local INT $L1
-INTLITERAL INT 1
-exitFor none none
-INTLITERAL INT 0
-exitFunc none main
+;IR code
+;LABEL F 
+;LINK
+;STOREI 2 $T1
+;LE $P1 $T1 label1
+;STOREI 1 $T2
+;SUBI $P1 $T2 $T3
+;PUSH
+;PUSH $T3 
+;JSR F 
+;POP
+;POP $T4 
+;STOREI $T4 $L1
+;STOREI 2 $T5
+;SUBI $P1 $T5 $T6
+;PUSH
+;PUSH $T6 
+;JSR F 
+;POP
+;POP $T7 
+;STOREI $T7 $L2
+;STOREI $L2 $R
+;RET
+;JUMP label2 
+;LABEL label1 
+;STOREI 0 $T8
+;NE $P1 $T8 label3
+;ADDI $L1 $T6 $T9
+;STOREI 0 $R
+;RET
+;JUMP label4 
+;LABEL label3 
+;STOREI 1 $T10
+;NE $P1 $T10 label5
+;STOREI 1 $R
+;RET
+;JUMP label6 
+;LABEL label5 
+;STOREI 1 $R
+;RET
+;LABEL label6 
+;LABEL label4 
+;LABEL label2 
+
+;LABEL main 
+;LINK
+;WRITES input 
+;READI $L2 
+;STOREI 0 $T1
+;STOREI $T1 $L1
+;LABEL label7 
+;EQ $L1 $L2 label8
+;PUSH
+;PUSH $L1 
+;JSR F 
+;POP
+;POP $T2 
+;STOREI $T2 $L3
+;WRITEI $L1 
+;WRITES space 
+;WRITEI $L3 
+;WRITES eol 
+;STOREI 1 $T3
+;ADDI $L1 $T3 $T4
+;STOREI $T4 $L1
+;JUMP label7 
+;LABEL label8 
+;STOREI 0 $R
+;RET
+

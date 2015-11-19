@@ -1,49 +1,52 @@
-FUNCTION none factorial
-comp none =
-param INT $P1
-INTLITERAL INT 1
-INTLITERAL INT 1
-enterass none none
-local INT $L2
-:= none :=
-enterpush none none
-op none -
-param INT $P1
-INTLITERAL INT 1
-exitCall none none
-exitass none none
-enterass none none
-local INT $L1
-:= none :=
-op none *
-local INT $L2
-param INT $P1
-exitass none none
-local INT $L1
-exitFunc none factorial
-FUNCTION none main
-comp none =
-local INT $L1
-INTLITERAL INT 1
-enterass none none
-local INT $L2
-:= none :=
-INTLITERAL INT 1
-exitass none none
-comp none >
-local INT $L1
-INTLITERAL INT 1
-enterass none none
-local INT $L2
-:= none :=
-enterpush none none
-local INT $L1
-exitCall none none
-exitass none none
-enterass none none
-local INT $L2
-:= none :=
-INTLITERAL INT 0
-exitass none none
-INTLITERAL INT 0
-exitFunc none main
+;IR code
+;LABEL factorial 
+;LINK
+;STOREI 1 $T1
+;NE $P1 $T1 label1
+;STOREI 1 $R
+;RET
+;JUMP label2 
+;LABEL label1 
+;STOREI 1 $T2
+;SUBI $P1 $T2 $T3
+;PUSH
+;PUSH $T3 
+;JSR factorial 
+;POP
+;POP $T4 
+;STOREI $T4 $L2
+;MULTI $L2 $P1 $T5
+;STOREI $T5 $L1
+;LABEL label2 
+;STOREI $L1 $R
+;RET
+
+;LABEL main 
+;LINK
+;WRITES input 
+;READI $L1 
+;STOREI 1 $T1
+;NE $L1 $T1 label3
+;STOREI 1 $T2
+;STOREI $T2 $L2
+;JUMP label4 
+;LABEL label3 
+;STOREI 1 $T3
+;LE $L1 $T3 label5
+;PUSH
+;PUSH $L1 
+;JSR factorial 
+;POP
+;POP $T4 
+;STOREI $T4 $L2
+;JUMP label6 
+;LABEL label5 
+;STOREI 0 $T5
+;STOREI $T5 $L2
+;LABEL label6 
+;LABEL label4 
+;WRITEI $L2 
+;WRITES eol 
+;STOREI 0 $R
+;RET
+

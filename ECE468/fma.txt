@@ -1,39 +1,51 @@
-FUNCTION none add
-enterass none none
-local FLOAT $L1
-:= none :=
-op none +
-param FLOAT $P1
-param FLOAT $P2
-exitass none none
-local FLOAT $L1
-exitFunc none add
-FUNCTION none multiply
-enterass none none
-local FLOAT $L1
-:= none :=
-op none *
-param FLOAT $P1
-param FLOAT $P2
-exitass none none
-local FLOAT $L1
-exitFunc none multiply
-FUNCTION none main
-enterass none none
-local FLOAT $L5
-:= none :=
-enterpush none none
-local FLOAT $L1
-local FLOAT $L2
-exitCall none none
-exitass none none
-enterass none none
-local FLOAT $L4
-:= none :=
-enterpush none none
-local FLOAT $L5
-local FLOAT $L3
-exitCall none none
-exitass none none
-INTLITERAL INT 0
-exitFunc none main
+;IR code
+;LABEL add 
+;LINK
+;ADDF $P1 $P2 $T1
+;STOREF $T1 $L1
+;STOREF $L1 $R
+;RET
+
+;LABEL multiply 
+;LINK
+;MULTF $P1 $P2 $T1
+;STOREF $T1 $L1
+;STOREF $L1 $R
+;RET
+
+;LABEL main 
+;LINK
+;WRITES intro 
+;WRITES first 
+;READF $L1 
+;WRITES second 
+;READF $L2 
+;WRITES third 
+;READF $L3 
+;PUSH
+;PUSH $L1 
+;PUSH $L2 
+;JSR multiply 
+;POP
+;POP
+;POP $T1 
+;STOREF $T1 $L5
+;PUSH
+;PUSH $L5 
+;PUSH $L3 
+;JSR add 
+;POP
+;POP
+;POP $T2 
+;STOREF $T2 $L4
+;WRITEF $L1 
+;WRITES star 
+;WRITEF $L2 
+;WRITES plus 
+;WRITEF $L3 
+;WRITES equal 
+;WRITEF $L4 
+;WRITES eol 
+;STOREI 0 $R
+;RET
+
