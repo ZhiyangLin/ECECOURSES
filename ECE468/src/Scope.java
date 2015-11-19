@@ -7,8 +7,6 @@ public class Scope {
     String type;
     String name;
     Scope parent;
-    int pn = 1;
-    int ln = 1;
     HashMap<String, Symbol> table = new HashMap<String, Symbol>();
     public Scope(String _type)
     {
