@@ -13,7 +13,7 @@ import java.util.List;
  * of the available methods.
  */
 public class CustomListener extends MicroBaseListener {
-    private int printIr = 1;
+    private int printIr = 0;
     private int tempNo;
     private int rn = 0;
     private Stack<Scope> scopes;
