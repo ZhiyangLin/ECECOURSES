@@ -11,7 +11,15 @@ public class Ircode {
 		result = _result;
 	}
 	public void printCode(){
-		if(oprand1.value.equals("none") && oprand2.value.equals("none")){
+		if(oprand1.value.equals("none") && oprand2.value.equals("none") && result.value.equals("none")){
+			if(opcode.equals("END")){
+				System.out.println("");
+			}
+			else{
+				System.out.println(";" + opcode);
+			}
+		}
+		else if(oprand1.value.equals("none") && oprand2.value.equals("none")){
 			System.out.printf(";%s %s \n",opcode, result.value);
 		}
 		else if(oprand2.value.equals("none")){

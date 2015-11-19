@@ -6,5 +6,4 @@ public class Symbol {
             type = _type;
             value = _value;
     }
-        
 }

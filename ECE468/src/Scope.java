@@ -4,19 +4,20 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Scope {
-        String name;
-        Scope parent;
-        HashMap<String, Symbol> table = new HashMap<String, Symbol>();
-        ArrayList<String> keys = new ArrayList<String>();
-        //Stack<Irnode> irnode = new Stack<Irnode>();
-        public Scope(String _name)
-        {
-            name = _name;
-        } 
-        public Scope(String _name, Scope _parent)
-        {
-            name = _name;
-            parent = _parent;
-        }
+    String type;
+    String name;
+    Scope parent;
+    int pn = 1;
+    int ln = 1;
+    HashMap<String, Symbol> table = new HashMap<String, Symbol>();
+    public Scope(String _type)
+    {
+        type = _type;
+    }
+    public Scope(String _type, String _name)
+    {
+        name = _name;
+        type = _type;
+    }
 
 }
