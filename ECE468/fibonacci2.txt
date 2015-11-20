@@ -1,3 +1,7 @@
+$P1 $T1
+$P1 $T9
+$P1 $T11
+$L1 $L2
 ;IR code
 ;LABEL F 
 ;LINK
@@ -44,6 +48,7 @@
 ;LABEL label6 
 ;LABEL label4 
 ;LABEL label2 
+;RET
 
 ;LABEL main 
 ;LINK
@@ -84,103 +89,114 @@ push r3
 jsr main 
 sys halt 
 label F 
-link 3 
+link 2 
 move 2 r0 
-cmpi $P1 r0 
+cmpi $6 r0 
 jle label1 
 move 1 r1 
 move $6 r2 
-subi $-4 r2 
-cmpr none r2 
-cmpr none 
-cmpr none r2 
-cmpr $T3 
-cmpr none r2 
-cmpr F 
-cmpr none r2 
-cmpr none 
-cmpr none r2 
-cmpr $T4 
-move r3 $L1 
+subi r1 r2 
+push 
+push r2 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr F 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+pop 
+pop r3 
+move r3 $-1 
 move 2 r4 
-subi $-7 r2 
-cmpr none r4 
-cmpr none 
-cmpr none r4 
-cmpr $T6 
-cmpr none r4 
-cmpr F 
-cmpr none r4 
-cmpr none 
-cmpr none r4 
-cmpr $T7 
-move r5 $L2 
-move $-1 r6 
-addi $-2 r6 
-move r6 $R 
-cmpr none r6 
-cmpr none 
+move $6 r5 
+subi r4 r5 
+push 
+push r5 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr F 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+pop 
+pop r6 
+move r6 $-2 
+move $-1 r7 
+addi $-2 r7 
+move r7 $7 
+unlnk 
+ret 
 jmp label2 
 label label1 
-move 0 r7 
-cmpi $P1 r7 
-jne label3 
 move 0 r8 
-move r8 $R 
-cmpr none r8 
-cmpr none 
+cmpi $6 r8 
+jne label3 
+move 0 r9 
+move r9 $7 
+unlnk 
+ret 
 jmp label4 
 label label3 
-move 1 r9 
-cmpi $P1 r9 
-jne label5 
 move 1 r10 
-move r10 $R 
-cmpr none r10 
-cmpr none 
+cmpi $6 r10 
+jne label5 
+move 1 r11 
+move r11 $7 
+unlnk 
+ret 
 jmp label6 
 label label5 
-move 1 r11 
-move r11 $R 
-cmpr none r11 
-cmpr none 
+move 1 r12 
+move r12 $7 
+unlnk 
+ret 
 label label6 
 label label4 
 label label2 
-cmpr none r11 
-cmpr none 
+unlnk 
+ret 
 label main 
-link 4 
+link 3 
 sys writes input 
-sys readi $L2 
-move 0 r12 
-move r12 $L1 
+sys readi $-2 
+move 0 r13 
+move r13 $-1 
 label label7 
-cmpi $L1 r12 
+move $-2 r14 
+cmpi $-1 r14 
 jeq label8 
-cmpr none r12 
-cmpr none 
-cmpr none r12 
-cmpr $L1 
-cmpr none r12 
-cmpr F 
-cmpr none r12 
-cmpr none 
-cmpr none r12 
-cmpr $T2 
-move r1 $L3 
-sys writei $L1 
+push 
+push $-1 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr F 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+pop 
+pop r15 
+move r15 $-3 
+sys writei $-1 
 sys writes space 
-sys writei $L3 
+sys writei $-3 
 sys writes eol 
-move 1 r13 
-addi $-6 r6 
-move r6 $L1 
+move 1 r16 
+move $-1 r17 
+addi r16 r17 
+move r17 $-1 
 jmp label7 
 label label8 
-move 0 r14 
-move r14 $R 
-cmpr none r14 
-cmpr none 
-cmpr none r14 
-cmpr none 
+move 0 r18 
+move r18 $6 
+unlnk 
+ret 
+end
