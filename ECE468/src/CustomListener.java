@@ -58,6 +58,8 @@ public class CustomListener extends MicroBaseListener {
     }
 
     @Override public void exitProgram(MicroParser.ProgramContext ctx) {
+        //CreateCtrGraph();
+
         GenerateTiny();
         //scopes.pop();
         /*int num = 1;
@@ -1258,7 +1260,7 @@ public class CustomListener extends MicroBaseListener {
             else{
                 
                 aComp(c);
-                System.out.println(c.oprand1.value + " " + c.oprand2.value);
+                //System.out.println(c.oprand1.value + " " + c.oprand2.value);
             }
         }
     }

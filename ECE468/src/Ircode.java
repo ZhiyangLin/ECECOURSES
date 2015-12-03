@@ -1,4 +1,5 @@
 import org.antlr.v4.runtime.*;
+import java.util.ArrayList;
 public class Ircode {
 	public String opcode;
 	public Irnode oprand1;

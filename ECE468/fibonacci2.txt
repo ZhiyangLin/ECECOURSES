@@ -1,7 +1,3 @@
-$P1 $T1
-$P1 $T9
-$P1 $T11
-$L1 $L2
 ;IR code
 ;LABEL F 
 ;LINK
