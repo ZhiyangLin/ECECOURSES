@@ -109,7 +109,8 @@ public class CustomListener extends MicroBaseListener {
                 System.out.println(ir.gtype + " " + ir.dtype +" "+ ir.value);
             }
         }
-                
+        ircode.get(1).printCode();
+        /*        
         if(printIr == 0){
             System.out.println(";IR code");
             for(Ircode c: ircode){
@@ -121,7 +122,7 @@ public class CustomListener extends MicroBaseListener {
                 ac.printCode();
             }
             System.out.println("end");
-        }
+        }*/
     }
     @Override public void enterString_decl(MicroParser.String_declContext ctx) {
         String lv;
@@ -1120,8 +1121,9 @@ public class CustomListener extends MicroBaseListener {
         }
         
     }
-
-    
+    /******************************************************
+    * Code associated with translate from 3AC to assembly
+    ******************************************************/ 
     public void GenerateTiny(){
         String op;
         String reg;
@@ -1507,4 +1509,10 @@ public class CustomListener extends MicroBaseListener {
         }
         return aop;
     }
+
+    /******************************************************
+    * Register Allocation
+    ******************************************************/ 
+
+
 }
