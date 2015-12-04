@@ -5,6 +5,7 @@ public class Ircode {
 	public Irnode oprand1;
 	public Irnode oprand2;
 	public Irnode result;
+	public boolean endofF = false;
 	public int debug = 0;
 	public ArrayList<Ircode> successors = new ArrayList<Ircode>();
 	public ArrayList<Ircode> predecessors = new ArrayList<Ircode>();
@@ -30,6 +31,9 @@ public class Ircode {
 		}
 		else{
 			System.out.printf(";%s %s %s %s\n",opcode, oprand1.value, oprand2.value, result.value);
+		}
+		if(endofF == true){
+			System.out.println();
 		}
 	}
 

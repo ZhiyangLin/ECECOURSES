@@ -155,8 +155,8 @@ ret
 label label6 
 label label4 
 label label2 
-cmpr $7 r12 
-cmpr none 
+unlnk 
+ret 
 label main 
 link 3 
 sys writes input 
@@ -193,6 +193,6 @@ jmp label7
 label label8 
 move 0 r18 
 move r18 $6 
-cmpr $6 r18 
-cmpr none 
+unlnk 
+ret 
 end

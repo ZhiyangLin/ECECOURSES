@@ -96,8 +96,8 @@ move r5 $-1
 label label2 
 move $-1 r6 
 move r6 $7 
-cmpr $7 r6 
-cmpr none 
+unlnk 
+ret 
 label main 
 link 2 
 sys writes input 
@@ -136,6 +136,6 @@ sys writei $-2
 sys writes eol 
 move 0 r12 
 move r12 $6 
-cmpr $6 r12 
-cmpr none 
+unlnk 
+ret 
 end

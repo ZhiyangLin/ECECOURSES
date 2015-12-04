@@ -121,6 +121,11 @@ public class CustomListener extends MicroBaseListener {
             System.out.println(";IR code");
             for(Ircode c: ircode){
                 c.printCode();
+                System.out.println("predecessors:");
+                for(Ircode s: c.predecessors){
+                    s.printCode();
+                }
+                System.out.println();
             }
             
             System.out.println(";tiny code");
@@ -228,10 +233,8 @@ public class CustomListener extends MicroBaseListener {
                 c =  new Ircode("RET", none, none, none);
                 ircode.add(c);
             }
-            c = ircode.get(ircode.size() - 1);
-            if(c.result.value.equals("none")){
-                c.opcode = c.opcode + "\n";
-            }
+            ircode.get(ircode.size() - 1).endofF = true;
+
         }
         else{
             Irnode temp = new Irnode("exitFunc", "none", ctx.id().getText());
@@ -1264,9 +1267,6 @@ public class CustomListener extends MicroBaseListener {
                     acode.add(ac);
                 }
             }
-            else if(c.opcode.equals("END")){
-
-            }
             else{
                 
                 aComp(c);
@@ -1661,16 +1661,15 @@ public class CustomListener extends MicroBaseListener {
                 }                
             }
             else if(c.opcode.equals("JUMP")){
-                c.successors.add(litr.next());
-                litr.previous();
-                litr.next().predecessors.add(c);
-                litr.previous();
                 for(Ircode l: leaders){
                     if(l.opcode.equals("LABEL")&& l.result.value.equals(c.result.value)){
                         c.successors.add(l);
                         l.predecessors.add(c);
                     }
-                }   
+                }
+            }
+            else if(c.opcode.equals("RET")){
+                //do nothing there is no successor
             }
             else{
                 if(litr.hasNext()){
@@ -1681,5 +1680,13 @@ public class CustomListener extends MicroBaseListener {
                 }
             }
         }
+    }
+
+    public void livenessCheck(){
+        while(1){
+            ListIterator<Ircode> litr = ircode.listIterator();
+            while(litr.hasNext()){
+        }
+
     }
 }

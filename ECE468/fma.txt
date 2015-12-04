@@ -73,8 +73,8 @@ addr $6 r0
 move r0 $-1 
 move $-1 r1 
 move r1 $8 
-cmpr $8 r1 
-cmpr none 
+unlnk 
+ret 
 label multiply 
 link 1 
 move $7 r2 
@@ -82,8 +82,8 @@ mulr $6 r2
 move r2 $-1 
 move $-1 r3 
 move r3 $8 
-cmpr $8 r3 
-cmpr none 
+unlnk 
+ret 
 label main 
 link 5 
 sys writes intro 
@@ -135,6 +135,6 @@ sys writer $-4
 sys writes eol 
 move 0 r6 
 move r6 $6 
-cmpr $6 r6 
-cmpr none 
+unlnk 
+ret 
 end
