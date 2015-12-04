@@ -20,12 +20,7 @@ public class Ircode {
 
 	public void printCode(){
 		if(oprand1.value.equals("none") && oprand2.value.equals("none") && result.value.equals("none")){
-			if(opcode.equals("END")){
-				System.out.println("");
-			}
-			else{
-				System.out.println(";" + opcode);
-			}
+			System.out.println(";" + opcode);
 		}
 		else if(oprand1.value.equals("none") && oprand2.value.equals("none")){
 			System.out.printf(";%s %s \n",opcode, result.value);

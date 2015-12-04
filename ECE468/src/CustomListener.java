@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.List;
 import java.lang.Integer;
+import java.util.ListIterator;
 /**
  * This class provides an empty implementation of {@link MicroListener},
  * which can be extended to create a listener which only needs to handle a subset
@@ -62,9 +63,9 @@ public class CustomListener extends MicroBaseListener {
     }
 
     @Override public void exitProgram(MicroParser.ProgramContext ctx) {
-        BasicBlocks();
+        basicBlocks();
 
-        //CreateCtrGraph();
+        ctrFlowGraph();
 
         GenerateTiny();
         //scopes.pop();
@@ -227,8 +228,10 @@ public class CustomListener extends MicroBaseListener {
                 c =  new Ircode("RET", none, none, none);
                 ircode.add(c);
             }
-            c = new Ircode("END", none, none, none);
-            ircode.add(c);
+            c = ircode.get(ircode.size() - 1);
+            if(c.result.value.equals("none")){
+                c.opcode = c.opcode + "\n";
+            }
         }
         else{
             Irnode temp = new Irnode("exitFunc", "none", ctx.id().getText());
@@ -1523,7 +1526,7 @@ public class CustomListener extends MicroBaseListener {
     * 
     ******************************************************/
     
-    public void BasicBlocks(){
+    public void basicBlocks(){
         ArrayList<Integer> lderIndex = new ArrayList<Integer>();
         Integer index;
         for(Ircode c: ircode){
@@ -1534,6 +1537,7 @@ public class CustomListener extends MicroBaseListener {
             }
             else if(c.opcode.equals("EQ")){
                 leaders.add(c);
+                lderIndex.add(ircode.indexOf(c));
                 index = new Integer(ircode.indexOf(c));
                 lderIndex.add(index);
             }
@@ -1573,61 +1577,109 @@ public class CustomListener extends MicroBaseListener {
                 lderIndex.add(index);
             }
         }
-        /*       
+               
         for(Integer i: lderIndex){
             System.out.println(i.intValue());
-        }*/
+        }
     }
-    public void CtrFlowGraph(){
-        for(Ircode c: ircode){
-            for(Ircode c: ircode){
-                if(ircode.indexOf(c) == 1){
-                    leaders.add(c);
-                    index = new Integer(1);
-                    lderIndex.add(index);
+    
+    public void ctrFlowGraph(){
+        Ircode c;
+        ListIterator<Ircode> litr = ircode.listIterator();
+        while(litr.hasNext()){
+            c = litr.next();
+            if(c.opcode.equals("EQ")){
+                c.successors.add(litr.next());
+                litr.previous();
+                litr.next().predecessors.add(c);
+                litr.previous();
+                for(Ircode l: leaders){
+                    if(l.opcode.equals("LABEL")&& l.result.value.equals(c.result.value)){
+                        c.successors.add(l);
+                        l.predecessors.add(c);
+                    }
                 }
-                else if(c.opcode.equals("EQ")){
-                    index = new Integer(ircode.indexOf(c));
-                    lderIndex.add(index);
+            }
+            else if(c.opcode.equals("NE")){
+                c.successors.add(litr.next());
+                litr.previous();
+                litr.next().predecessors.add(c);
+                litr.previous();
+                for(Ircode l: leaders){
+                    if(l.opcode.equals("LABEL")&& l.result.value.equals(c.result.value)){
+                        c.successors.add(l);
+                        l.predecessors.add(c);
+                    }
                 }
-                else if(c.opcode.equals("NE")){
-                    leaders.add(c);
-                    index = new Integer(ircode.indexOf(c));
-                    lderIndex.add(index);
-                }
-                else if(c.opcode.equals("GT")){
-                    leaders.add(c);
-                    index = new Integer(ircode.indexOf(c));
-                    lderIndex.add(index);
-                }
-                else if(c.opcode.equals("LT")){
-                    leaders.add(c);
-                    index = new Integer(ircode.indexOf(c));
-                    lderIndex.add(index);
-                }
-                else if(c.opcode.equals("GE")){
-                    leaders.add(c);
-                    index = new Integer(ircode.indexOf(c));
-                    lderIndex.add(index);
-                }
-                else if(c.opcode.equals("LE")){
-                    leaders.add(c);
-                    index = new Integer(ircode.indexOf(c));
-                    lderIndex.add(index);
-                }
-                else if(c.opcode.equals("JUMP")){
-                    leaders.add(c);
-                    index = new Integer(ircode.indexOf(c));
-                    lderIndex.add(index);
-                }
-                else if(c.opcode.equals("LABEL")){
-                    leaders.add(c);
-                    index = new Integer(ircode.indexOf(c));
-                    lderIndex.add(index);
+            }
+            else if(c.opcode.equals("GT")){
+                c.successors.add(litr.next());
+                litr.previous();
+                litr.next().predecessors.add(c);
+                litr.previous();
+                for(Ircode l: leaders){
+                    if(l.opcode.equals("LABEL")&& l.result.value.equals(c.result.value)){
+                        c.successors.add(l);
+                        l.predecessors.add(c);
+                    }
+                }  
+            }
+            else if(c.opcode.equals("LT")){
+                c.successors.add(litr.next());
+                litr.previous();
+                litr.next().predecessors.add(c);
+                litr.previous();
+                for(Ircode l: leaders){
+                    if(l.opcode.equals("LABEL")&& l.result.value.equals(c.result.value)){
+                        c.successors.add(l);
+                        l.predecessors.add(c);
+                    }
+                }   
+            }
+            else if(c.opcode.equals("GE")){
+                c.successors.add(litr.next());
+                litr.previous();
+                litr.next().predecessors.add(c);
+                litr.previous();
+                for(Ircode l: leaders){
+                    if(l.opcode.equals("LABEL")&& l.result.value.equals(c.result.value)){
+                        c.successors.add(l);
+                        l.predecessors.add(c);
+                    }
+                }  
+            }
+            else if(c.opcode.equals("LE")){
+                c.successors.add(litr.next());
+                litr.previous();
+                litr.next().predecessors.add(c);
+                litr.previous();
+                for(Ircode l: leaders){
+                    if(l.opcode.equals("LABEL")&& l.result.value.equals(c.result.value)){
+                        c.successors.add(l);
+                        l.predecessors.add(c);
+                    }
+                }                
+            }
+            else if(c.opcode.equals("JUMP")){
+                c.successors.add(litr.next());
+                litr.previous();
+                litr.next().predecessors.add(c);
+                litr.previous();
+                for(Ircode l: leaders){
+                    if(l.opcode.equals("LABEL")&& l.result.value.equals(c.result.value)){
+                        c.successors.add(l);
+                        l.predecessors.add(c);
+                    }
+                }   
+            }
+            else{
+                if(litr.hasNext()){
+                    c.successors.add(litr.next());
+                    litr.previous();
+                    litr.next().predecessors.add(c);
+                    litr.previous();
                 }
             }
         }
     }
-
-
 }

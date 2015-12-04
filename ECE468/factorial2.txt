@@ -4,15 +4,15 @@
 7
 8
 19
-23
-28
+22
+27
+30
 31
-32
-34
+33
+40
 41
-42
+44
 45
-46
 ;IR code
 ;LABEL factorial 
 ;LINK
@@ -111,8 +111,8 @@ move r5 $-1
 label label2 
 move $-1 r6 
 move r6 $7 
-unlnk 
-ret 
+cmpr $7 r6 
+cmpr none 
 label main 
 link 2 
 sys writes input 
@@ -151,6 +151,6 @@ sys writei $-2
 sys writes eol 
 move 0 r12 
 move r12 $6 
-unlnk 
-ret 
+cmpr $6 r12 
+cmpr none 
 end

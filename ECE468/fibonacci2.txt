@@ -12,11 +12,12 @@
 42
 43
 44
-47
+46
+52
 53
-54
+53
+67
 68
-69
 ;IR code
 ;LABEL F 
 ;LINK
@@ -174,8 +175,8 @@ ret
 label label6 
 label label4 
 label label2 
-unlnk 
-ret 
+cmpr $7 r12 
+cmpr none 
 label main 
 link 3 
 sys writes input 
@@ -212,6 +213,6 @@ jmp label7
 label label8 
 move 0 r18 
 move r18 $6 
-unlnk 
-ret 
+cmpr $6 r18 
+cmpr none 
 end
