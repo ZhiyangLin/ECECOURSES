@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.List;
+import java.lang.Integer;
 /**
  * This class provides an empty implementation of {@link MicroListener},
  * which can be extended to create a listener which only needs to handle a subset
@@ -37,6 +38,8 @@ public class CustomListener extends MicroBaseListener {
     public int call_expr = 0;
     public String callname;
     public String rettype;
+    //Leaders of basic blocks
+    public ArrayList<Ircode> leaders;
     
     public CustomListener() {
         scopes = new Stack<Scope>();
@@ -50,6 +53,7 @@ public class CustomListener extends MicroBaseListener {
         incr_irnode = new Stack<Irnode>();
         globalTable = new HashMap<String, Symbol>();
         funcTable = new HashMap<String, Function>();
+        leaders = new ArrayList<Ircode>();
     }
     @Override public void enterProgram(MicroParser.ProgramContext ctx){
         Scope scope = new Scope("GLOBAL");
@@ -58,6 +62,8 @@ public class CustomListener extends MicroBaseListener {
     }
 
     @Override public void exitProgram(MicroParser.ProgramContext ctx) {
+        BasicBlocks();
+
         //CreateCtrGraph();
 
         GenerateTiny();
@@ -109,8 +115,7 @@ public class CustomListener extends MicroBaseListener {
                 System.out.println(ir.gtype + " " + ir.dtype +" "+ ir.value);
             }
         }
-        ircode.get(1).printCode();
-        /*        
+        
         if(printIr == 0){
             System.out.println(";IR code");
             for(Ircode c: ircode){
@@ -122,7 +127,7 @@ public class CustomListener extends MicroBaseListener {
                 ac.printCode();
             }
             System.out.println("end");
-        }*/
+        }
     }
     @Override public void enterString_decl(MicroParser.String_declContext ctx) {
         String lv;
@@ -1512,7 +1517,117 @@ public class CustomListener extends MicroBaseListener {
 
     /******************************************************
     * Register Allocation
-    ******************************************************/ 
+    ******************************************************/
+
+    /******************************************************
+    * 
+    ******************************************************/
+    
+    public void BasicBlocks(){
+        ArrayList<Integer> lderIndex = new ArrayList<Integer>();
+        Integer index;
+        for(Ircode c: ircode){
+            if(ircode.indexOf(c) == 1){
+                leaders.add(c);
+                index = new Integer(1);
+                lderIndex.add(index);
+            }
+            else if(c.opcode.equals("EQ")){
+                leaders.add(c);
+                index = new Integer(ircode.indexOf(c));
+                lderIndex.add(index);
+            }
+            else if(c.opcode.equals("NE")){
+                leaders.add(c);
+                index = new Integer(ircode.indexOf(c));
+                lderIndex.add(index);
+            }
+            else if(c.opcode.equals("GT")){
+                leaders.add(c);
+                index = new Integer(ircode.indexOf(c));
+                lderIndex.add(index);
+            }
+            else if(c.opcode.equals("LT")){
+                leaders.add(c);
+                index = new Integer(ircode.indexOf(c));
+                lderIndex.add(index);
+            }
+            else if(c.opcode.equals("GE")){
+                leaders.add(c);
+                index = new Integer(ircode.indexOf(c));
+                lderIndex.add(index);
+            }
+            else if(c.opcode.equals("LE")){
+                leaders.add(c);
+                index = new Integer(ircode.indexOf(c));
+                lderIndex.add(index);
+            }
+            else if(c.opcode.equals("JUMP")){
+                leaders.add(c);
+                index = new Integer(ircode.indexOf(c));
+                lderIndex.add(index);
+            }
+            else if(c.opcode.equals("LABEL")){
+                leaders.add(c);
+                index = new Integer(ircode.indexOf(c));
+                lderIndex.add(index);
+            }
+        }
+        /*       
+        for(Integer i: lderIndex){
+            System.out.println(i.intValue());
+        }*/
+    }
+    public void CtrFlowGraph(){
+        for(Ircode c: ircode){
+            for(Ircode c: ircode){
+                if(ircode.indexOf(c) == 1){
+                    leaders.add(c);
+                    index = new Integer(1);
+                    lderIndex.add(index);
+                }
+                else if(c.opcode.equals("EQ")){
+                    index = new Integer(ircode.indexOf(c));
+                    lderIndex.add(index);
+                }
+                else if(c.opcode.equals("NE")){
+                    leaders.add(c);
+                    index = new Integer(ircode.indexOf(c));
+                    lderIndex.add(index);
+                }
+                else if(c.opcode.equals("GT")){
+                    leaders.add(c);
+                    index = new Integer(ircode.indexOf(c));
+                    lderIndex.add(index);
+                }
+                else if(c.opcode.equals("LT")){
+                    leaders.add(c);
+                    index = new Integer(ircode.indexOf(c));
+                    lderIndex.add(index);
+                }
+                else if(c.opcode.equals("GE")){
+                    leaders.add(c);
+                    index = new Integer(ircode.indexOf(c));
+                    lderIndex.add(index);
+                }
+                else if(c.opcode.equals("LE")){
+                    leaders.add(c);
+                    index = new Integer(ircode.indexOf(c));
+                    lderIndex.add(index);
+                }
+                else if(c.opcode.equals("JUMP")){
+                    leaders.add(c);
+                    index = new Integer(ircode.indexOf(c));
+                    lderIndex.add(index);
+                }
+                else if(c.opcode.equals("LABEL")){
+                    leaders.add(c);
+                    index = new Integer(ircode.indexOf(c));
+                    lderIndex.add(index);
+                }
+            }
+        }
+    }
 
 
 }
