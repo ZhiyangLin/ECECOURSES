@@ -1,7 +1,3 @@
-0
-1
-6
-12
 ;IR code
 ;LABEL add 
 ;LINK

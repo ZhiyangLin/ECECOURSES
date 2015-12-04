@@ -1577,10 +1577,10 @@ public class CustomListener extends MicroBaseListener {
                 lderIndex.add(index);
             }
         }
-               
+        /*       
         for(Integer i: lderIndex){
             System.out.println(i.intValue());
-        }
+        }*/
     }
     
     public void ctrFlowGraph(){
