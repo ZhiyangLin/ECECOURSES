@@ -1683,9 +1683,13 @@ public class CustomListener extends MicroBaseListener {
     }
 
     public void livenessCheck(){
+        Ircode c;
         while(1){
             ListIterator<Ircode> litr = ircode.listIterator();
             while(litr.hasNext()){
+                c = litr.next();
+                c.in = 
+            }
         }
 
     }
