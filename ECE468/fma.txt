@@ -1,54 +1,291 @@
 ;IR code
 ;LABEL add 
+successors:
 ;LINK
+predecessors:
+
+;LINK
+successors:
 ;ADDF $P1 $P2 $T1
+predecessors:
+;LABEL add 
+
+;ADDF $P1 $P2 $T1
+successors:
 ;STOREF $T1 $L1
+predecessors:
+;LINK
+
+;STOREF $T1 $L1
+successors:
 ;STOREF $L1 $R
+predecessors:
+;ADDF $P1 $P2 $T1
+
+;STOREF $L1 $R
+successors:
 ;RET
+
+predecessors:
+;STOREF $T1 $L1
+
+;RET
+
+successors:
+predecessors:
+;STOREF $L1 $R
 
 ;LABEL multiply 
+successors:
 ;LINK
+predecessors:
+
+;LINK
+successors:
 ;MULTF $P1 $P2 $T1
+predecessors:
+;LABEL multiply 
+
+;MULTF $P1 $P2 $T1
+successors:
 ;STOREF $T1 $L1
+predecessors:
+;LINK
+
+;STOREF $T1 $L1
+successors:
 ;STOREF $L1 $R
+predecessors:
+;MULTF $P1 $P2 $T1
+
+;STOREF $L1 $R
+successors:
 ;RET
 
-;LABEL main 
-;LINK
-;WRITES intro 
-;WRITES first 
-;READF $L1 
-;WRITES second 
-;READF $L2 
-;WRITES third 
-;READF $L3 
-;PUSH
-;PUSH $L1 
-;PUSH $L2 
-;JSR multiply 
-;POP
-;POP
-;POP $T1 
-;STOREF $T1 $L5
-;PUSH
-;PUSH $L5 
-;PUSH $L3 
-;JSR add 
-;POP
-;POP
-;POP $T2 
-;STOREF $T2 $L4
-;WRITEF $L1 
-;WRITES star 
-;WRITEF $L2 
-;WRITES plus 
-;WRITEF $L3 
-;WRITES equal 
-;WRITEF $L4 
-;WRITES eol 
-;STOREI 0 $T3
-;STOREI $T3 $R
+predecessors:
+;STOREF $T1 $L1
+
 ;RET
+
+successors:
+predecessors:
+;STOREF $L1 $R
+
+;LABEL main 
+successors:
+;LINK
+predecessors:
+
+;LINK
+successors:
+;WRITES intro 
+predecessors:
+;LABEL main 
+
+;WRITES intro 
+successors:
+;WRITES first 
+predecessors:
+;LINK
+
+;WRITES first 
+successors:
+;READF $L1 
+predecessors:
+;WRITES intro 
+
+;READF $L1 
+successors:
+;WRITES second 
+predecessors:
+;WRITES first 
+
+;WRITES second 
+successors:
+;READF $L2 
+predecessors:
+;READF $L1 
+
+;READF $L2 
+successors:
+;WRITES third 
+predecessors:
+;WRITES second 
+
+;WRITES third 
+successors:
+;READF $L3 
+predecessors:
+;READF $L2 
+
+;READF $L3 
+successors:
+;PUSH
+predecessors:
+;WRITES third 
+
+;PUSH
+successors:
+;PUSH $L1 
+predecessors:
+;READF $L3 
+
+;PUSH $L1 
+successors:
+;PUSH $L2 
+predecessors:
+;PUSH
+
+;PUSH $L2 
+successors:
+;JSR multiply 
+predecessors:
+;PUSH $L1 
+
+;JSR multiply 
+successors:
+;POP
+predecessors:
+;PUSH $L2 
+
+;POP
+successors:
+;POP
+predecessors:
+;JSR multiply 
+
+;POP
+successors:
+;POP $T1 
+predecessors:
+;POP
+
+;POP $T1 
+successors:
+;STOREF $T1 $L5
+predecessors:
+;POP
+
+;STOREF $T1 $L5
+successors:
+;PUSH
+predecessors:
+;POP $T1 
+
+;PUSH
+successors:
+;PUSH $L5 
+predecessors:
+;STOREF $T1 $L5
+
+;PUSH $L5 
+successors:
+;PUSH $L3 
+predecessors:
+;PUSH
+
+;PUSH $L3 
+successors:
+;JSR add 
+predecessors:
+;PUSH $L5 
+
+;JSR add 
+successors:
+;POP
+predecessors:
+;PUSH $L3 
+
+;POP
+successors:
+;POP
+predecessors:
+;JSR add 
+
+;POP
+successors:
+;POP $T2 
+predecessors:
+;POP
+
+;POP $T2 
+successors:
+;STOREF $T2 $L4
+predecessors:
+;POP
+
+;STOREF $T2 $L4
+successors:
+;WRITEF $L1 
+predecessors:
+;POP $T2 
+
+;WRITEF $L1 
+successors:
+;WRITES star 
+predecessors:
+;STOREF $T2 $L4
+
+;WRITES star 
+successors:
+;WRITEF $L2 
+predecessors:
+;WRITEF $L1 
+
+;WRITEF $L2 
+successors:
+;WRITES plus 
+predecessors:
+;WRITES star 
+
+;WRITES plus 
+successors:
+;WRITEF $L3 
+predecessors:
+;WRITEF $L2 
+
+;WRITEF $L3 
+successors:
+;WRITES equal 
+predecessors:
+;WRITES plus 
+
+;WRITES equal 
+successors:
+;WRITEF $L4 
+predecessors:
+;WRITEF $L3 
+
+;WRITEF $L4 
+successors:
+;WRITES eol 
+predecessors:
+;WRITES equal 
+
+;WRITES eol 
+successors:
+;STOREI 0 $T3
+predecessors:
+;WRITEF $L4 
+
+;STOREI 0 $T3
+successors:
+;STOREI $T3 $R
+predecessors:
+;WRITES eol 
+
+;STOREI $T3 $R
+successors:
+;RET
+
+predecessors:
+;STOREI 0 $T3
+
+;RET
+
+successors:
+predecessors:
+;STOREI $T3 $R
 
 ;tiny code
 str intro "You will be asked for three float numbers\n" 

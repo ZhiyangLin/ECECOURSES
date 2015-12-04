@@ -121,6 +121,11 @@ public class CustomListener extends MicroBaseListener {
             System.out.println(";IR code");
             for(Ircode c: ircode){
                 c.printCode();
+                
+                System.out.println("successors:");
+                for(Ircode s: c.successors){
+                    s.printCode();
+                }
                 System.out.println("predecessors:");
                 for(Ircode s: c.predecessors){
                     s.printCode();
@@ -1527,57 +1532,70 @@ public class CustomListener extends MicroBaseListener {
     ******************************************************/
     
     public void basicBlocks(){
+        Ircode c;
+        Ircode l;
         ArrayList<Integer> lderIndex = new ArrayList<Integer>();
+        ListIterator<Ircode> litr = ircode.listIterator();
         Integer index;
-        for(Ircode c: ircode){
-            if(ircode.indexOf(c) == 1){
-                leaders.add(c);
-                index = new Integer(1);
-                lderIndex.add(index);
-            }
-            else if(c.opcode.equals("EQ")){
-                leaders.add(c);
-                lderIndex.add(ircode.indexOf(c));
-                index = new Integer(ircode.indexOf(c));
+        while(litr.hasNext()){
+            c = litr.next();
+            if(c.opcode.equals("EQ")){
+                l = litr.next();
+                litr.previous();
+                leaders.add(l);
+                index = new Integer(ircode.indexOf(l));
                 lderIndex.add(index);
             }
             else if(c.opcode.equals("NE")){
-                leaders.add(c);
-                index = new Integer(ircode.indexOf(c));
+                l = litr.next();
+                litr.previous();
+                leaders.add(l);
+                index = new Integer(ircode.indexOf(l));
                 lderIndex.add(index);
             }
             else if(c.opcode.equals("GT")){
-                leaders.add(c);
-                index = new Integer(ircode.indexOf(c));
+                l = litr.next();
+                litr.previous();
+                leaders.add(l);
+                index = new Integer(ircode.indexOf(l));
                 lderIndex.add(index);
             }
             else if(c.opcode.equals("LT")){
-                leaders.add(c);
-                index = new Integer(ircode.indexOf(c));
+                l = litr.next();
+                litr.previous();
+                leaders.add(l);
+                index = new Integer(ircode.indexOf(l));
                 lderIndex.add(index);
             }
             else if(c.opcode.equals("GE")){
-                leaders.add(c);
-                index = new Integer(ircode.indexOf(c));
+                l = litr.next();
+                litr.previous();
+                leaders.add(l);
+                index = new Integer(ircode.indexOf(l));
                 lderIndex.add(index);
             }
             else if(c.opcode.equals("LE")){
-                leaders.add(c);
-                index = new Integer(ircode.indexOf(c));
+                l = litr.next();
+                litr.previous();
+                leaders.add(l);
+                index = new Integer(ircode.indexOf(l));
                 lderIndex.add(index);
             }
-            else if(c.opcode.equals("JUMP")){
+            else if(ircode.indexOf(c) == 0){
                 leaders.add(c);
-                index = new Integer(ircode.indexOf(c));
+                index = new Integer(0);
                 lderIndex.add(index);
             }
             else if(c.opcode.equals("LABEL")){
-                leaders.add(c);
-                index = new Integer(ircode.indexOf(c));
-                lderIndex.add(index);
+                if(!c.result.gtype.equals("FUNCTION")){
+                    leaders.add(c);
+                    index = new Integer(ircode.indexOf(c));
+                    lderIndex.add(index);
+                }
             }
+            
         }
-        /*       
+        /*
         for(Integer i: lderIndex){
             System.out.println(i.intValue());
         }*/
@@ -1681,16 +1699,20 @@ public class CustomListener extends MicroBaseListener {
             }
         }
     }
-
+    /*
     public void livenessCheck(){
-        Ircode c;
+        //KILL & GEN
+        for(Ircode c: ircode){
+
+        }
         while(1){
             ListIterator<Ircode> litr = ircode.listIterator();
             while(litr.hasNext()){
                 c = litr.next();
-                c.in = 
+                for(Ircode s: c.successors){
+                    if(c.in.)
+                }
             }
         }
-
-    }
+    }*/
 }

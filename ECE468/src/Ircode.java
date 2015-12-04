@@ -11,6 +11,8 @@ public class Ircode {
 	public ArrayList<Ircode> predecessors = new ArrayList<Ircode>();
 	public ArrayList<String> in = new ArrayList<String>();
 	public ArrayList<String> out = new ArrayList<String>();
+	public ArrayList<String> kill = new ArrayList<String>();
+	public ArrayList<String> gen = new ArrayList<String>();
 
 	public Ircode(String _opcode, Irnode _oprand1, Irnode _oprand2, Irnode _result){
 		opcode = _opcode;
