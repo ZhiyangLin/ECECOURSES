@@ -3,12 +3,8 @@
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Stack;
-import java.util.List;
 import java.lang.Integer;
-import java.util.ListIterator;
+import java.util.*;
 /**
  * This class provides an empty implementation of {@link MicroListener},
  * which can be extended to create a listener which only needs to handle a subset
@@ -64,9 +60,8 @@ public class CustomListener extends MicroBaseListener {
 
     @Override public void exitProgram(MicroParser.ProgramContext ctx) {
         basicBlocks();
-
         ctrFlowGraph();
-
+        livenessCheck();
         GenerateTiny();
         //scopes.pop();
         /*int num = 1;
@@ -122,15 +117,23 @@ public class CustomListener extends MicroBaseListener {
             for(Ircode c: ircode){
                 c.printCode();
                 /*
-                System.out.println("successors:");
-                for(Ircode s: c.successors){
-                    s.printCode();
+                System.out.println("gen :");
+                for(String liveIn: c.gen){
+                    System.out.printf(liveIn + " ");
                 }
-                System.out.println("predecessors:");
-                for(Ircode s: c.predecessors){
-                    s.printCode();
+                System.out.println();
+                
+                System.out.println("kill:");
+                for(String liveout: c.kill){
+                    System.out.printf(liveout + " ");
                 }
-                System.out.println();*/
+                System.out.println();
+                */
+                System.out.println("liveOut:");
+                for(String liveOut: c.out){
+                    System.out.printf(liveOut + " ");
+                }
+                System.out.println();
             }
             
             System.out.println(";tiny code");
@@ -1687,7 +1690,13 @@ public class CustomListener extends MicroBaseListener {
                 }
             }
             else if(c.opcode.equals("RET")){
-                //do nothing there is no successor
+                if(c.endofF != true){
+                    //do nothing there is no successor    
+                    c.successors.add(litr.next());
+                    litr.previous();
+                    litr.next().predecessors.add(c);
+                    litr.previous();
+                }
             }
             else{
                 if(litr.hasNext()){
@@ -1704,18 +1713,124 @@ public class CustomListener extends MicroBaseListener {
         //KILL & GEN
         for(Ircode c: ircode){
             if(c.opcode.equals("STOREI") || c.opcode.equals("STOREF")){
-
+                if(!(c.oprand1.gtype.equals("INTLITERAL") || c.oprand1.gtype.equals("FLOATLITERAL"))){
+                    c.gen.add(c.oprand1.value);
+                }
+                c.kill.add(c.result.value);
+            }
+            else if(c.opcode.equals("EQ")){
+                c.gen.add(c.oprand1.value);
+                c.gen.add(c.oprand2.value);
+            }
+            else if(c.opcode.equals("NE")){
+                c.gen.add(c.oprand1.value);
+                c.gen.add(c.oprand2.value);
+            }
+            else if(c.opcode.equals("GE")){
+                c.gen.add(c.oprand1.value);
+                c.gen.add(c.oprand2.value);
+            }
+            else if(c.opcode.equals("GT")){
+                c.gen.add(c.oprand1.value);
+                c.gen.add(c.oprand2.value);
+            }
+            else if(c.opcode.equals("LE")){
+                c.gen.add(c.oprand1.value);
+                c.gen.add(c.oprand2.value);
+            }
+            else if(c.opcode.equals("LT")){
+                c.gen.add(c.oprand1.value);
+                c.gen.add(c.oprand2.value);
+            }
+            else if(c.opcode.equals("ADDI") || c.opcode.equals("ADDF")){
+                c.gen.add(c.oprand1.value);
+                c.gen.add(c.oprand2.value);
+                c.kill.add(c.result.value);
+            }
+            else if(c.opcode.equals("SUBI") || c.opcode.equals("SUBIF")){
+                c.gen.add(c.oprand1.value);
+                c.gen.add(c.oprand2.value);
+                c.kill.add(c.result.value);
+            }
+            else if(c.opcode.equals("MULTI") || c.opcode.equals("MULTF")){
+                c.gen.add(c.oprand1.value);
+                c.gen.add(c.oprand2.value);
+                c.kill.add(c.result.value);
+            }
+            else if(c.opcode.equals("DIVI") || c.opcode.equals("DIVF")){
+                c.gen.add(c.oprand1.value);
+                c.gen.add(c.oprand2.value);
+                c.kill.add(c.result.value);
+            }
+            else if(c.opcode.equals("PUSH") && !c.result.value.equals("none")){
+                c.gen.add(c.result.value);
+            }
+            else if(c.opcode.equals("POP") && !c.result.value.equals("none")){
+                c.kill.add(c.result.value);
+            }
+            else if((c.opcode.equals("WRITEI") || c.opcode.equals("WRITEF") || c.opcode.equals("WRITES"))&& !c.result.value.equals("none")){
+                c.gen.add(c.result.value);
+            }
+            else if((c.opcode.equals("READI") || c.opcode.equals("READF")) && !c.result.value.equals("none")){
+                c.kill.add(c.result.value);
+            }
+            else if(c.opcode.equals("JSR")){
+                //c.gen.addAll(globalTable.keySet());
+            }
+            else if(c.opcode.equals("RET")){
+                //c.out.addAll(globalTable.keySet());
+                    //System.out.println(s.value);
             }
         }
         /*
-        while(1){
-            ListIterator<Ircode> litr = ircode.listIterator();
-            while(litr.hasNext()){
-                c = litr.next();
-                for(Ircode s: c.successors){
-                    if(c.in.)
-                }
+        for(Ircode c : ircode){
+            for(Symbol s: globalTable.values()){
+                    c.out.add(s.value);
+                    //System.out.println(s.value);
             }
         }*/
+        Stack<Ircode> ircodeStack = new Stack<Ircode>();
+        for(Ircode c: ircode){
+            ircodeStack.push(c);
+        }
+        while(!ircodeStack.empty()){
+            boolean update = false;
+            Ircode c = ircodeStack.pop();
+            LinkedHashSet<String> cloneIn = (LinkedHashSet<String>)c.in.clone();
+            
+            if(!c.in.containsAll(c.out)){
+                c.in.addAll(c.out);
+            }
+            for(String vkill: c.kill){
+                if(c.in.contains(vkill)){
+                    c.in.remove(vkill);
+                }
+            }
+            if(!c.in.containsAll( c.gen)){
+                c.in.addAll(c.gen);
+            }
+            for(Ircode s: c.successors){
+                if(!c.out.containsAll(s.in)){
+                    c.out.addAll(s.in);
+                }
+            }
+
+            if(c.in.size()!= cloneIn.size()){
+                update = true;
+            }
+            else{
+                for(String livein: c.in){
+                    if(!cloneIn.contains(livein)){
+                        update = true;
+                    }
+                }    
+            }
+            if(update == true){
+                //System.out.println("wo zhge ge ge ge g e ge ");
+                for(Ircode p: c.predecessors){
+                    ircodeStack.push(p);
+                }
+            }
+        }
     }
 }

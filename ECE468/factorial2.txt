@@ -1,56 +1,158 @@
 ;IR code
 ;LABEL factorial 
+liveOut:
+$P1 $L1 
 ;LINK
+liveOut:
+$P1 $L1 
 ;STOREI 1 $T1
+liveOut:
+$P1 $T1 $L1 
 ;NE $P1 $T1 label1
+liveOut:
+$P1 $L1 
 ;STOREI 1 $T2
+liveOut:
+$T2 $L1 
 ;STOREI $T2 $R
+liveOut:
+$L1 
 ;RET
+liveOut:
+$L1 
 ;JUMP label2 
+liveOut:
+$L1 
 ;LABEL label1 
+liveOut:
+$P1 
 ;STOREI 1 $T3
+liveOut:
+$P1 $T3 
 ;SUBI $P1 $T3 $T4
+liveOut:
+$T4 $P1 
 ;PUSH
+liveOut:
+$T4 $P1 
 ;PUSH $T4 
+liveOut:
+$P1 
 ;JSR factorial 
+liveOut:
+$P1 
 ;POP
+liveOut:
+$P1 
 ;POP $T5 
+liveOut:
+$T5 $P1 
 ;STOREI $T5 $L2
+liveOut:
+$L2 $P1 
 ;MULTI $L2 $P1 $T6
+liveOut:
+$T6 
 ;STOREI $T6 $L1
+liveOut:
+$L1 
 ;LABEL label2 
+liveOut:
+$L1 
 ;STOREI $L1 $R
+liveOut:
+
 ;RET
 
+liveOut:
+
 ;LABEL main 
+liveOut:
+input eol 
 ;LINK
+liveOut:
+input eol 
 ;WRITES input 
+liveOut:
+eol 
 ;READI $L1 
+liveOut:
+$L1 eol 
 ;STOREI 1 $T1
+liveOut:
+$L1 $T1 eol 
 ;NE $L1 $T1 label3
+liveOut:
+$L1 eol 
 ;STOREI 1 $T2
+liveOut:
+$T2 eol 
 ;STOREI $T2 $L2
+liveOut:
+$L2 eol 
 ;JUMP label4 
+liveOut:
+$L2 eol 
 ;LABEL label3 
+liveOut:
+$L1 eol 
 ;STOREI 1 $T3
+liveOut:
+$L1 $T3 eol 
 ;LE $L1 $T3 label5
+liveOut:
+eol $L1 
 ;PUSH
+liveOut:
+$L1 eol 
 ;PUSH $L1 
+liveOut:
+eol 
 ;JSR factorial 
+liveOut:
+eol 
 ;POP
+liveOut:
+eol 
 ;POP $T4 
+liveOut:
+$T4 eol 
 ;STOREI $T4 $L2
+liveOut:
+$L2 eol 
 ;JUMP label6 
+liveOut:
+$L2 eol 
 ;LABEL label5 
+liveOut:
+eol 
 ;STOREI 0 $T5
+liveOut:
+$T5 eol 
 ;STOREI $T5 $L2
+liveOut:
+$L2 eol 
 ;LABEL label6 
+liveOut:
+$L2 eol 
 ;LABEL label4 
+liveOut:
+$L2 eol 
 ;WRITEI $L2 
+liveOut:
+eol 
 ;WRITES eol 
+liveOut:
+
 ;STOREI 0 $T6
+liveOut:
+$T6 
 ;STOREI $T6 $R
+liveOut:
+
 ;RET
+
+liveOut:
 
 ;tiny code
 str input "Please enter an integer number: " 

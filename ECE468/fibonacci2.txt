@@ -1,77 +1,221 @@
 ;IR code
 ;LABEL F 
+liveOut:
+$P1 
 ;LINK
+liveOut:
+$P1 
 ;STOREI 2 $T1
+liveOut:
+$P1 $T1 
 ;LE $P1 $T1 label1
+liveOut:
+$P1 
 ;STOREI 1 $T2
+liveOut:
+$P1 $T2 
 ;SUBI $P1 $T2 $T3
+liveOut:
+$T3 $P1 
 ;PUSH
+liveOut:
+$T3 $P1 
 ;PUSH $T3 
+liveOut:
+$P1 
 ;JSR F 
+liveOut:
+$P1 
 ;POP
+liveOut:
+$P1 
 ;POP $T4 
+liveOut:
+$T4 $P1 
 ;STOREI $T4 $L1
+liveOut:
+$P1 $L1 
 ;STOREI 2 $T5
+liveOut:
+$P1 $T5 $L1 
 ;SUBI $P1 $T5 $T6
+liveOut:
+$T6 $L1 
 ;PUSH
+liveOut:
+$T6 $L1 
 ;PUSH $T6 
+liveOut:
+$L1 
 ;JSR F 
+liveOut:
+$L1 
 ;POP
+liveOut:
+$L1 
 ;POP $T7 
+liveOut:
+$T7 $L1 
 ;STOREI $T7 $L2
+liveOut:
+$L1 $L2 
 ;ADDI $L1 $L2 $T8
+liveOut:
+$T8 
 ;STOREI $T8 $R
+liveOut:
+
 ;RET
+liveOut:
+
 ;JUMP label2 
+liveOut:
+
 ;LABEL label1 
+liveOut:
+$P1 
 ;STOREI 0 $T9
+liveOut:
+$P1 $T9 
 ;NE $P1 $T9 label3
+liveOut:
+$P1 
 ;STOREI 0 $T10
+liveOut:
+$T10 
 ;STOREI $T10 $R
+liveOut:
+
 ;RET
+liveOut:
+
 ;JUMP label4 
+liveOut:
+
 ;LABEL label3 
+liveOut:
+$P1 
 ;STOREI 1 $T11
+liveOut:
+$P1 $T11 
 ;NE $P1 $T11 label5
+liveOut:
+
 ;STOREI 1 $T12
+liveOut:
+$T12 
 ;STOREI $T12 $R
+liveOut:
+
 ;RET
+liveOut:
+
 ;JUMP label6 
+liveOut:
+
 ;LABEL label5 
+liveOut:
+
 ;STOREI 1 $T13
+liveOut:
+$T13 
 ;STOREI $T13 $R
+liveOut:
+
 ;RET
+liveOut:
+
 ;LABEL label6 
+liveOut:
+
 ;LABEL label4 
+liveOut:
+
 ;LABEL label2 
+liveOut:
+
 ;RET
 
+liveOut:
+
 ;LABEL main 
+liveOut:
+input space eol 
 ;LINK
+liveOut:
+input space eol 
 ;WRITES input 
+liveOut:
+space eol 
 ;READI $L2 
+liveOut:
+$L2 space eol 
 ;STOREI 0 $T1
+liveOut:
+$T1 $L2 space eol 
 ;STOREI $T1 $L1
+liveOut:
+$L1 $L2 space eol 
 ;LABEL label7 
+liveOut:
+$L1 $L2 space eol 
 ;EQ $L1 $L2 label8
+liveOut:
+$L1 space eol 
 ;PUSH
+liveOut:
+$L1 space eol 
 ;PUSH $L1 
+liveOut:
+$L1 space eol 
 ;JSR F 
+liveOut:
+$L1 space eol 
 ;POP
+liveOut:
+$L1 space eol 
 ;POP $T2 
+liveOut:
+$T2 $L1 space eol 
 ;STOREI $T2 $L3
+liveOut:
+$L1 space $L3 eol 
 ;WRITEI $L1 
+liveOut:
+space $L3 eol $L1 
 ;WRITES space 
+liveOut:
+$L3 eol $L1 
 ;WRITEI $L3 
+liveOut:
+eol $L1 
 ;WRITES eol 
+liveOut:
+$L1 
 ;STOREI 1 $T3
+liveOut:
+$L1 $T3 
 ;ADDI $L1 $T3 $T4
+liveOut:
+$T4 $L2 
 ;STOREI $T4 $L1
+liveOut:
+$L1 $L2 space 
 ;JUMP label7 
+liveOut:
+$L1 $L2 space eol 
 ;LABEL label8 
+liveOut:
+
 ;STOREI 0 $T5
+liveOut:
+$T5 
 ;STOREI $T5 $R
+liveOut:
+
 ;RET
+
+liveOut:
 
 ;tiny code
 str input "Please input an integer number: " 
