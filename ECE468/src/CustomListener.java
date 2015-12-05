@@ -121,7 +121,7 @@ public class CustomListener extends MicroBaseListener {
             System.out.println(";IR code");
             for(Ircode c: ircode){
                 c.printCode();
-                
+                /*
                 System.out.println("successors:");
                 for(Ircode s: c.successors){
                     s.printCode();
@@ -130,7 +130,7 @@ public class CustomListener extends MicroBaseListener {
                 for(Ircode s: c.predecessors){
                     s.printCode();
                 }
-                System.out.println();
+                System.out.println();*/
             }
             
             System.out.println(";tiny code");
@@ -1699,12 +1699,15 @@ public class CustomListener extends MicroBaseListener {
             }
         }
     }
-    /*
+    
     public void livenessCheck(){
         //KILL & GEN
         for(Ircode c: ircode){
+            if(c.opcode.equals("STOREI") || c.opcode.equals("STOREF")){
 
+            }
         }
+        /*
         while(1){
             ListIterator<Ircode> litr = ircode.listIterator();
             while(litr.hasNext()){
@@ -1713,6 +1716,6 @@ public class CustomListener extends MicroBaseListener {
                     if(c.in.)
                 }
             }
-        }
-    }*/
+        }*/
+    }
 }

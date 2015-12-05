@@ -1,435 +1,77 @@
 ;IR code
 ;LABEL F 
-successors:
 ;LINK
-predecessors:
-
-;LINK
-successors:
 ;STOREI 2 $T1
-predecessors:
-;LABEL F 
-
-;STOREI 2 $T1
-successors:
 ;LE $P1 $T1 label1
-predecessors:
-;LINK
-
-;LE $P1 $T1 label1
-successors:
 ;STOREI 1 $T2
-;LABEL label1 
-predecessors:
-;STOREI 2 $T1
-
-;STOREI 1 $T2
-successors:
 ;SUBI $P1 $T2 $T3
-predecessors:
-;LE $P1 $T1 label1
-
-;SUBI $P1 $T2 $T3
-successors:
 ;PUSH
-predecessors:
-;STOREI 1 $T2
-
-;PUSH
-successors:
 ;PUSH $T3 
-predecessors:
-;SUBI $P1 $T2 $T3
-
-;PUSH $T3 
-successors:
 ;JSR F 
-predecessors:
-;PUSH
-
-;JSR F 
-successors:
 ;POP
-predecessors:
-;PUSH $T3 
-
-;POP
-successors:
 ;POP $T4 
-predecessors:
-;JSR F 
-
-;POP $T4 
-successors:
 ;STOREI $T4 $L1
-predecessors:
-;POP
-
-;STOREI $T4 $L1
-successors:
 ;STOREI 2 $T5
-predecessors:
-;POP $T4 
-
-;STOREI 2 $T5
-successors:
 ;SUBI $P1 $T5 $T6
-predecessors:
-;STOREI $T4 $L1
-
-;SUBI $P1 $T5 $T6
-successors:
 ;PUSH
-predecessors:
-;STOREI 2 $T5
-
-;PUSH
-successors:
 ;PUSH $T6 
-predecessors:
-;SUBI $P1 $T5 $T6
-
-;PUSH $T6 
-successors:
 ;JSR F 
-predecessors:
-;PUSH
-
-;JSR F 
-successors:
 ;POP
-predecessors:
-;PUSH $T6 
-
-;POP
-successors:
 ;POP $T7 
-predecessors:
-;JSR F 
-
-;POP $T7 
-successors:
 ;STOREI $T7 $L2
-predecessors:
-;POP
-
-;STOREI $T7 $L2
-successors:
 ;ADDI $L1 $L2 $T8
-predecessors:
-;POP $T7 
-
-;ADDI $L1 $L2 $T8
-successors:
 ;STOREI $T8 $R
-predecessors:
-;STOREI $T7 $L2
-
-;STOREI $T8 $R
-successors:
 ;RET
-predecessors:
-;ADDI $L1 $L2 $T8
-
-;RET
-successors:
-predecessors:
-;STOREI $T8 $R
-
 ;JUMP label2 
-successors:
-;LABEL label2 
-predecessors:
-
 ;LABEL label1 
-successors:
 ;STOREI 0 $T9
-predecessors:
-;LE $P1 $T1 label1
-
-;STOREI 0 $T9
-successors:
 ;NE $P1 $T9 label3
-predecessors:
-;LABEL label1 
-
-;NE $P1 $T9 label3
-successors:
 ;STOREI 0 $T10
-;LABEL label3 
-predecessors:
-;STOREI 0 $T9
-
-;STOREI 0 $T10
-successors:
 ;STOREI $T10 $R
-predecessors:
-;NE $P1 $T9 label3
-
-;STOREI $T10 $R
-successors:
 ;RET
-predecessors:
-;STOREI 0 $T10
-
-;RET
-successors:
-predecessors:
-;STOREI $T10 $R
-
 ;JUMP label4 
-successors:
-;LABEL label4 
-predecessors:
-
 ;LABEL label3 
-successors:
 ;STOREI 1 $T11
-predecessors:
-;NE $P1 $T9 label3
-
-;STOREI 1 $T11
-successors:
 ;NE $P1 $T11 label5
-predecessors:
-;LABEL label3 
-
-;NE $P1 $T11 label5
-successors:
 ;STOREI 1 $T12
-;LABEL label5 
-predecessors:
-;STOREI 1 $T11
-
-;STOREI 1 $T12
-successors:
 ;STOREI $T12 $R
-predecessors:
-;NE $P1 $T11 label5
-
-;STOREI $T12 $R
-successors:
 ;RET
-predecessors:
-;STOREI 1 $T12
-
-;RET
-successors:
-predecessors:
-;STOREI $T12 $R
-
 ;JUMP label6 
-successors:
-;LABEL label6 
-predecessors:
-
 ;LABEL label5 
-successors:
 ;STOREI 1 $T13
-predecessors:
-;NE $P1 $T11 label5
-
-;STOREI 1 $T13
-successors:
 ;STOREI $T13 $R
-predecessors:
-;LABEL label5 
-
-;STOREI $T13 $R
-successors:
 ;RET
-predecessors:
-;STOREI 1 $T13
-
-;RET
-successors:
-predecessors:
-;STOREI $T13 $R
-
 ;LABEL label6 
-successors:
 ;LABEL label4 
-predecessors:
-;JUMP label6 
-
-;LABEL label4 
-successors:
 ;LABEL label2 
-predecessors:
-;JUMP label4 
-;LABEL label6 
-
-;LABEL label2 
-successors:
 ;RET
-
-predecessors:
-;JUMP label2 
-;LABEL label4 
-
-;RET
-
-successors:
-predecessors:
-;LABEL label2 
 
 ;LABEL main 
-successors:
 ;LINK
-predecessors:
-
-;LINK
-successors:
 ;WRITES input 
-predecessors:
-;LABEL main 
-
-;WRITES input 
-successors:
 ;READI $L2 
-predecessors:
-;LINK
-
-;READI $L2 
-successors:
 ;STOREI 0 $T1
-predecessors:
-;WRITES input 
-
-;STOREI 0 $T1
-successors:
 ;STOREI $T1 $L1
-predecessors:
-;READI $L2 
-
-;STOREI $T1 $L1
-successors:
 ;LABEL label7 
-predecessors:
-;STOREI 0 $T1
-
-;LABEL label7 
-successors:
 ;EQ $L1 $L2 label8
-predecessors:
-;STOREI $T1 $L1
-;JUMP label7 
-
-;EQ $L1 $L2 label8
-successors:
 ;PUSH
+;PUSH $L1 
+;JSR F 
+;POP
+;POP $T2 
+;STOREI $T2 $L3
+;WRITEI $L1 
+;WRITES space 
+;WRITEI $L3 
+;WRITES eol 
+;STOREI 1 $T3
+;ADDI $L1 $T3 $T4
+;STOREI $T4 $L1
+;JUMP label7 
 ;LABEL label8 
-predecessors:
-;LABEL label7 
-
-;PUSH
-successors:
-;PUSH $L1 
-predecessors:
-;EQ $L1 $L2 label8
-
-;PUSH $L1 
-successors:
-;JSR F 
-predecessors:
-;PUSH
-
-;JSR F 
-successors:
-;POP
-predecessors:
-;PUSH $L1 
-
-;POP
-successors:
-;POP $T2 
-predecessors:
-;JSR F 
-
-;POP $T2 
-successors:
-;STOREI $T2 $L3
-predecessors:
-;POP
-
-;STOREI $T2 $L3
-successors:
-;WRITEI $L1 
-predecessors:
-;POP $T2 
-
-;WRITEI $L1 
-successors:
-;WRITES space 
-predecessors:
-;STOREI $T2 $L3
-
-;WRITES space 
-successors:
-;WRITEI $L3 
-predecessors:
-;WRITEI $L1 
-
-;WRITEI $L3 
-successors:
-;WRITES eol 
-predecessors:
-;WRITES space 
-
-;WRITES eol 
-successors:
-;STOREI 1 $T3
-predecessors:
-;WRITEI $L3 
-
-;STOREI 1 $T3
-successors:
-;ADDI $L1 $T3 $T4
-predecessors:
-;WRITES eol 
-
-;ADDI $L1 $T3 $T4
-successors:
-;STOREI $T4 $L1
-predecessors:
-;STOREI 1 $T3
-
-;STOREI $T4 $L1
-successors:
-;JUMP label7 
-predecessors:
-;ADDI $L1 $T3 $T4
-
-;JUMP label7 
-successors:
-;LABEL label7 
-predecessors:
-;STOREI $T4 $L1
-
-;LABEL label8 
-successors:
 ;STOREI 0 $T5
-predecessors:
-;EQ $L1 $L2 label8
-
-;STOREI 0 $T5
-successors:
 ;STOREI $T5 $R
-predecessors:
-;LABEL label8 
-
-;STOREI $T5 $R
-successors:
 ;RET
-
-predecessors:
-;STOREI 0 $T5
-
-;RET
-
-successors:
-predecessors:
-;STOREI $T5 $R
 
 ;tiny code
 str input "Please input an integer number: " 
