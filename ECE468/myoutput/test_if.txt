@@ -1,16 +1,114 @@
-r0
-r1
-r2
-r3
 ;IR code
-;GE i $T4 label1
-;GE i $T6 label3
-;JUMP label4 
-;LABEL label3 
-;JUMP label2 
-;LT i $T8 label5
-;JUMP label6 
-;LABEL label5 
-;LABEL label6 
-;RET
-
+;tiny code
+var i 
+var a 
+var num 
+push 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr main 
+sys halt 
+label main 
+null    null    null    null
+link 0 
+null    null    null    null
+move 7 r0 
+$T1 :dirty    null    null    null
+move r1 r2 
+$T1 :dirty    $T1 :dirty    num :dirty    null
+spill $T1 
+spill $T1 
+move 2 r0 
+$T2 :dirty    null    num :dirty    null
+move r1 r3 
+$T2 :dirty    $T2 :dirty    num :dirty    i :dirty
+spill $T2 
+spill $T2 
+move 42 r0 
+$T3 :dirty    null    num :dirty    i :dirty
+move r2 num 
+move r1 r2 
+$T3 :dirty    $T3 :dirty    a :dirty    i :dirty
+spill $T3 
+spill $T3 
+move 5 r0 
+$T4 :dirty    null    a :dirty    i :dirty
+$T4 :dirty    null    a :dirty    i :dirty
+cmpi r3 r0 
+jge label1 
+$T4 :dirty    null    a :dirty    i :dirty
+move r2 a 
+move r3 i 
+AOP 
+move num r0 
+move a r1 
+addi r0 r1 
+num    $T5 :dirty    null    null
+spill num 
+move r0 r2 
+$T5 :dirty    $T5 :dirty    num :dirty    null
+spill $T5 
+spill $T5 
+move 3 r0 
+$T6 :dirty    null    num :dirty    null
+move i r1 
+$T6 :dirty    i    num :dirty    null
+cmpi r1 r0 
+jge label3 
+$T6 :dirty    i    num :dirty    null
+move r2 num 
+AOP 
+move num r0 
+move a r1 
+addi r0 r1 
+num    $T7 :dirty    null    null
+spill num 
+move r0 r2 
+$T7 :dirty    $T7 :dirty    num :dirty    null
+spill $T7 
+spill $T7 
+jmp label4 
+null    null    num :dirty    null
+move r2 num 
+label label3 
+null    null    null    null
+label label4 
+null    null    null    null
+jmp label2 
+null    null    null    null
+label label1 
+null    null    null    null
+move 5 r0 
+$T8 :dirty    null    null    null
+move i r1 
+$T8 :dirty    i    null    null
+cmpi r1 r0 
+jlt label5 
+$T8 :dirty    i    null    null
+AOP 
+move num r0 
+move a r1 
+subi r0 r1 
+num    $T9 :dirty    null    null
+spill num 
+move r0 r2 
+$T9 :dirty    $T9 :dirty    num :dirty    null
+spill $T9 
+spill $T9 
+jmp label6 
+null    null    num :dirty    null
+move r2 num 
+label label5 
+null    null    null    null
+label label6 
+null    null    null    null
+label label2 
+null    null    null    null
+sys writei num 
+null    null    null    null
+unlnk 
+ret 
+null    null    null    null
+end

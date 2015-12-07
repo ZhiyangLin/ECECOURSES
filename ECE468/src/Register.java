@@ -5,10 +5,9 @@ public class Register {
     public boolean isDirty;
    	public boolean isFree;
     public Irnode var;
-    public Register(int _num){
+    public Register(String _num){
     	isDirty = false; 
     	isFree = true;
-    	name = String.format("r%d", _num);
-    	System.out.println(name);
+    	name = "r" + _num;
     }
 }

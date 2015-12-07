@@ -1,7 +1,161 @@
-r0
-r1
-r2
-r3
 ;IR code
-;RET
-
+;tiny code
+str intro "You will be asked for three float numbers\n" 
+str first "Please enter the first float number: " 
+str second "Please enter the second float number: " 
+str third "Please enter the third float number: " 
+str eol "\n" 
+str star "*" 
+str plus "+" 
+str equal "=" 
+push 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr main 
+sys halt 
+label add 
+null    null    null    null
+link 1 
+null    null    null    null
+AOP 
+move $7 r0 
+move $6 r1 
+addr r0 r1 
+$P1    $T1 :dirty    null    null
+spill $P1 
+move r0 r2 
+$T1 :dirty    $T1 :dirty    $L1 :dirty    null
+spill $T1 
+spill $T1 
+move r0 $8 
+$L1 :dirty    null    $L1 :dirty    null
+spill $L1 
+spill $L1 
+unlnk 
+ret 
+null    null    null    null
+label multiply 
+null    null    null    null
+link 1 
+null    null    null    null
+AOP 
+move $7 r0 
+move $6 r1 
+mulr r0 r1 
+$P1    $T1 :dirty    null    null
+spill $P1 
+move r0 r2 
+$T1 :dirty    $T1 :dirty    $L1 :dirty    null
+spill $T1 
+spill $T1 
+move r0 $8 
+$L1 :dirty    null    $L1 :dirty    null
+spill $L1 
+spill $L1 
+unlnk 
+ret 
+null    null    null    null
+label main 
+null    null    null    null
+link 5 
+null    null    null    null
+sys writes intro 
+null    null    null    null
+sys writes first 
+null    null    null    null
+sys readr $-1 
+null    null    null    null
+sys writes second 
+null    null    null    null
+sys readr $-2 
+null    null    null    null
+sys writes third 
+null    null    null    null
+sys readr $-3 
+null    null    null    null
+push 
+null    null    null    null
+move $-1 r0 
+push r0 
+$L1    null    null    null
+move $-2 r1 
+push r1 
+$L1    $L2    null    null
+push r0 
+push r1 
+push r2 
+push r3 
+jsr multiply 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+$L1    $L2    null    null
+pop 
+$L1    $L2    null    null
+pop 
+$L1    $L2    null    null
+pop r2 
+$L1    $L2    $T1    null
+move r3 r0 
+$L5 :dirty    $L2    $T1    $T1 :dirty
+spill $T1 
+spill $T1 
+push 
+$L5 :dirty    $L2    null    null
+push r0 
+$L5 :dirty    $L2    null    null
+spill $L5 
+move $-3 r0 
+push r0 
+$L3    $L2    null    null
+push r0 
+push r1 
+push r2 
+push r3 
+jsr add 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+$L3    $L2    null    null
+pop 
+$L3    $L2    null    null
+pop 
+$L3    $L2    null    null
+pop r2 
+$L3    $L2    $T2    null
+move r3 r0 
+$L4 :dirty    $L2    $T2    $T2 :dirty
+spill $T2 
+spill $T2 
+sys writer $-1 
+$L4 :dirty    $L2    null    null
+sys writes star 
+$L4 :dirty    $L2    null    null
+sys writer $-2 
+$L4 :dirty    $L2    null    null
+spill $L2 
+sys writes plus 
+$L4 :dirty    null    null    null
+sys writer $-3 
+$L4 :dirty    null    null    null
+sys writes equal 
+$L4 :dirty    null    null    null
+sys writer $-4 
+$L4 :dirty    null    null    null
+spill $L4 
+sys writes eol 
+null    null    null    null
+move 0 r0 
+$T3 :dirty    null    null    null
+move r1 $6 
+$T3 :dirty    $T3 :dirty    null    null
+spill $T3 
+spill $T3 
+unlnk 
+ret 
+null    null    null    null
+end

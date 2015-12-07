@@ -1,19 +1,184 @@
-r0
-r1
-r2
-r3
 ;IR code
-;STOREI $T5 enough
-;EQ enough $T6 label2
-;LE diff $T14 label3
-;GE diff tolerance label5
-;JUMP label6 
-;LABEL label5 
-;JUMP label4 
-;LE diff $T17 label7
-;JUMP label8 
-;LABEL label7 
-;LABEL label8 
-;JUMP label1 
-;RET
-
+;tiny code
+var count 
+var enough 
+var newapprox 
+var approx 
+var num 
+var tolerance 
+var diff 
+push 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr main 
+sys halt 
+label main 
+null    null    null    null
+link 0 
+null    null    null    null
+move 0.0001 r0 
+$T1 :dirty    null    null    null
+move r1 r2 
+$T1 :dirty    $T1 :dirty    tolerance :dirty    null
+spill $T1 
+spill $T1 
+move 7.0 r0 
+$T2 :dirty    null    tolerance :dirty    null
+move r1 r3 
+$T2 :dirty    $T2 :dirty    tolerance :dirty    num :dirty
+spill $T2 
+spill $T2 
+move r0 r1 
+num :dirty    approx :dirty    tolerance :dirty    num :dirty
+move r0 num 
+move 0 r0 
+$T3 :dirty    approx :dirty    tolerance :dirty    num :dirty
+move r1 approx 
+move r2 tolerance 
+move r1 r2 
+$T3 :dirty    $T3 :dirty    count :dirty    num :dirty
+spill $T3 
+spill $T3 
+move 0.0 r0 
+$T4 :dirty    null    count :dirty    num :dirty
+move r2 count 
+move r1 r2 
+$T4 :dirty    $T4 :dirty    diff :dirty    num :dirty
+spill $T4 
+spill $T4 
+spill diff 
+move 0 r0 
+$T5 :dirty    null    null    num :dirty
+move r1 r2 
+$T5 :dirty    $T5 :dirty    enough :dirty    num :dirty
+move r2 enough 
+move r3 num 
+label label1 
+null    null    null    null
+move 1 r0 
+$T6 :dirty    null    null    null
+move enough r1 
+$T6 :dirty    enough    null    null
+cmpi r1 r0 
+jeq label2 
+$T6 :dirty    enough    null    null
+move 1 r0 
+$T7 :dirty    null    null    null
+AOP 
+move count r1 
+addi r1 r0 
+$T8 :dirty    count    null    null
+spill count 
+move r1 r2 
+$T8 :dirty    $T8 :dirty    count :dirty    null
+spill $T8 
+spill $T8 
+spill count 
+AOP 
+move num r0 
+move approx r1 
+divr r0 r1 
+num    $T9 :dirty    null    null
+spill num 
+AOP 
+move approx r0 
+addr r0 r1 
+approx    $T10 :dirty    null    null
+spill approx 
+move 0.5 r0 
+$T11 :dirty    $T10 :dirty    null    null
+AOP 
+mulr r0 r1 
+$T11 :dirty    $T12 :dirty    null    null
+spill $T11 
+move r0 r2 
+$T12 :dirty    $T12 :dirty    newapprox :dirty    null
+spill $T12 
+spill $T12 
+AOP 
+move approx r0 
+subr r0 r2 
+move r2 newapprox 
+approx    null    $T13 :dirty    null
+spill approx 
+move r0 r1 
+$T13 :dirty    diff :dirty    $T13 :dirty    null
+spill $T13 
+spill $T13 
+move 0.0 r0 
+$T14 :dirty    diff :dirty    null    null
+$T14 :dirty    diff :dirty    null    null
+cmpr r1 r0 
+jle label3 
+$T14 :dirty    diff :dirty    null    null
+move r1 diff 
+move diff r0 
+move tolerance r1 
+diff    tolerance    null    null
+cmpr r0 r1 
+jge label5 
+diff    tolerance    null    null
+move 1 r0 
+$T15 :dirty    null    null    null
+move r1 r2 
+$T15 :dirty    $T15 :dirty    enough :dirty    null
+spill $T15 
+spill $T15 
+spill enough 
+jmp label6 
+null    null    null    null
+label label5 
+null    null    null    null
+label label6 
+null    null    null    null
+jmp label4 
+null    null    null    null
+label label3 
+null    null    null    null
+move 0.0 r0 
+$T16 :dirty    null    null    null
+spill $T16 
+AOP 
+move $-16 r0 
+move tolerance r1 
+subr r0 r1 
+$T16    $T17 :dirty    null    null
+spill $T16 
+move diff r0 
+diff    $T17 :dirty    null    null
+cmpr r0 r1 
+jle label7 
+diff    $T17 :dirty    null    null
+move 1 r0 
+$T18 :dirty    null    null    null
+move r1 r2 
+$T18 :dirty    $T18 :dirty    enough :dirty    null
+spill $T18 
+spill $T18 
+jmp label8 
+null    null    enough :dirty    null
+move r2 enough 
+label label7 
+null    null    null    null
+label label8 
+null    null    null    null
+label label4 
+null    null    null    null
+move r0 r1 
+newapprox :dirty    approx :dirty    null    null
+spill newapprox 
+jmp label1 
+null    approx :dirty    null    null
+move r1 approx 
+label label2 
+null    null    null    null
+sys writer approx 
+null    null    null    null
+sys writei count 
+null    null    null    null
+unlnk 
+ret 
+null    null    null    null
+end

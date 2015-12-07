@@ -1,13 +1,109 @@
-r0
-r1
-r2
-r3
 ;IR code
-;STOREI $T3 b
-;EQ i $T4 label2
-;LE p $T5 label3
-;JUMP label4 
-;STOREI $T9 b
-;JUMP label1 
-;RET
-
+;tiny code
+var a 
+var b 
+var i 
+var p 
+push 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr main 
+sys halt 
+label main 
+null    null    null    null
+link 0 
+null    null    null    null
+move 0 r0 
+$T1 :dirty    null    null    null
+move r1 r2 
+$T1 :dirty    $T1 :dirty    i :dirty    null
+spill $T1 
+spill $T1 
+move 0 r0 
+$T2 :dirty    null    i :dirty    null
+move r1 r3 
+$T2 :dirty    $T2 :dirty    i :dirty    a :dirty
+spill $T2 
+spill $T2 
+move 0 r0 
+$T3 :dirty    null    i :dirty    a :dirty
+move r2 i 
+move r1 r2 
+$T3 :dirty    $T3 :dirty    b :dirty    a :dirty
+move r2 b 
+move r3 a 
+label label1 
+null    null    null    null
+move 10 r0 
+$T4 :dirty    null    null    null
+move i r1 
+$T4 :dirty    i    null    null
+cmpi r1 r0 
+jeq label2 
+$T4 :dirty    i    null    null
+sys readi p 
+null    null    null    null
+move r0 r1 
+i :dirty    a :dirty    null    null
+move 10 r2 
+i :dirty    a :dirty    $T5 :dirty    null
+move p r3 
+i :dirty    a :dirty    $T5 :dirty    p
+cmpi r3 r2 
+jle label3 
+i :dirty    a :dirty    $T5 :dirty    p
+move r0 i 
+move r1 a 
+move 1 r0 
+$T6 :dirty    null    null    null
+AOP 
+move a r1 
+addi r1 r0 
+$T7 :dirty    a    null    null
+spill a 
+move r1 r2 
+$T7 :dirty    $T7 :dirty    a :dirty    null
+spill $T7 
+spill $T7 
+spill a 
+jmp label4 
+null    null    null    null
+label label3 
+null    null    null    null
+move 1 r0 
+$T8 :dirty    null    null    null
+AOP 
+move b r1 
+addi r1 r0 
+$T9 :dirty    b    null    null
+spill b 
+move r1 r2 
+$T9 :dirty    $T9 :dirty    b :dirty    null
+label label4 
+null    null    null    null
+move 1 r0 
+$T10 :dirty    null    null    null
+AOP 
+move i r1 
+addi r1 r0 
+$T11 :dirty    i    null    null
+spill i 
+move r1 r2 
+$T11 :dirty    $T11 :dirty    i :dirty    null
+spill $T11 
+spill $T11 
+jmp label1 
+null    null    i :dirty    null
+move r2 i 
+label label2 
+null    null    null    null
+sys writei a 
+null    null    null    null
+sys writei b 
+null    null    null    null
+unlnk 
+ret 
+null    null    null    null
+end

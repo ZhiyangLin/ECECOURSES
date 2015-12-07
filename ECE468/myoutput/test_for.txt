@@ -1,10 +1,98 @@
-r0
-r1
-r2
-r3
 ;IR code
-;STOREI $T3 i
-;EQ i $T4 label2
-;JUMP label1 
-;RET
-
+;tiny code
+var i 
+var j 
+var newapprox 
+var approx 
+var num 
+push 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr main 
+sys halt 
+label main 
+null    null    null    null
+link 0 
+null    null    null    null
+move 7.0 r0 
+$T1 :dirty    null    null    null
+move r1 r2 
+$T1 :dirty    $T1 :dirty    num :dirty    null
+spill $T1 
+spill $T1 
+move 1 r0 
+$T2 :dirty    null    num :dirty    null
+move r1 r3 
+$T2 :dirty    $T2 :dirty    num :dirty    j :dirty
+spill $T2 
+spill $T2 
+spill j 
+move r0 r1 
+num :dirty    approx :dirty    num :dirty    null
+move 100 r3 
+num :dirty    approx :dirty    num :dirty    $T3 :dirty
+move r0 num 
+move r1 approx 
+move r0 r1 
+$T3 :dirty    i :dirty    num :dirty    $T3 :dirty
+move r1 i 
+move r2 num 
+label label1 
+null    null    null    null
+move 0 r0 
+$T4 :dirty    null    null    null
+move i r1 
+$T4 :dirty    i    null    null
+cmpi r1 r0 
+jeq label2 
+$T4 :dirty    i    null    null
+AOP 
+move num r0 
+move approx r1 
+divr r0 r1 
+num    $T5 :dirty    null    null
+spill num 
+AOP 
+move approx r0 
+addr r0 r1 
+approx    $T6 :dirty    null    null
+spill approx 
+move 0.5 r0 
+$T7 :dirty    $T6 :dirty    null    null
+AOP 
+mulr r0 r1 
+$T7 :dirty    $T8 :dirty    null    null
+spill $T7 
+move r0 r2 
+$T8 :dirty    $T8 :dirty    newapprox :dirty    null
+spill $T8 
+spill $T8 
+move r0 r1 
+newapprox :dirty    approx :dirty    newapprox :dirty    null
+spill newapprox 
+spill approx 
+spill newapprox 
+move 1 r0 
+$T9 :dirty    null    null    null
+AOP 
+move i r1 
+subi r1 r0 
+$T10 :dirty    i    null    null
+spill i 
+move r1 r2 
+$T10 :dirty    $T10 :dirty    i :dirty    null
+spill $T10 
+spill $T10 
+jmp label1 
+null    null    i :dirty    null
+move r2 i 
+label label2 
+null    null    null    null
+sys writer approx 
+null    null    null    null
+unlnk 
+ret 
+null    null    null    null
+end

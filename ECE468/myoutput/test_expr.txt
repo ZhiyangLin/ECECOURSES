@@ -1,7 +1,343 @@
-r0
-r1
-r2
-r3
 ;IR code
-;RET
-
+;tiny code
+var a 
+var b 
+var c 
+var d 
+var x 
+var y 
+var z 
+var t 
+push 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr main 
+sys halt 
+label main 
+null    null    null    null
+link 0 
+null    null    null    null
+move 1 r0 
+$T1 :dirty    null    null    null
+move r1 r2 
+$T1 :dirty    $T1 :dirty    a :dirty    null
+spill $T1 
+spill $T1 
+move 2 r0 
+$T2 :dirty    null    a :dirty    null
+move r1 r3 
+$T2 :dirty    $T2 :dirty    a :dirty    b :dirty
+spill $T2 
+spill $T2 
+move 10 r0 
+$T3 :dirty    null    a :dirty    b :dirty
+move r2 a 
+move r1 r2 
+$T3 :dirty    $T3 :dirty    c :dirty    b :dirty
+spill $T3 
+spill $T3 
+move 20 r0 
+$T4 :dirty    null    c :dirty    b :dirty
+move r2 c 
+move r1 r2 
+$T4 :dirty    $T4 :dirty    d :dirty    b :dirty
+spill $T4 
+spill $T4 
+sys writei a 
+null    null    d :dirty    b :dirty
+sys writei b 
+null    null    d :dirty    b :dirty
+sys writei c 
+null    null    d :dirty    b :dirty
+sys writei d 
+null    null    d :dirty    b :dirty
+AOP 
+move a r0 
+addi r0 r3 
+a    null    d :dirty    $T5 :dirty
+spill a 
+move r0 r1 
+$T5 :dirty    a :dirty    d :dirty    $T5 :dirty
+spill $T5 
+spill $T5 
+sys writei a 
+null    a :dirty    d :dirty    null
+AOP 
+move c r0 
+muli r1 r0 
+$T6 :dirty    a :dirty    d :dirty    null
+move r1 a 
+move r3 r1 
+$T6 :dirty    b :dirty    d :dirty    $T6 :dirty
+spill $T6 
+spill $T6 
+sys writei b 
+null    b :dirty    d :dirty    null
+move 0 r0 
+$T7 :dirty    b :dirty    d :dirty    null
+AOP 
+move a r3 
+subi r0 r3 
+$T7 :dirty    b :dirty    d :dirty    $T8 :dirty
+spill $T7 
+AOP 
+addi r3 r1 
+move r1 b 
+null    $T9 :dirty    d :dirty    $T8 :dirty
+spill $T8 
+move r0 r3 
+$T9 :dirty    $T9 :dirty    d :dirty    c :dirty
+spill $T9 
+spill $T9 
+sys writei c 
+null    null    d :dirty    c :dirty
+move 0 r0 
+$T10 :dirty    null    d :dirty    c :dirty
+AOP 
+subi r0 r2 
+$T10 :dirty    null    $T11 :dirty    c :dirty
+spill $T10 
+move r0 r1 
+$T11 :dirty    d :dirty    $T11 :dirty    c :dirty
+spill $T11 
+spill $T11 
+sys writei d 
+null    d :dirty    null    c :dirty
+AOP 
+move a r0 
+move b r2 
+addi r0 r2 
+a    d :dirty    $T12 :dirty    c :dirty
+AOP 
+addi r2 r3 
+move r3 c 
+a    d :dirty    $T12 :dirty    $T13 :dirty
+spill $T12 
+AOP 
+addi r3 r1 
+move r1 d 
+a    $T14 :dirty    null    $T13 :dirty
+spill $T13 
+AOP 
+divi r1 r0 
+$T15 :dirty    $T14 :dirty    null    null
+spill $T14 
+AOP 
+move d r1 
+move c r2 
+addi r1 r2 
+$T15 :dirty    d    $T16 :dirty    null
+spill d 
+AOP 
+move a r1 
+move b r3 
+addi r1 r3 
+$T15 :dirty    a    $T16 :dirty    $T17 :dirty
+spill a 
+AOP 
+muli r3 r2 
+$T15 :dirty    null    $T18 :dirty    $T17 :dirty
+spill $T17 
+AOP 
+subi r2 r0 
+$T19 :dirty    null    $T18 :dirty    null
+spill $T18 
+move r1 r2 
+$T19 :dirty    $T19 :dirty    a :dirty    null
+spill $T19 
+spill $T19 
+sys writei a 
+null    null    a :dirty    null
+move 10 r0 
+$T20 :dirty    null    a :dirty    null
+AOP 
+addi r2 r0 
+$T21 :dirty    null    a :dirty    null
+spill a 
+move r1 r2 
+$T21 :dirty    $T21 :dirty    a :dirty    null
+spill $T21 
+spill $T21 
+sys writei a 
+null    null    a :dirty    null
+AOP 
+move b r0 
+addi r0 r2 
+b    null    $T22 :dirty    null
+spill b 
+move 10 r0 
+$T23 :dirty    null    $T22 :dirty    null
+AOP 
+addi r2 r0 
+$T24 :dirty    null    $T22 :dirty    null
+spill $T22 
+move r1 r2 
+$T24 :dirty    $T24 :dirty    b :dirty    null
+spill $T24 
+spill $T24 
+sys writei b 
+null    null    b :dirty    null
+spill b 
+move 0 r0 
+$T25 :dirty    null    null    null
+move 10 r1 
+$T25 :dirty    $T26 :dirty    null    null
+AOP 
+subi r0 r1 
+$T25 :dirty    $T27 :dirty    null    null
+spill $T25 
+move r0 r2 
+$T27 :dirty    $T27 :dirty    c :dirty    null
+spill $T27 
+spill $T27 
+sys writei c 
+null    null    c :dirty    null
+spill c 
+move 1.0 r0 
+$T28 :dirty    null    null    null
+move r1 r2 
+$T28 :dirty    $T28 :dirty    x :dirty    null
+spill $T28 
+spill $T28 
+move 2.0 r0 
+$T29 :dirty    null    x :dirty    null
+move r1 r3 
+$T29 :dirty    $T29 :dirty    x :dirty    y :dirty
+spill $T29 
+spill $T29 
+move 3.14159 r0 
+$T30 :dirty    null    x :dirty    y :dirty
+move r2 x 
+move r1 r2 
+$T30 :dirty    $T30 :dirty    z :dirty    y :dirty
+spill $T30 
+spill $T30 
+sys writer x 
+null    null    z :dirty    y :dirty
+sys writer z 
+null    null    z :dirty    y :dirty
+sys writer y 
+null    null    z :dirty    y :dirty
+move 2.0 r0 
+$T31 :dirty    null    z :dirty    y :dirty
+AOP 
+divr r2 r0 
+$T32 :dirty    null    z :dirty    y :dirty
+move r2 z 
+move r1 r2 
+$T32 :dirty    $T32 :dirty    x :dirty    y :dirty
+spill $T32 
+spill $T32 
+AOP 
+move z r0 
+divr r0 r3 
+z    null    x :dirty    $T33 :dirty
+move r1 r0 
+y :dirty    $T33 :dirty    x :dirty    $T33 :dirty
+spill $T33 
+spill $T33 
+sys writer x 
+y :dirty    null    x :dirty    null
+sys writer y 
+y :dirty    null    x :dirty    null
+AOP 
+addr r2 r0 
+$T34 :dirty    null    x :dirty    null
+spill x 
+AOP 
+move z r1 
+addr r0 r1 
+$T34 :dirty    $T35 :dirty    null    null
+spill $T34 
+AOP 
+move z r0 
+divr r1 r0 
+$T36 :dirty    $T35 :dirty    null    null
+spill $T35 
+move r1 r2 
+$T36 :dirty    $T36 :dirty    t :dirty    null
+spill $T36 
+spill $T36 
+sys writer t 
+null    null    t :dirty    null
+AOP 
+mulr r2 r2 
+null    null    $T37 :dirty    null
+move r0 r1 
+$T37 :dirty    t :dirty    $T37 :dirty    null
+spill $T37 
+spill $T37 
+sys writer t 
+null    t :dirty    null    null
+move 7.0 r0 
+$T38 :dirty    t :dirty    null    null
+AOP 
+move z r2 
+divr r2 r0 
+$T39 :dirty    t :dirty    z    null
+move 6.0 r3 
+$T39 :dirty    t :dirty    z    $T40 :dirty
+AOP 
+divr r2 r3 
+$T39 :dirty    t :dirty    z    $T41 :dirty
+move r0 $-39 
+move 5.0 r0 
+$T42 :dirty    t :dirty    z    $T41 :dirty
+AOP 
+divr r2 r0 
+$T43 :dirty    t :dirty    z    $T41 :dirty
+move r0 $-43 
+move 4.0 r0 
+$T44 :dirty    t :dirty    z    $T41 :dirty
+AOP 
+divr r2 r0 
+$T45 :dirty    t :dirty    z    $T41 :dirty
+move r0 $-45 
+move 2.0 r0 
+$T46 :dirty    t :dirty    z    $T41 :dirty
+AOP 
+divr r1 r0 
+$T47 :dirty    t :dirty    z    $T41 :dirty
+AOP 
+addr r1 r2 
+$T47 :dirty    t :dirty    $T48 :dirty    $T41 :dirty
+AOP 
+addr r2 r1 
+$T47 :dirty    $T49 :dirty    $T48 :dirty    $T41 :dirty
+spill $T48 
+AOP 
+addr r1 r0 
+$T50 :dirty    $T49 :dirty    null    $T41 :dirty
+spill $T49 
+AOP 
+move $-45 r1 
+addr r0 r1 
+$T50 :dirty    $T51 :dirty    null    $T41 :dirty
+spill $T50 
+AOP 
+move $-43 r0 
+addr r1 r0 
+$T52 :dirty    $T51 :dirty    null    $T41 :dirty
+spill $T51 
+AOP 
+addr r0 r3 
+$T52 :dirty    null    null    $T53 :dirty
+spill $T52 
+AOP 
+move $-39 r0 
+addr r3 r0 
+$T54 :dirty    null    null    $T53 :dirty
+spill $T53 
+move r1 r2 
+$T54 :dirty    $T54 :dirty    t :dirty    null
+spill $T54 
+spill $T54 
+sys writer t 
+null    null    t :dirty    null
+spill t 
+unlnk 
+ret 
+null    null    null    null
+end

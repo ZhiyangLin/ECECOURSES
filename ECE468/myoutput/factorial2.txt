@@ -1,12 +1,164 @@
 ;IR code
-;NE $P1 $T1 label1
-;JUMP label2 
-;STOREI $T6 $L1
-;NE $L1 $T1 label3
-;JUMP label4 
-;LE $L1 $T3 label5
-;JUMP label6 
-;STOREI $T5 $L2
-;LABEL label6 
-;RET
-
+;tiny code
+str input "Please enter an integer number: " 
+str eol "\n" 
+push 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr main 
+sys halt 
+label factorial 
+null    null    null    null
+link 2 
+null    null    null    null
+move 1 r0 
+$T1 :dirty    null    null    null
+move $6 r1 
+$T1 :dirty    $P1    null    null
+cmpi r1 r0 
+jne label1 
+$T1 :dirty    $P1    null    null
+move 1 r0 
+$T2 :dirty    null    null    null
+move r1 $7 
+$T2 :dirty    $T2 :dirty    null    null
+spill $T2 
+spill $T2 
+unlnk 
+ret 
+null    null    null    null
+jmp label2 
+null    null    null    null
+label label1 
+null    null    null    null
+move 1 r0 
+$T3 :dirty    null    null    null
+AOP 
+move $6 r1 
+subi r1 r0 
+$T4 :dirty    $P1    null    null
+push 
+$T4 :dirty    $P1    null    null
+push r0 
+$T4 :dirty    $P1    null    null
+spill $T4 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr factorial 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+null    $P1    null    null
+pop 
+null    $P1    null    null
+pop r0 
+$T5    $P1    null    null
+move r2 r3 
+$T5    $P1    $T5 :dirty    $L2 :dirty
+spill $T5 
+spill $T5 
+AOP 
+muli r3 r1 
+null    $T6 :dirty    null    $L2 :dirty
+spill $L2 
+move r0 r2 
+$T6 :dirty    $T6 :dirty    $L1 :dirty    null
+move r2 $-1 
+label label2 
+null    null    null    null
+move r0 $7 
+$L1 :dirty    null    null    null
+spill $L1 
+unlnk 
+ret 
+null    null    null    null
+label main 
+null    null    null    null
+link 2 
+null    null    null    null
+sys writes input 
+null    null    null    null
+sys readi $-1 
+null    null    null    null
+move 1 r0 
+$T1 :dirty    null    null    null
+move $-1 r1 
+$T1 :dirty    $L1    null    null
+cmpi r1 r0 
+jne label3 
+$T1 :dirty    $L1    null    null
+move 1 r0 
+$T2 :dirty    null    null    null
+move r1 r2 
+$T2 :dirty    $T2 :dirty    $L2 :dirty    null
+spill $T2 
+spill $T2 
+jmp label4 
+null    null    $L2 :dirty    null
+move r2 $-2 
+label label3 
+null    null    null    null
+move 1 r0 
+$T3 :dirty    null    null    null
+move $-1 r1 
+$T3 :dirty    $L1    null    null
+cmpi r1 r0 
+jle label5 
+$T3 :dirty    $L1    null    null
+push 
+null    null    null    null
+move $-1 r0 
+push r0 
+$L1    null    null    null
+spill $L1 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr factorial 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+null    null    null    null
+pop 
+null    null    null    null
+pop r0 
+$T4    null    null    null
+move r1 r2 
+$T4    $T4 :dirty    $L2 :dirty    null
+spill $T4 
+spill $T4 
+jmp label6 
+null    null    $L2 :dirty    null
+move r2 $-2 
+label label5 
+null    null    null    null
+move 0 r0 
+$T5 :dirty    null    null    null
+move r1 r2 
+$T5 :dirty    $T5 :dirty    $L2 :dirty    null
+move r2 $-2 
+label label6 
+null    null    null    null
+label label4 
+null    null    null    null
+sys writei $-2 
+null    null    null    null
+sys writes eol 
+null    null    null    null
+move 0 r0 
+$T6 :dirty    null    null    null
+move r1 $6 
+$T6 :dirty    $T6 :dirty    null    null
+spill $T6 
+spill $T6 
+unlnk 
+ret 
+null    null    null    null
+end
