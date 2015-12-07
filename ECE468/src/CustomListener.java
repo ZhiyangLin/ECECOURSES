@@ -54,18 +54,11 @@ public class CustomListener extends MicroBaseListener {
         funcTable = new HashMap<String, Function>();
         leaders = new ArrayList<Ircode>();
         rgstrs = new ArrayList<Register>();
-        Register r0 = new Register(0);
-        rgstrs.add(r0);
-        Register r1 = new Register(1);
-        rgstrs.add(r1);
-        Register r2 = new Register(2);
-        rgstrs.add(r2);
-        Register r3 = new Register(3);
-        rgstrs.add(r3);    
-        updateR();
-        rgstrs.get(0).isDirty = true;
-        
-        updateR();
+        for(int i = 0; i < 4; i++){
+            Register r = new Register(i);
+            rgstrs.add(r);
+        }
+
     }
     @Override public void enterProgram(MicroParser.ProgramContext ctx){
         Scope scope = new Scope("GLOBAL");
@@ -128,24 +121,26 @@ public class CustomListener extends MicroBaseListener {
         }
         
         if(printIr == 0){
-            /*
+            
             System.out.println(";IR code");
             for(Ircode c: ircode){
-                
-                c.printCode();
+                if(c.endofB){
+                    c.printCode();    
+                }
+                /*
                 System.out.println("liveOut:");
                 for(String liveOut: c.out){
                     System.out.printf(liveOut + " ");
                 }
-                System.out.println();
+                System.out.println();*/
                 
             }
-            */
+            /*
             System.out.println(";tiny code");
             for(Acode ac: acode){
                 ac.printCode();
             }
-            System.out.println("end");
+            System.out.println("end");*/
         }
     }
     @Override public void enterString_decl(MicroParser.String_declContext ctx) {
