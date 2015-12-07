@@ -48,9 +48,9 @@ public:
     ival1=0;ival2=0;rval1=0;rval2=0;
     for (int i=0; i<NUMREGS; i++)
       {
-  registeri[i]=0;
-  registerr[i]=0;
-  registerFreeTime[i]=0;
+	registeri[i]=0;
+	registerr[i]=0;
+	registerFreeTime[i]=0;
       }
   }  
   void setstatusi(int i1, int i2)
@@ -95,8 +95,8 @@ enum optype {var,str, label, move, addi,addr, subi,subr, muli,mulr, divi,divr,
              inci, deci, cmpi, push, pop, ret, link, unlnk, cmpr, 
              jsr, jmp, jgt, jlt, jge, jle, jeq, jne, 
              // all jumps must be between jsr..jne 
-       sys, endofprogram, emptyline, unknown };
-  }
+	     sys, endofprogram, emptyline, unknown };
+	}
 enum operandtype {id,stackref,reg,num,strval,empty,nonknown};
 enum syscalls {SCreadi,SCreadr,SCwritei,SCwriter,SCwrites,SChalt,SCunknown};
 
@@ -269,18 +269,18 @@ public:
     switch (ot) {
     case id:
       {
-  varref->setFreeTime(ft);
-  break;
+	varref->setFreeTime(ft);
+	break;
       }
     case reg:
       {
-  cpu.setFreeTime(registernumber,ft);
-  break;
+	cpu.setFreeTime(registernumber,ft);
+	break;
       }
     case stackref:
       {
-  stack[fp-stackoffset].setFreeTime(ft);
-  break;
+	stack[fp-stackoffset].setFreeTime(ft);
+	break;
       }
     }
   }
@@ -497,14 +497,14 @@ void parseline(opcodes::optype & code, operand& op1, operand& op2, ifstream & sr
     op2.settype(strval);
     ip++; // skip leading 
     is=0;
-  ss = "";
+	ss = "";
     while (buf[ip]!='"') {
       if (buf[ip-1]=='\\' && buf[ip]=='n') {ss[is-1]='\n'; ip++;}
-    else {ss += buf[ip++]; is++;}
+	  else {ss += buf[ip++]; is++;}
       // else sc[is++]=buf[ip++];
     }
     // sc[is]=0; 
-  ip++;
+	ip++;
     op2.setname(ss);
   }
 
@@ -529,8 +529,8 @@ void linkvariable(list<Symbol>&table, operand & o, int srcline){
   if (o.type()==id) {
     for (list<Symbol>::iterator it=table.begin();it!=table.end();it++){
       if (it->name()==o.name()) {
-  o.setvarref(it);
-  return;
+	o.setvarref(it);
+	return;
       }
     }
     cout << "error on line "<<srcline<<" identifier "<<o.name()<<" not defined\n";
@@ -583,45 +583,45 @@ int main(int argc, char *argv[]){
       
       switch (code) {
       case opcodes::var:  {
-  passert(declarations||mix,"declarations must preceed all code"); 
-  passert(op1.type()==id,"identifier operand expected"); 
-  passert(op2.type()==empty,"only one operand expected"); 
-  symboltable.push_back(Symbol(op1.name())); break;
+	passert(declarations||mix,"declarations must preceed all code"); 
+	passert(op1.type()==id,"identifier operand expected"); 
+	passert(op2.type()==empty,"only one operand expected"); 
+	symboltable.push_back(Symbol(op1.name())); break;
       }
       case opcodes::str :  {
-  passert(declarations||mix,"declarations must preceed all code"); 
-  passert(op1.type()==id,"1st operand must be indentifier"); 
-  passert(op2.type()==strval,"2nd operand must be string"); 
-  symboltable.push_back(Symbol(op1.name(),op2.name())); 
-  break;
+	passert(declarations||mix,"declarations must preceed all code"); 
+	passert(op1.type()==id,"1st operand must be indentifier"); 
+	passert(op2.type()==strval,"2nd operand must be string"); 
+	symboltable.push_back(Symbol(op1.name(),op2.name())); 
+	break;
       }
       case opcodes::label : {
-  passert(op1.type()==id,"1st operand must be indentifier"); 
-  passert(op2.type()==empty,"only one operand expected"); 
-  //  labeltab.push_back(op1.name());  // may not need this
+	passert(op1.type()==id,"1st operand must be indentifier"); 
+	passert(op2.type()==empty,"only one operand expected"); 
+	//	labeltab.push_back(op1.name());  // may not need this
         declarations = false;
-  program.push_back(opcode(opcodes::label,op1,op2));
-  break;
+	program.push_back(opcode(opcodes::label,op1,op2));
+	break;
       }
       case opcodes::move: {
-  passert( (op1.type()==num || op1.type()==reg || 
-      op1.type()== id || op1.type()== stackref)
-     && (op2.type()==reg || op2.type()== id|| op2.type()== stackref),
-     "illegal operand type");
-  passert(!((op1.type()==id || op1.type()== stackref)&& 
-    (op2.type()==id || op2.type()== stackref)),
-    "both  operands are memory refs");
+	passert( (op1.type()==num || op1.type()==reg || 
+		  op1.type()== id || op1.type()== stackref)
+		 && (op2.type()==reg || op2.type()== id|| op2.type()== stackref),
+		 "illegal operand type");
+	passert(!((op1.type()==id || op1.type()== stackref)&& 
+		(op2.type()==id || op2.type()== stackref)),
+		"both  operands are memory refs");
         declarations = false;
-  program.push_back(opcode(code,op1,op2)); 
-  break;
+	program.push_back(opcode(code,op1,op2)); 
+	break;
       }
       case opcodes::inci: 
       case opcodes::deci: {
-  passert(op1.type()==reg,"operand must be a register"); 
-  passert(op2.type()==empty,"only one operand expected"); 
+	passert(op1.type()==reg,"operand must be a register"); 
+	passert(op2.type()==empty,"only one operand expected"); 
         declarations = false;
-  program.push_back(opcode(code,op1,op2)); 
-  break;
+	program.push_back(opcode(code,op1,op2)); 
+	break;
       }
       case opcodes::addi:
       case opcodes::addr: 
@@ -633,55 +633,55 @@ int main(int argc, char *argv[]){
       case opcodes::divr:
       case opcodes::cmpi:
       case opcodes::cmpr: {
-  passert( (op1.type()==num || op1.type()==reg || 
-      op1.type()== id || op1.type()== stackref)
-     && (op2.type()==reg), "illegal operand type");
+	passert( (op1.type()==num || op1.type()==reg || 
+		  op1.type()== id || op1.type()== stackref)
+		 && (op2.type()==reg), "illegal operand type");
         declarations = false;
-  program.push_back(opcode(code,op1,op2)); 
-  break;
+	program.push_back(opcode(code,op1,op2)); 
+	break;
       }
       case opcodes::push: {
-  passert(op2.type()==empty,"zero or one operand expected"); 
-  passert(op1.type()==num || op1.type()==reg || op1.type()== id
-    || op1.type()== stackref || op1.type()==empty ,
-    "illegal operand type"); 
-  program.push_back(opcode(code,op1,op2));
+	passert(op2.type()==empty,"zero or one operand expected"); 
+	passert(op1.type()==num || op1.type()==reg || op1.type()== id
+		|| op1.type()== stackref || op1.type()==empty ,
+		"illegal operand type"); 
+	program.push_back(opcode(code,op1,op2));
         declarations = false;
-  break;
+	break;
       }
       case opcodes::pop:{
-  passert(op2.type()==empty,"zero or one operand expected"); 
-  passert(op1.type()==reg || op1.type()== id || 
-    op1.type()==stackref ||op1.type()==empty, 
-    "illegal operand type"); 
-  program.push_back(opcode(code,op1,op2));
+	passert(op2.type()==empty,"zero or one operand expected"); 
+	passert(op1.type()==reg || op1.type()== id || 
+		op1.type()==stackref ||op1.type()==empty, 
+		"illegal operand type"); 
+	program.push_back(opcode(code,op1,op2));
         declarations = false;
-  break;
+	break;
       }
       case opcodes::jsr: {
-  passert(op2.type()==empty,"only one operand expected"); 
-  passert(op1.type()==id,"operand must be an identifier"); 
-  program.push_back(opcode(code,op1,op2));
+	passert(op2.type()==empty,"only one operand expected"); 
+	passert(op1.type()==id,"operand must be an identifier"); 
+	program.push_back(opcode(code,op1,op2));
         declarations = false;
-  break;
+	break;
       }
       case opcodes::ret: {
-  passert(op1.type()==empty && op2.type()==empty,"no operand expected"); 
-  program.push_back(opcode(code,op1,op2));
+	passert(op1.type()==empty && op2.type()==empty,"no operand expected"); 
+	program.push_back(opcode(code,op1,op2));
         declarations = false;
-  break;
+	break;
       }
       case opcodes::link: {
-  passert(op1.type()==num && op2.type()==empty,"illegal operand"); 
-  program.push_back(opcode(code,op1,op2));
+	passert(op1.type()==num && op2.type()==empty,"illegal operand"); 
+	program.push_back(opcode(code,op1,op2));
         declarations = false;
-  break;
+	break;
       }
       case opcodes::unlnk: {
-  passert(op1.type()==empty && op2.type()==empty,"no operand expected"); 
-  program.push_back(opcode(code,op1,op2));
+	passert(op1.type()==empty && op2.type()==empty,"no operand expected"); 
+	program.push_back(opcode(code,op1,op2));
         declarations = false;
-  break;
+	break;
       }
       case opcodes::jmp:
       case opcodes::jgt:
@@ -690,24 +690,24 @@ int main(int argc, char *argv[]){
       case opcodes::jle:
       case opcodes::jne:
       case opcodes::jeq: {
-  passert(op1.type()==id,"operand must be an identifier"); 
-  passert(op2.type()==empty,"only one operand expected"); 
+	passert(op1.type()==id,"operand must be an identifier"); 
+	passert(op2.type()==empty,"only one operand expected"); 
         declarations = false;
-  program.push_back(opcode(code,op1,op2));
-  break;
+	program.push_back(opcode(code,op1,op2));
+	break;
       }
       case opcodes::sys : {
         syscalls scl = checksyscall(op1);
-  passert(scl != SCunknown,"unknown system call");
-  if (scl == SChalt) {
-    passert(op2.type()==empty,"only one operand expected");
-  } 
-  // operand types are not fully checked
+	passert(scl != SCunknown,"unknown system call");
+	if (scl == SChalt) {
+	  passert(op2.type()==empty,"only one operand expected");
+	} 
+	// operand types are not fully checked
         declarations = false;
-  program.push_back(opcode(code,op1,op2)); break;
+	program.push_back(opcode(code,op1,op2)); break;
       }
       case opcodes::unknown : {
-  passert(false,"unknown opcode");
+	passert(false,"unknown opcode");
       }
       }
     }
@@ -731,14 +731,14 @@ int main(int argc, char *argv[]){
       // find the opcode that has this label 
       bool labelfound = false;
       for (  ; jt!=program.end() && ! labelfound; jt++) {
-  if (jt->code()==opcodes::label && jt->o1().name()==it->o1().name()) {
-    it->settarget(jt);
-    labelfound = true;
-  }
+	if (jt->code()==opcodes::label && jt->o1().name()==it->o1().name()) {
+	  it->settarget(jt);
+	  labelfound = true;
+	}
       }
       if (!labelfound) {
-  cout<<"error on line "<<it->src()<<" jump target is not defined\n";
-  parseerror=true;
+	cout<<"error on line "<<it->src()<<" jump target is not defined\n";
+	parseerror=true;
       }
     }
     else if (it->code()==opcodes::sys){
@@ -797,18 +797,18 @@ int main(int argc, char *argv[]){
     if (debug>=3) {
       cpu.print();
       for (list<Symbol>::iterator it  = symboltable.begin(); it!=symboltable.end(); it++) {
-  it->print(); cout <<"  ";
+	it->print(); cout <<"  ";
       }
       cout<<'\n';
     }
     if (debug >=2)
       {
-  if(stats)
-    {
-      pc->print(CNT_cycles); cout<<'\n';
-    } else {
-      pc->print(); cout<<'\n';
-    }
+	if(stats)
+	  {
+	    pc->print(CNT_cycles); cout<<'\n';
+	  } else {
+	    pc->print(); cout<<'\n';
+	  }
       }
     line = pc->src();
     // vvvvvvvvvvvvvvvvvvvvvvvv Statistics vvvvvvvvvvvvvvvvv
@@ -819,321 +819,321 @@ int main(int argc, char *argv[]){
     switch (pc->code())
       {
       case opcodes::label:
-  // No time
-  break;
+	// No time
+	break;
       case opcodes::move: 
       {
-  CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
-  CNT_cycles = max(pc->o2().getFreeTime(),CNT_cycles);
-  if(debug >= 2) {
-    cout << "FREETIME "<< CNT_cycles << " move (";
-    pc->o1().printFreeTime();
-    cout << ",";
-    pc->o2().printFreeTime();
-    cout << ")\n";
-  }
-  CNT_instructions++;
-  switch(pc->o1().type())
-    {
-    case id:
-      CNT_mem++;
-      CNT_latency = LAT_MOV_m;
-      break;
-    case reg:
-      CNT_register[pc->o1().registernumber]++;
-    default:
-      CNT_latency = LAT_MOV_rl;
-    }
-  switch(pc->o2().type())
-    {
-    case id:
-      CNT_mem++;
-      CNT_latency = max(LAT_MOV_m,CNT_latency);
-      break;
-    case reg:
-      CNT_register[pc->o2().registernumber]++;
-    default:
-      CNT_latency = max(LAT_MOV_rl,CNT_latency);
-    }
-  if(CNT_latency > LAT_MOV_rl)
-    {
-      CNT_MOV_m++;
-    } else {
-      CNT_MOV_rl++;
-    }
-  CNT_target = 2;
-  break;
+	CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
+	CNT_cycles = max(pc->o2().getFreeTime(),CNT_cycles);
+	if(debug >= 2) {
+	  cout << "FREETIME "<< CNT_cycles << " move (";
+	  pc->o1().printFreeTime();
+	  cout << ",";
+	  pc->o2().printFreeTime();
+	  cout << ")\n";
+	}
+	CNT_instructions++;
+	switch(pc->o1().type())
+	  {
+	  case id:
+	    CNT_mem++;
+	    CNT_latency = LAT_MOV_m;
+	    break;
+	  case reg:
+	    CNT_register[pc->o1().registernumber]++;
+	  default:
+	    CNT_latency = LAT_MOV_rl;
+	  }
+	switch(pc->o2().type())
+	  {
+	  case id:
+	    CNT_mem++;
+	    CNT_latency = max(LAT_MOV_m,CNT_latency);
+	    break;
+	  case reg:
+	    CNT_register[pc->o2().registernumber]++;
+	  default:
+	    CNT_latency = max(LAT_MOV_rl,CNT_latency);
+	  }
+	if(CNT_latency > LAT_MOV_rl)
+	  {
+	    CNT_MOV_m++;
+	  } else {
+	    CNT_MOV_rl++;
+	  }
+	CNT_target = 2;
+	break;
       }
       //    Peephole Ops
       case opcodes::inci:
       case opcodes::deci:
-  CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
-  if(debug >= 2) {
-    cout << "FREETIME "<< CNT_cycles << " inci/deci (";
-    pc->o1().printFreeTime();
-    cout << ")\n";
-  }
-  CNT_instructions++;
-  CNT_iOps++;
-  CNT_peeps++;
-  CNT_INT_rl++;
-  CNT_latency = LAT_INT_rl;
-  CNT_target = 1;
-  break;
+	CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
+	if(debug >= 2) {
+	  cout << "FREETIME "<< CNT_cycles << " inci/deci (";
+	  pc->o1().printFreeTime();
+	  cout << ")\n";
+	}
+	CNT_instructions++;
+	CNT_iOps++;
+	CNT_peeps++;
+	CNT_INT_rl++;
+	CNT_latency = LAT_INT_rl;
+	CNT_target = 1;
+	break;
       case opcodes::cmpi: 
-  {
-    CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
-    CNT_cycles = max(pc->o2().getFreeTime(),CNT_cycles);
-    if(debug >= 2) {
-      cout << "FREETIME "<< CNT_cycles << " intOp (";
-      pc->o1().printFreeTime();
-      cout << ",";
-      pc->o2().printFreeTime();
-      cout << ")\n";
-    }
-    CNT_instructions++;
-    CNT_iOps++;
-    switch(pc->o1().type())
-      {
-      case reg:
-        CNT_register[pc->o1().registernumber]++;
-      case num:
-        CNT_latency = LAT_INT_rl;
-        break;
-      case stackref:
-      case id:
-        CNT_mem++;
-        CNT_latency = LAT_INT_m;
-        break;
-      default:
-        fatal("STATISTICS: unknown op1 used in an integer op");
-      }
-    switch(pc->o2().type())
-      {
-      case reg:
-        CNT_register[pc->o2().registernumber]++;
-      case num:
-        CNT_latency = max(CNT_latency,LAT_INT_rl);
-        break;
-      case stackref:
-      case id:
-        CNT_mem++;
-        CNT_latency = max(LAT_INT_m,CNT_latency);
-        break;
-      default:
-        fatal("STATISTICS: unknown op2 used in an integer op");
-      }
-    if (CNT_latency > LAT_INT_rl) {
-      CNT_INT_m++;
-    } else {
-      CNT_INT_rl++;
-    }
-    // Compares have internal registers as the target.
-    CNT_cmp = CNT_cycles + CNT_latency; // jge, ... must wait for the compare.
-    break;
-  }
+	{
+	  CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
+	  CNT_cycles = max(pc->o2().getFreeTime(),CNT_cycles);
+	  if(debug >= 2) {
+	    cout << "FREETIME "<< CNT_cycles << " intOp (";
+	    pc->o1().printFreeTime();
+	    cout << ",";
+	    pc->o2().printFreeTime();
+	    cout << ")\n";
+	  }
+	  CNT_instructions++;
+	  CNT_iOps++;
+	  switch(pc->o1().type())
+	    {
+	    case reg:
+	      CNT_register[pc->o1().registernumber]++;
+	    case num:
+	      CNT_latency = LAT_INT_rl;
+	      break;
+	    case stackref:
+	    case id:
+	      CNT_mem++;
+	      CNT_latency = LAT_INT_m;
+	      break;
+	    default:
+	      fatal("STATISTICS: unknown op1 used in an integer op");
+	    }
+	  switch(pc->o2().type())
+	    {
+	    case reg:
+	      CNT_register[pc->o2().registernumber]++;
+	    case num:
+	      CNT_latency = max(CNT_latency,LAT_INT_rl);
+	      break;
+	    case stackref:
+	    case id:
+	      CNT_mem++;
+	      CNT_latency = max(LAT_INT_m,CNT_latency);
+	      break;
+	    default:
+	      fatal("STATISTICS: unknown op2 used in an integer op");
+	    }
+	  if (CNT_latency > LAT_INT_rl) {
+	    CNT_INT_m++;
+	  } else {
+	    CNT_INT_rl++;
+	  }
+	  // Compares have internal registers as the target.
+	  CNT_cmp = CNT_cycles + CNT_latency; // jge, ... must wait for the compare.
+	  break;
+	}
       // Integer Ops
       case opcodes::addi:
       case opcodes::subi:
       case opcodes::muli:
       case opcodes::divi:
       {
-  CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
-  CNT_cycles = max(pc->o2().getFreeTime(),CNT_cycles);
-  if(debug >= 2) {
-    cout << "FREETIME "<< CNT_cycles << " intOp (";
-    pc->o1().printFreeTime();
-    cout << ",";
-    pc->o2().printFreeTime();
-    cout << ")\n";
-  }
-  CNT_instructions++;
-  CNT_iOps++;
-  switch(pc->o1().type())
-    {
-    case reg:
-      CNT_register[pc->o1().registernumber]++;
-    case num:
-      CNT_latency = LAT_INT_rl;
-      break;
-    case stackref:
-    case id:
-      CNT_mem++;
-      CNT_latency = LAT_INT_m;
-      break;
-    default:
-      fatal("STATISTICS: unknown op1 used in an integer op");
-    }
-  switch(pc->o2().type())
-    {
-    case reg:
-      CNT_register[pc->o2().registernumber]++;
-    case num:
-      CNT_latency = max(CNT_latency,LAT_INT_rl);
-      break;
-    case stackref:
-    case id:
-      CNT_mem++;
-      CNT_latency = max(LAT_INT_m,CNT_latency);
-      break;
-    default:
-      fatal("STATISTICS: unknown op2 used in an integer op");
-    }
-  if (CNT_latency > LAT_INT_rl) {
-    CNT_INT_m++;
-  } else {
-    CNT_INT_rl++;
-  }
-  CNT_target = 2;
-  break;
+	CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
+	CNT_cycles = max(pc->o2().getFreeTime(),CNT_cycles);
+	if(debug >= 2) {
+	  cout << "FREETIME "<< CNT_cycles << " intOp (";
+	  pc->o1().printFreeTime();
+	  cout << ",";
+	  pc->o2().printFreeTime();
+	  cout << ")\n";
+	}
+	CNT_instructions++;
+	CNT_iOps++;
+	switch(pc->o1().type())
+	  {
+	  case reg:
+	    CNT_register[pc->o1().registernumber]++;
+	  case num:
+	    CNT_latency = LAT_INT_rl;
+	    break;
+	  case stackref:
+	  case id:
+	    CNT_mem++;
+	    CNT_latency = LAT_INT_m;
+	    break;
+	  default:
+	    fatal("STATISTICS: unknown op1 used in an integer op");
+	  }
+	switch(pc->o2().type())
+	  {
+	  case reg:
+	    CNT_register[pc->o2().registernumber]++;
+	  case num:
+	    CNT_latency = max(CNT_latency,LAT_INT_rl);
+	    break;
+	  case stackref:
+	  case id:
+	    CNT_mem++;
+	    CNT_latency = max(LAT_INT_m,CNT_latency);
+	    break;
+	  default:
+	    fatal("STATISTICS: unknown op2 used in an integer op");
+	  }
+	if (CNT_latency > LAT_INT_rl) {
+	  CNT_INT_m++;
+	} else {
+	  CNT_INT_rl++;
+	}
+	CNT_target = 2;
+	break;
       }
       case opcodes::cmpr:
-  {
-    CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
-    CNT_cycles = max(pc->o2().getFreeTime(),CNT_cycles);
-    if(debug>=2){
-      cout << "FREETIME "<< CNT_cycles << " fpOp (";
-      pc->o1().printFreeTime();
-      cout << ",";
-      pc->o2().printFreeTime();
-      cout << ")\n";
-    }
-    CNT_instructions++;
-    CNT_rOps++;
-    CNT_latency = 0;
-  switch(pc->o1().type())
-    {
-    case reg:
-      CNT_register[pc->o1().registernumber]++;
-    case num:
-      CNT_latency = LAT_FP_rl;
-      break;
-    case stackref:
-    case id:
-      CNT_mem++;
-      CNT_latency = LAT_FP_m;
-      break;
-    default:
-      fatal("STATISTICS: unknown op1 used in an integer op");
-    }
-  switch(pc->o2().type())
-    {
-    case reg:
-      CNT_register[pc->o2().registernumber]++;
-    case num:
-      CNT_latency = max(CNT_latency,LAT_FP_rl);
-      break;
-    case stackref:
-    case id:
-      CNT_mem++;
-      CNT_latency = max(LAT_FP_m,CNT_latency);
-      break;
-    default:
-      fatal("STATISTICS: unknown op2 used in an integer op");
-    }
-  if(CNT_latency > LAT_FP_rl) {
-    CNT_FP_m++;
-  } else {
-    CNT_FP_rl++;
-  }
-  // Compares have internal registers as the target.
-  CNT_cmp = CNT_cycles + CNT_latency; // jge, ... must wait for the compare.
-  break;
-  }
+	{
+	  CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
+	  CNT_cycles = max(pc->o2().getFreeTime(),CNT_cycles);
+	  if(debug>=2){
+	    cout << "FREETIME "<< CNT_cycles << " fpOp (";
+	    pc->o1().printFreeTime();
+	    cout << ",";
+	    pc->o2().printFreeTime();
+	    cout << ")\n";
+	  }
+	  CNT_instructions++;
+	  CNT_rOps++;
+	  CNT_latency = 0;
+	switch(pc->o1().type())
+	  {
+	  case reg:
+	    CNT_register[pc->o1().registernumber]++;
+	  case num:
+	    CNT_latency = LAT_FP_rl;
+	    break;
+	  case stackref:
+	  case id:
+	    CNT_mem++;
+	    CNT_latency = LAT_FP_m;
+	    break;
+	  default:
+	    fatal("STATISTICS: unknown op1 used in an integer op");
+	  }
+	switch(pc->o2().type())
+	  {
+	  case reg:
+	    CNT_register[pc->o2().registernumber]++;
+	  case num:
+	    CNT_latency = max(CNT_latency,LAT_FP_rl);
+	    break;
+	  case stackref:
+	  case id:
+	    CNT_mem++;
+	    CNT_latency = max(LAT_FP_m,CNT_latency);
+	    break;
+	  default:
+	    fatal("STATISTICS: unknown op2 used in an integer op");
+	  }
+	if(CNT_latency > LAT_FP_rl) {
+	  CNT_FP_m++;
+	} else {
+	  CNT_FP_rl++;
+	}
+	// Compares have internal registers as the target.
+	CNT_cmp = CNT_cycles + CNT_latency; // jge, ... must wait for the compare.
+	break;
+	}
       // Real Ops
       case opcodes::addr:
       case opcodes::subr: 
       case opcodes::mulr:
       case opcodes::divr :
       {
-  CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
-  CNT_cycles = max(pc->o2().getFreeTime(),CNT_cycles);
-  if(debug>=2){
-    cout << "FREETIME "<< CNT_cycles << " fpOp (";
-    pc->o1().printFreeTime();
-    cout << ",";
-    pc->o2().printFreeTime();
-    cout << ")\n";
-  }
-  CNT_instructions++;
-  CNT_rOps++;
-  CNT_latency = 0;
-  switch(pc->o1().type())
-    {
-    case reg:
-      CNT_register[pc->o1().registernumber]++;
-    case num:
-      CNT_latency = LAT_FP_rl;
-      break;
-    case stackref:
-    case id:
-      CNT_mem++;
-      CNT_latency = LAT_FP_m;
-      break;
-    default:
-      fatal("STATISTICS: unknown op1 used in an integer op");
-    }
-  switch(pc->o2().type())
-    {
-    case reg:
-      CNT_register[pc->o2().registernumber]++;
-    case num:
-      CNT_latency = max(CNT_latency,LAT_FP_rl);
-      break;
-    case stackref:
-    case id:
-      CNT_mem++;
-      CNT_latency = max(LAT_FP_m,CNT_latency);
-      break;
-    default:
-      fatal("STATISTICS: unknown op2 used in an integer op");
-    }
-  if(CNT_latency > LAT_FP_rl) {
-    CNT_FP_m++;
-  } else {
-    CNT_FP_rl++;
-  }
-  CNT_target = 2;
-  break;
+	CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
+	CNT_cycles = max(pc->o2().getFreeTime(),CNT_cycles);
+	if(debug>=2){
+	  cout << "FREETIME "<< CNT_cycles << " fpOp (";
+	  pc->o1().printFreeTime();
+	  cout << ",";
+	  pc->o2().printFreeTime();
+	  cout << ")\n";
+	}
+	CNT_instructions++;
+	CNT_rOps++;
+	CNT_latency = 0;
+	switch(pc->o1().type())
+	  {
+	  case reg:
+	    CNT_register[pc->o1().registernumber]++;
+	  case num:
+	    CNT_latency = LAT_FP_rl;
+	    break;
+	  case stackref:
+	  case id:
+	    CNT_mem++;
+	    CNT_latency = LAT_FP_m;
+	    break;
+	  default:
+	    fatal("STATISTICS: unknown op1 used in an integer op");
+	  }
+	switch(pc->o2().type())
+	  {
+	  case reg:
+	    CNT_register[pc->o2().registernumber]++;
+	  case num:
+	    CNT_latency = max(CNT_latency,LAT_FP_rl);
+	    break;
+	  case stackref:
+	  case id:
+	    CNT_mem++;
+	    CNT_latency = max(LAT_FP_m,CNT_latency);
+	    break;
+	  default:
+	    fatal("STATISTICS: unknown op2 used in an integer op");
+	  }
+	if(CNT_latency > LAT_FP_rl) {
+	  CNT_FP_m++;
+	} else {
+	  CNT_FP_rl++;
+	}
+	CNT_target = 2;
+	break;
       }
       case opcodes::pop:
-  CNT_target = 1;
+	CNT_target = 1;
       case opcodes::push:
-  // These are simply moves to the stack.
+	// These are simply moves to the stack.
       {
-  CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
-  if(debug>=2){
-    cout << "FREETIME "<< CNT_cycles << " push/pop (";
-    pc->o1().printFreeTime();
-    cout << ")\n";
-  }
-  CNT_instructions++;
-  switch(pc->o1().type())
-    {
-    case id:
-      CNT_mem++;
-      CNT_latency = LAT_MOV_m;
-      break;
-    case reg:
-      CNT_register[pc->o1().registernumber]++;
-    default:
-      CNT_latency = LAT_MOV_rl;
-    }
-  if(CNT_latency > LAT_MOV_rl)
-    {
-      CNT_MOV_m++;
-    } else {
-      CNT_MOV_rl++;
-    }
-  break;
+	CNT_cycles = max(pc->o1().getFreeTime(),CNT_cycles);
+	if(debug>=2){
+	  cout << "FREETIME "<< CNT_cycles << " push/pop (";
+	  pc->o1().printFreeTime();
+	  cout << ")\n";
+	}
+	CNT_instructions++;
+	switch(pc->o1().type())
+	  {
+	  case id:
+	    CNT_mem++;
+	    CNT_latency = LAT_MOV_m;
+	    break;
+	  case reg:
+	    CNT_register[pc->o1().registernumber]++;
+	  default:
+	    CNT_latency = LAT_MOV_rl;
+	  }
+	if(CNT_latency > LAT_MOV_rl)
+	  {
+	    CNT_MOV_m++;
+	  } else {
+	    CNT_MOV_rl++;
+	  }
+	break;
       }
       case opcodes::link:
       case opcodes::unlnk:
       { 
-  CNT_instructions++;
-  CNT_latency = LAT_INT_rl;
-  CNT_INT_rl++;
-  break;
+	CNT_instructions++;
+	CNT_latency = LAT_INT_rl;
+	CNT_INT_rl++;
+	break;
       }
       case opcodes::jgt:
       case opcodes::jlt:
@@ -1141,124 +1141,124 @@ int main(int argc, char *argv[]){
       case opcodes::jle:
       case opcodes::jeq:
       case opcodes::jne:
-  {
-    CNT_cycles = max(CNT_cycles,CNT_cmp);
-    if(debug>=2){
-      cout << "FREETIME "<< CNT_cycles << " cmp/jgt... (Wait for comparison)\n";
-    }
-  }
+	{
+	  CNT_cycles = max(CNT_cycles,CNT_cmp);
+	  if(debug>=2){
+	    cout << "FREETIME "<< CNT_cycles << " cmp/jgt... (Wait for comparison)\n";
+	  }
+	}
       case opcodes::jmp:
       case opcodes::jsr:
-  // pushes already wait for their operands so jsr can execute immediately.
-  {
-    CNT_branches++;
-    CNT_instructions++;
-    CNT_latency = 1;
-    CNT_INT_rl++;
-    break;
-  }
+	// pushes already wait for their operands so jsr can execute immediately.
+	{
+	  CNT_branches++;
+	  CNT_instructions++;
+	  CNT_latency = 1;
+	  CNT_INT_rl++;
+	  break;
+	}
       case opcodes::ret:
       {
-  CNT_cycles = max(CNT_cycles,latestTime); // Wait for all pending instructions before returning.
-    if(debug>=2){
-      cout << "FREETIME "<< CNT_cycles << " return (Wait for pending instructions before returning)\n";
-    }
-  CNT_instructions++;
-  CNT_latency = 1;
-  CNT_INT_rl++;
-  break;
+	CNT_cycles = max(CNT_cycles,latestTime); // Wait for all pending instructions before returning.
+	  if(debug>=2){
+	    cout << "FREETIME "<< CNT_cycles << " return (Wait for pending instructions before returning)\n";
+	  }
+	CNT_instructions++;
+	CNT_latency = 1;
+	CNT_INT_rl++;
+	break;
       }
       case opcodes::sys:
       { 
-  switch (checksyscall(pc->o1()))
-    {
-    case SCreadi : 
-    case SCwritei :
-      {
-        CNT_instructions++;
-        switch(pc->o1().type())
-    {
-    case id:
-      {
-        CNT_mem++;
-        CNT_latency = LAT_INT_m;
-        break;
-      }
-    case reg:
-      {
-        CNT_register[pc->o1().registernumber]++;
-      }
-    default:
-      {
-        CNT_latency = LAT_INT_rl;
-      }
-    }
-        if (CNT_latency > LAT_INT_rl) {
-    CNT_INT_m++;
-        } else {
-    CNT_INT_rl++;
-        }
-        break;
-      }
-    case SCreadr : 
-    case SCwriter : 
-      {
-        CNT_instructions++;
-        CNT_rOps++;
-        CNT_latency = 0;
-        switch(pc->o1().type())
-    {
-    case reg:
-      CNT_register[pc->o1().registernumber]++;
-    case num:
-      CNT_latency = LAT_FP_rl;
-      break;
-    case id:
-      CNT_mem++;
-      CNT_latency = LAT_FP_m;
-      break;
-    default:
-      fatal("STATISTICS: unknown op1 used in an integer op");
-    }
-        if (CNT_latency > LAT_FP_rl) {
-    CNT_FP_m++;
-        } else {
-    CNT_FP_rl++;
-        }
-        break;
-      }
-    case SCwrites :
-      {
-        CNT_instructions++;
-        CNT_iOps++;
-        CNT_latency = 0;
-        CNT_mem++;
-        CNT_latency = LAT_INT_m;
-        CNT_INT_m++;
-        break;
-      } 
-    case SChalt :
-      {
-        CNT_latency = 1;
-        CNT_instructions++;
-        CNT_INT_rl++;
-        CNT_cycles = max(latestTime,CNT_cycles);
-        break;
-      }
-    }
+	switch (checksyscall(pc->o1()))
+	  {
+	  case SCreadi : 
+	  case SCwritei :
+	    {
+	      CNT_instructions++;
+	      switch(pc->o1().type())
+		{
+		case id:
+		  {
+		    CNT_mem++;
+		    CNT_latency = LAT_INT_m;
+		    break;
+		  }
+		case reg:
+		  {
+		    CNT_register[pc->o1().registernumber]++;
+		  }
+		default:
+		  {
+		    CNT_latency = LAT_INT_rl;
+		  }
+		}
+	      if (CNT_latency > LAT_INT_rl) {
+		CNT_INT_m++;
+	      } else {
+		CNT_INT_rl++;
+	      }
+	      break;
+	    }
+	  case SCreadr : 
+	  case SCwriter : 
+	    {
+	      CNT_instructions++;
+	      CNT_rOps++;
+	      CNT_latency = 0;
+	      switch(pc->o1().type())
+		{
+		case reg:
+		  CNT_register[pc->o1().registernumber]++;
+		case num:
+		  CNT_latency = LAT_FP_rl;
+		  break;
+		case id:
+		  CNT_mem++;
+		  CNT_latency = LAT_FP_m;
+		  break;
+		default:
+		  fatal("STATISTICS: unknown op1 used in an integer op");
+		}
+	      if (CNT_latency > LAT_FP_rl) {
+		CNT_FP_m++;
+	      } else {
+		CNT_FP_rl++;
+	      }
+	      break;
+	    }
+	  case SCwrites :
+	    {
+	      CNT_instructions++;
+	      CNT_iOps++;
+	      CNT_latency = 0;
+	      CNT_mem++;
+	      CNT_latency = LAT_INT_m;
+	      CNT_INT_m++;
+	      break;
+	    } 
+	  case SChalt :
+	    {
+	      CNT_latency = 1;
+	      CNT_instructions++;
+	      CNT_INT_rl++;
+	      CNT_cycles = max(latestTime,CNT_cycles);
+	      break;
+	    }
+	  }
       }
       }
     if(CNT_target > 0)
       {
-  if(CNT_target == 1)
-    {
-      pc->o1().setFreeTime(CNT_cycles+CNT_latency);
-    } else {
-      pc->o2().setFreeTime(CNT_cycles+CNT_latency);
-    }
-  if (debug>=2) {
-    cout << "Target will be free at cycle " << CNT_cycles+CNT_latency << "\n";
-  }
+	if(CNT_target == 1)
+	  {
+	    pc->o1().setFreeTime(CNT_cycles+CNT_latency);
+	  } else {
+	    pc->o2().setFreeTime(CNT_cycles+CNT_latency);
+	  }
+	if (debug>=2) {
+	  cout << "Target will be free at cycle " << CNT_cycles+CNT_latency << "\n";
+	}
       }
     CNT_cycles += 1;
     }
@@ -1267,9 +1267,9 @@ int main(int argc, char *argv[]){
     switch (pc->code()) {
     case opcodes::move : 
       {
-  pc->o2().setval(pc->o1());
-  pc++;
-  break;
+	pc->o2().setval(pc->o1());
+	pc++;
+	break;
       }
     case opcodes::label : {pc++;break;}
     case opcodes::addi:
@@ -1286,16 +1286,16 @@ int main(int argc, char *argv[]){
     case opcodes::cmpr       : {cpu.setstatusr(pc->o1().rval(),pc->o2().rval());  pc++; break;}
     case opcodes::push: {
       if (pc->o1().type() != empty) 
-  stack.push_back(StackElement(pc->o1().ival(),pc->o1().rval()));
+	stack.push_back(StackElement(pc->o1().ival(),pc->o1().rval()));
       else
-  stack.push_back(StackElement(0,0));
+	stack.push_back(StackElement(0,0));
       pc++;
       break;
     }
     case opcodes::pop: {
       if (pc->o1().type() != empty) {
-  pc->o1().setival(stack.back().ival());
-  pc->o1().setrval(stack.back().rval());
+	pc->o1().setival(stack.back().ival());
+	pc->o1().setrval(stack.back().rval());
       }
       stack.pop_back();
       pc++;
@@ -1318,7 +1318,7 @@ int main(int argc, char *argv[]){
       stack.push_back(StackElement(fp));  
       fp = stack.size()-1;
       for (int ii=1;ii<=pc->o1().ival();ii++) {
-  stack.push_back(StackElement(0,0));
+	stack.push_back(StackElement(0,0));
       }
       pc++;
       break;

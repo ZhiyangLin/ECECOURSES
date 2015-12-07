@@ -8,4 +8,20 @@ public class Irnode {
                 dtype = _dtype;
                 value = _value;
         }
+        public boolean equal(Irnode n){
+	        if(!gtype.equals(n.gtype)){
+	            return false;
+	        }
+	        else if(!dtype.equals(n.dtype)){
+	            return false;
+	        }
+	        else if(!value.equals(n.value)){
+	            return false;
+	        }
+	        else
+	        {
+	            return true;
+	        }
+         
+    }
 }
