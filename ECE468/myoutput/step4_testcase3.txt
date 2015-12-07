@@ -1,0 +1,7 @@
+r0
+r1
+r2
+r3
+;IR code
+;RET
+

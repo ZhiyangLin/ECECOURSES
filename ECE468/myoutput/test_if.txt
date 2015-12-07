@@ -1,0 +1,16 @@
+r0
+r1
+r2
+r3
+;IR code
+;GE i $T4 label1
+;GE i $T6 label3
+;JUMP label4 
+;LABEL label3 
+;JUMP label2 
+;LT i $T8 label5
+;JUMP label6 
+;LABEL label5 
+;LABEL label6 
+;RET
+

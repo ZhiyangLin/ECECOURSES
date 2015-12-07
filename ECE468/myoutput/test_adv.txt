@@ -1,0 +1,19 @@
+r0
+r1
+r2
+r3
+;IR code
+;STOREI $T5 enough
+;EQ enough $T6 label2
+;LE diff $T14 label3
+;GE diff tolerance label5
+;JUMP label6 
+;LABEL label5 
+;JUMP label4 
+;LE diff $T17 label7
+;JUMP label8 
+;LABEL label7 
+;LABEL label8 
+;JUMP label1 
+;RET
+

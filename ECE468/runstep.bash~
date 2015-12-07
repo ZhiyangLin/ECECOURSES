@@ -1,0 +1,12 @@
+make clean
+make compiler
+java -cp lib/antlr.jar:classes/ Micro testcase/fma.micro > fma.txt
+java -cp lib/antlr.jar:classes/ Micro testcase/fibonacci2.micro > fibonacci2.txt
+java -cp lib/antlr.jar:classes/ Micro testcase/factorial2.micro > factorial2.txt
+java -cp lib/antlr.jar:classes/ Micro testcase/step4_testcase.micro > step4_testcase.txt
+java -cp lib/antlr.jar:classes/ Micro testcase/step4_testcase2.micro > step4_testcase2.txt
+java -cp lib/antlr.jar:classes/ Micro testcase/step4_testcase3.micro > step4_testcase3.txt
+java -cp lib/antlr.jar:classes/ Micro testcase/test_adv.micro > test_adv.txt
+java -cp lib/antlr.jar:classes/ Micro testcase/test_expr.micro > test_expr.txt
+java -cp lib/antlr.jar:classes/ Micro testcase/test_for.micro > test_for.txt
+java -cp lib/antlr.jar:classes/ Micro testcase/test_if.micro > test_if.txt

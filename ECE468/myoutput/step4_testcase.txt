@@ -1,0 +1,13 @@
+r0
+r1
+r2
+r3
+;IR code
+;STOREI $T3 b
+;EQ i $T4 label2
+;LE p $T5 label3
+;JUMP label4 
+;STOREI $T9 b
+;JUMP label1 
+;RET
+
