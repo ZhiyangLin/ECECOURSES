@@ -6,6 +6,7 @@ import java.util.Stack;
 public class Function {
     String name;
     String retType;
+    int tn = 1;
     int pn = 1;
     int ln = 1;
     HashMap<String, Symbol> paramTable = new HashMap<String, Symbol>();

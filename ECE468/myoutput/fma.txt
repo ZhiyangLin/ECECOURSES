@@ -1,4 +1,54 @@
-;IR code
+;LABEL add 
+;LINK
+;ADDF $P1 $P2 $T1
+;STOREF $T1 $L1
+;STOREF $L1 $R
+;RET
+
+;LABEL multiply 
+;LINK
+;MULTF $P1 $P2 $T1
+;STOREF $T1 $L1
+;STOREF $L1 $R
+;RET
+
+;LABEL main 
+;LINK
+;WRITES intro 
+;WRITES first 
+;READF $L1 
+;WRITES second 
+;READF $L2 
+;WRITES third 
+;READF $L3 
+;PUSH
+;PUSH $L1 
+;PUSH $L2 
+;JSR multiply 
+;POP
+;POP
+;POP $T1 
+;STOREF $T1 $L5
+;PUSH
+;PUSH $L5 
+;PUSH $L3 
+;JSR add 
+;POP
+;POP
+;POP $T2 
+;STOREF $T2 $L4
+;WRITEF $L1 
+;WRITES star 
+;WRITEF $L2 
+;WRITES plus 
+;WRITEF $L3 
+;WRITES equal 
+;WRITEF $L4 
+;WRITES eol 
+;STOREI 0 $T3
+;STOREI $T3 $R
+;RET
+
 ;tiny code
 str intro "You will be asked for three float numbers\n" 
 str first "Please enter the first float number: " 
@@ -16,73 +66,67 @@ push r3
 jsr main 
 sys halt 
 label add 
-null    null    null    null
-link 1 
-null    null    null    null
-AOP 
-move $7 r0 
-move $6 r1 
-addr r0 r1 
-$P1    $T1 :dirty    null    null
-spill $P1 
-move r0 r2 
-$T1 :dirty    $T1 :dirty    $L1 :dirty    null
-spill $T1 
-spill $T1 
-move r0 $8 
-$L1 :dirty    null    $L1 :dirty    null
-spill $L1 
-spill $L1 
+;null    null    null    null
+link 2 
+;null    null    null    null
+move $7 r3 
+move $6 r2 
+;free $P1 
+addr r2 r3 
+;$T1 :dirty    $P2    null    null
+;free $P2 
+move r3 r2 
+;$T1 :dirty    $L1 :dirty    null    null
+;free $T1 
+move r2 $8 
+;null    $L1 :dirty    null    null
+;free $L1 
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
 label multiply 
-null    null    null    null
-link 1 
-null    null    null    null
-AOP 
-move $7 r0 
-move $6 r1 
-mulr r0 r1 
-$P1    $T1 :dirty    null    null
-spill $P1 
-move r0 r2 
-$T1 :dirty    $T1 :dirty    $L1 :dirty    null
-spill $T1 
-spill $T1 
-move r0 $8 
-$L1 :dirty    null    $L1 :dirty    null
-spill $L1 
-spill $L1 
+;null    null    null    null
+link 2 
+;null    null    null    null
+move $7 r3 
+move $6 r2 
+;free $P1 
+mulr r2 r3 
+;$T1 :dirty    $P2    null    null
+;free $P2 
+move r3 r2 
+;$T1 :dirty    $L1 :dirty    null    null
+;free $T1 
+move r2 $8 
+;null    $L1 :dirty    null    null
+;free $L1 
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
 label main 
-null    null    null    null
-link 5 
-null    null    null    null
+;null    null    null    null
+link 8 
+;null    null    null    null
 sys writes intro 
-null    null    null    null
+;null    null    null    null
 sys writes first 
-null    null    null    null
-sys readr $-1 
-null    null    null    null
+;null    null    null    null
+sys readr r3 
+;$L1 :dirty    null    null    null
 sys writes second 
-null    null    null    null
-sys readr $-2 
-null    null    null    null
+;$L1 :dirty    null    null    null
+sys readr r2 
+;$L1 :dirty    $L2 :dirty    null    null
 sys writes third 
-null    null    null    null
-sys readr $-3 
-null    null    null    null
+;$L1 :dirty    $L2 :dirty    null    null
+sys readr r1 
+;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
 push 
-null    null    null    null
-move $-1 r0 
-push r0 
-$L1    null    null    null
-move $-2 r1 
-push r1 
-$L1    $L2    null    null
+;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
+push r3 
+;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
+push r2 
+;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
 push r0 
 push r1 
 push r2 
@@ -92,25 +136,25 @@ pop r3
 pop r2 
 pop r1 
 pop r0 
-$L1    $L2    null    null
+;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
 pop 
-$L1    $L2    null    null
+;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
 pop 
-$L1    $L2    null    null
-pop r2 
-$L1    $L2    $T1    null
-move r3 r0 
-$L5 :dirty    $L2    $T1    $T1 :dirty
-spill $T1 
-spill $T1 
+;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
+pop r0 
+;$L1 :dirty    $L2 :dirty    $L3 :dirty    $T1
+;free $L1 
+move r3 $-1 
+move r0 r3 
+;$L5 :dirty    $L2 :dirty    $L3 :dirty    $T1 :dirty
+;free $T1 
 push 
-$L5 :dirty    $L2    null    null
-push r0 
-$L5 :dirty    $L2    null    null
-spill $L5 
-move $-3 r0 
-push r0 
-$L3    $L2    null    null
+;$L5 :dirty    $L2 :dirty    $L3 :dirty    null
+push r3 
+;$L5 :dirty    $L2 :dirty    $L3 :dirty    null
+;free $L5 
+push r1 
+;null    $L2 :dirty    $L3 :dirty    null
 push r0 
 push r1 
 push r2 
@@ -120,42 +164,44 @@ pop r3
 pop r2 
 pop r1 
 pop r0 
-$L3    $L2    null    null
+;null    $L2 :dirty    $L3 :dirty    null
 pop 
-$L3    $L2    null    null
+;null    $L2 :dirty    $L3 :dirty    null
 pop 
-$L3    $L2    null    null
-pop r2 
-$L3    $L2    $T2    null
+;null    $L2 :dirty    $L3 :dirty    null
+pop r3 
+;$T2    $L2 :dirty    $L3 :dirty    null
 move r3 r0 
-$L4 :dirty    $L2    $T2    $T2 :dirty
-spill $T2 
-spill $T2 
-sys writer $-1 
-$L4 :dirty    $L2    null    null
+;$T2 :dirty    $L2 :dirty    $L3 :dirty    $L4 :dirty
+;free $T2 
+move $-1 r3 
+sys writer r3 
+;$L1    $L2 :dirty    $L3 :dirty    $L4 :dirty
+;free $L1 
 sys writes star 
-$L4 :dirty    $L2    null    null
-sys writer $-2 
-$L4 :dirty    $L2    null    null
-spill $L2 
+;null    $L2 :dirty    $L3 :dirty    $L4 :dirty
+sys writer r2 
+;null    $L2 :dirty    $L3 :dirty    $L4 :dirty
+;free $L2 
 sys writes plus 
-$L4 :dirty    null    null    null
-sys writer $-3 
-$L4 :dirty    null    null    null
+;null    null    $L3 :dirty    $L4 :dirty
+sys writer r1 
+;null    null    $L3 :dirty    $L4 :dirty
+;free $L3 
 sys writes equal 
-$L4 :dirty    null    null    null
-sys writer $-4 
-$L4 :dirty    null    null    null
-spill $L4 
+;null    null    null    $L4 :dirty
+sys writer r0 
+;null    null    null    $L4 :dirty
+;free $L4 
 sys writes eol 
-null    null    null    null
-move 0 r0 
-$T3 :dirty    null    null    null
-move r1 $6 
-$T3 :dirty    $T3 :dirty    null    null
-spill $T3 
-spill $T3 
+;null    null    null    null
+move 0 r3 
+;$T3 :dirty    null    null    null
+move r3 $6 
+;$T3 :dirty    null    null    null
+;free $T3 
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 end

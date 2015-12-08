@@ -1,16 +1,353 @@
-r0
-r1
-r2
-r3
-;IR code
+;LABEL factorial 
+;liveOut:
+;$P1 $L1 
+;LINK
+;liveOut:
+;$P1 $L1 
+;STOREI 1 $T1
+;liveOut:
+;$P1 $T1 $L1 
 ;NE $P1 $T1 label1
+;liveOut:
+;$P1 $L1 
+;STOREI 1 $T2
+;liveOut:
+;$T2 $L1 
+;STOREI $T2 $R
+;liveOut:
+;$L1 
+;RET
+;liveOut:
+;$L1 
 ;JUMP label2 
-;STOREI $T6 $L1
-;NE $L1 $T1 label3
-;JUMP label4 
-;LE $L1 $T3 label5
-;JUMP label6 
+;liveOut:
+;$L1 
+;LABEL label1 
+;liveOut:
+;$P1 
+;STOREI 1 $T3
+;liveOut:
+;$P1 $T3 
+;SUBI $P1 $T3 $T4
+;liveOut:
+;$T4 $P1 
+;PUSH
+;liveOut:
+;$T4 $P1 
+;PUSH $T4 
+;liveOut:
+;$P1 
+;JSR factorial 
+;liveOut:
+;$P1 
+;POP
+;liveOut:
+;$P1 
+;POP $T5 
+;liveOut:
+;$T5 $P1 
 ;STOREI $T5 $L2
-;LABEL label6 
+;liveOut:
+;$L2 $P1 
+;MULTI $L2 $P1 $T6
+;liveOut:
+;$T6 
+;STOREI $T6 $L1
+;liveOut:
+;$L1 
+;LABEL label2 
+;liveOut:
+;$L1 
+;STOREI $L1 $R
+;liveOut:
+;
 ;RET
 
+;liveOut:
+;
+;LABEL main 
+;liveOut:
+;input eol 
+;LINK
+;liveOut:
+;input eol 
+;WRITES input 
+;liveOut:
+;eol 
+;READI $L1 
+;liveOut:
+;$L1 eol 
+;STOREI 1 $T1
+;liveOut:
+;$L1 $T1 eol 
+;NE $L1 $T1 label3
+;liveOut:
+;$L1 eol 
+;STOREI 1 $T2
+;liveOut:
+;$T2 eol 
+;STOREI $T2 $L2
+;liveOut:
+;$L2 eol 
+;JUMP label4 
+;liveOut:
+;$L2 eol 
+;LABEL label3 
+;liveOut:
+;$L1 eol 
+;STOREI 1 $T3
+;liveOut:
+;$L1 $T3 eol 
+;LE $L1 $T3 label5
+;liveOut:
+;eol $L1 
+;PUSH
+;liveOut:
+;$L1 eol 
+;PUSH $L1 
+;liveOut:
+;eol 
+;JSR factorial 
+;liveOut:
+;eol 
+;POP
+;liveOut:
+;eol 
+;POP $T4 
+;liveOut:
+;$T4 eol 
+;STOREI $T4 $L2
+;liveOut:
+;$L2 eol 
+;JUMP label6 
+;liveOut:
+;$L2 eol 
+;LABEL label5 
+;liveOut:
+;eol 
+;STOREI 0 $T5
+;liveOut:
+;$T5 eol 
+;STOREI $T5 $L2
+;liveOut:
+;$L2 eol 
+;LABEL label6 
+;liveOut:
+;$L2 eol 
+;LABEL label4 
+;liveOut:
+;$L2 eol 
+;WRITEI $L2 
+;liveOut:
+;eol 
+;WRITES eol 
+;liveOut:
+;
+;STOREI 0 $T6
+;liveOut:
+;$T6 
+;STOREI $T6 $R
+;liveOut:
+;
+;RET
+
+;liveOut:
+;
+;tiny code
+str input "Please enter an integer number: " 
+str eol "\n" 
+push 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr main 
+sys halt 
+label factorial 
+;null    null    null    null
+link 8 
+;null    null    null    null
+move 1 r3 
+;$T1 :dirty    null    null    null
+move $6 r2 
+cmpi r2 r3 
+jne label1 
+;$T1 :dirty    $P1    null    null
+;free $T1 
+move r3 $-3 
+;end of BLOCK 
+;free $P1 
+move 1 r3 
+;$T2 :dirty    null    null    null
+move r3 $7 
+;$T2 :dirty    null    null    null
+;free $T2 
+move r3 $-4 
+unlnk 
+ret 
+;null    null    null    null
+;end of BLOCK 
+jmp label2 
+;null    null    null    null
+;end of BLOCK 
+label label1 
+;null    null    null    null
+move 1 r3 
+;$T3 :dirty    null    null    null
+move $6 r2 
+subi r2 r3 
+;free $T3 
+move r3 $-5 
+;$T4 :dirty    $P1    null    null
+push 
+;$T4 :dirty    $P1    null    null
+push r3 
+;$T4 :dirty    $P1    null    null
+;free $T4 
+move r3 $-6 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr factorial 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+;null    $P1    null    null
+pop 
+;null    $P1    null    null
+pop r3 
+;$T5    $P1    null    null
+move r3 r1 
+;$T5 :dirty    $P1    $L2 :dirty    null
+;free $T5 
+move r3 $-7 
+muli r1 r2 
+;free $P1 
+;null    $T6 :dirty    $L2 :dirty    null
+;free $L2 
+move r1 $-2 
+move r2 r3 
+;$L1 :dirty    $T6 :dirty    null    null
+;free $T6 
+move r2 $-8 
+;end of BLOCK 
+;free $L1 
+move r3 $-1 
+label label2 
+;null    null    null    null
+move $-1 r3 
+move r3 $7 
+;$L1 :dirty    null    null    null
+;free $L1 
+move r3 $-1 
+unlnk 
+ret 
+;null    null    null    null
+label main 
+;null    null    null    null
+link 8
+;null    null    null    null
+sys writes input 
+;null    null    null    null
+move $-1 r3 
+sys readi r3 
+;$L1 :dirty    null    null    null
+move 1 r2 
+;$L1 :dirty    $T1 :dirty    null    null
+cmpi r3 r2 
+jne label3 
+;$L1 :dirty    $T1 :dirty    null    null
+;free $T1 
+move r2 $-3 
+;end of BLOCK 
+;free $L1 
+move r3 $-1 
+move 1 r3 
+;$T2 :dirty    null    null    null
+move r3 r2 
+;$T2 :dirty    $L2 :dirty    null    null
+;free $T2 
+move r3 $-4 
+;end of BLOCK 
+;free $L2 
+move r2 $-2 
+jmp label4 
+;null    null    null    null
+;end of BLOCK 
+label label3 
+;null    null    null    null
+move 1 r3 
+;$T3 :dirty    null    null    null
+move $-1 r2 
+cmpi r2 r3 
+jle label5 
+;$T3 :dirty    $L1    null    null
+;free $T3 
+move r3 $-5 
+;end of BLOCK 
+;free $L1 
+push 
+;null    null    null    null
+move $-1 r3 
+push r3 
+;$L1    null    null    null
+;free $L1 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr factorial 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+;null    null    null    null
+pop 
+;null    null    null    null
+pop r3 
+;$T4    null    null    null
+move r3 r2 
+;$T4 :dirty    $L2 :dirty    null    null
+;free $T4 
+move r3 $-6 
+;end of BLOCK 
+;free $L2 
+move r2 $-2 
+jmp label6 
+;null    null    null    null
+;end of BLOCK 
+label label5 
+;null    null    null    null
+move 0 r3 
+;$T5 :dirty    null    null    null
+move r3 r2 
+;$T5 :dirty    $L2 :dirty    null    null
+;free $T5 
+move r3 $-7 
+;end of BLOCK 
+;free $L2 
+move r2 $-2 
+label label6 
+;null    null    null    null
+;end of BLOCK 
+label label4 
+;null    null    null    null
+move $-2 r3 
+sys writei r3 
+;$L2    null    null    null
+;free $L2 
+sys writes eol 
+;null    null    null    null
+move 0 r3 
+;$T6 :dirty    null    null    null
+move r3 $6 
+;$T6 :dirty    null    null    null
+;free $T6 
+move r3 $-8 
+unlnk 
+ret 
+;null    null    null    null
+;end of BLOCK 
+end

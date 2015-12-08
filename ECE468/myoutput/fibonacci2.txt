@@ -1,4 +1,77 @@
-;IR code
+;LABEL F 
+;LINK
+;STOREI 2 $T1
+;LE $P1 $T1 label1
+;STOREI 1 $T2
+;SUBI $P1 $T2 $T3
+;PUSH
+;PUSH $T3 
+;JSR F 
+;POP
+;POP $T4 
+;STOREI $T4 $L1
+;STOREI 2 $T5
+;SUBI $P1 $T5 $T6
+;PUSH
+;PUSH $T6 
+;JSR F 
+;POP
+;POP $T7 
+;STOREI $T7 $L2
+;ADDI $L1 $L2 $T8
+;STOREI $T8 $R
+;RET
+;JUMP label2 
+;LABEL label1 
+;STOREI 0 $T9
+;NE $P1 $T9 label3
+;STOREI 0 $T10
+;STOREI $T10 $R
+;RET
+;JUMP label4 
+;LABEL label3 
+;STOREI 1 $T11
+;NE $P1 $T11 label5
+;STOREI 1 $T12
+;STOREI $T12 $R
+;RET
+;JUMP label6 
+;LABEL label5 
+;STOREI 1 $T13
+;STOREI $T13 $R
+;RET
+;LABEL label6 
+;LABEL label4 
+;LABEL label2 
+;RET
+
+;LABEL main 
+;LINK
+;WRITES input 
+;READI $L2 
+;STOREI 0 $T1
+;STOREI $T1 $L1
+;LABEL label7 
+;EQ $L1 $L2 label8
+;PUSH
+;PUSH $L1 
+;JSR F 
+;POP
+;POP $T2 
+;STOREI $T2 $L3
+;WRITEI $L1 
+;WRITES space 
+;WRITEI $L3 
+;WRITES eol 
+;STOREI 1 $T3
+;ADDI $L1 $T3 $T4
+;STOREI $T4 $L1
+;JUMP label7 
+;LABEL label8 
+;STOREI 0 $T5
+;STOREI $T5 $R
+;RET
+
 ;tiny code
 str input "Please input an integer number: " 
 str space " " 
@@ -11,27 +84,60 @@ push r3
 jsr main 
 sys halt 
 label F 
-null    null    null    null
-link 2 
-null    null    null    null
-move 2 r0 
-$T1 :dirty    null    null    null
-move $6 r1 
-$T1 :dirty    $P1    null    null
-cmpi r1 r0 
+;null    null    null    null
+link 15 
+;null    null    null    null
+move 2 r3 
+;$T1 :dirty    null    null    null
+move $6 r2 
+cmpi r2 r3 
+;free $T1 
+;end of BLOCK 
+;free $P1 
 jle label1 
-$T1 :dirty    $P1    null    null
-move 1 r0 
-$T2 :dirty    null    null    null
-AOP 
+;null    null    null    null
+;end of BLOCK 
+move 1 r3 
+;$T2 :dirty    null    null    null
+move $6 r2 
+;free $P1 
+subi r3 r2 
+;$T2 :dirty    $T3 :dirty    null    null
+;free $T2 
+push 
+;null    $T3 :dirty    null    null
+push r2 
+;null    $T3 :dirty    null    null
+;free $T3 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr F 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+;null    null    null    null
+pop 
+;null    null    null    null
+pop r3 
+;$T4    null    null    null
+move r3 r2 
+;$T4 :dirty    $L1 :dirty    null    null
+;free $T4 
+move 2 r3 
+;$T5 :dirty    $L1 :dirty    null    null
 move $6 r1 
-subi r1 r0 
-$T3 :dirty    $P1    null    null
+;free $P1 
+subi r3 r1 
+;$T5 :dirty    $L1 :dirty    $T6 :dirty    null
+;free $T5 
 push 
-$T3 :dirty    $P1    null    null
-push r0 
-$T3 :dirty    $P1    null    null
-spill $T3 
+;null    $L1 :dirty    $T6 :dirty    null
+push r1 
+;null    $L1 :dirty    $T6 :dirty    null
+;free $T6 
 push r0 
 push r1 
 push r2 
@@ -41,143 +147,132 @@ pop r3
 pop r2 
 pop r1 
 pop r0 
-null    $P1    null    null
+;null    $L1 :dirty    null    null
 pop 
-null    $P1    null    null
-pop r0 
-$T4    $P1    null    null
-move r2 r3 
-$T4    $P1    $T4 :dirty    $L1 :dirty
-spill $T4 
-spill $T4 
-move 2 r0 
-$T5 :dirty    $P1    null    $L1 :dirty
-AOP 
-subi r1 r0 
-$T6 :dirty    $P1    null    $L1 :dirty
-spill $P1 
-push 
-$T6 :dirty    null    null    $L1 :dirty
-push r0 
-$T6 :dirty    null    null    $L1 :dirty
-spill $T6 
-push r0 
-push r1 
-push r2 
-push r3 
-jsr F 
+;null    $L1 :dirty    null    null
 pop r3 
-pop r2 
-pop r1 
-pop r0 
-null    null    null    $L1 :dirty
-pop 
-null    null    null    $L1 :dirty
-pop r0 
-$T7    null    null    $L1 :dirty
-move r1 r2 
-$T7    $T7 :dirty    $L2 :dirty    $L1 :dirty
-spill $T7 
-spill $T7 
-AOP 
-addi r3 r2 
-null    null    $T8 :dirty    $L1 :dirty
-spill $L1 
-move r0 $7 
-$T8 :dirty    null    $T8 :dirty    null
-spill $T8 
-spill $T8 
+;$T7    $L1 :dirty    null    null
+move r3 r1 
+;$T7 :dirty    $L1 :dirty    $L2 :dirty    null
+;free $T7 
+;free $L1 
+addi r1 r2 
+;null    $T8 :dirty    $L2 :dirty    null
+;free $L2 
+move r2 $7 
+;null    $T8 :dirty    null    null
+;free $T8 
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 jmp label2 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 label label1 
-null    null    null    null
-move 0 r0 
-$T9 :dirty    null    null    null
-move $6 r1 
-$T9 :dirty    $P1    null    null
-cmpi r1 r0 
+;null    null    null    null
+move 0 r3 
+;$T9 :dirty    null    null    null
+move $6 r2 
+cmpi r2 r3 
+;free $T9 
+;end of BLOCK 
+;free $P1 
 jne label3 
-$T9 :dirty    $P1    null    null
-move 0 r0 
-$T10 :dirty    null    null    null
-move r1 $7 
-$T10 :dirty    $T10 :dirty    null    null
-spill $T10 
-spill $T10 
+;null    null    null    null
+;end of BLOCK 
+move 0 r3 
+;$T10 :dirty    null    null    null
+move r3 $7 
+;$T10 :dirty    null    null    null
+;free $T10 
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 jmp label4 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 label label3 
-null    null    null    null
-move 1 r0 
-$T11 :dirty    null    null    null
-move $6 r1 
-$T11 :dirty    $P1    null    null
-cmpi r1 r0 
+;null    null    null    null
+move 1 r3 
+;$T11 :dirty    null    null    null
+move $6 r2 
+cmpi r2 r3 
+;free $T11 
+;free $P1 
+;end of BLOCK 
 jne label5 
-$T11 :dirty    $P1    null    null
-move 1 r0 
-$T12 :dirty    null    null    null
-move r1 $7 
-$T12 :dirty    $T12 :dirty    null    null
-spill $T12 
-spill $T12 
+;null    null    null    null
+;end of BLOCK 
+move 1 r3 
+;$T12 :dirty    null    null    null
+move r3 $7 
+;$T12 :dirty    null    null    null
+;free $T12 
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 jmp label6 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 label label5 
-null    null    null    null
-move 1 r0 
-$T13 :dirty    null    null    null
-move r1 $7 
-$T13 :dirty    $T13 :dirty    null    null
-spill $T13 
-spill $T13 
+;null    null    null    null
+move 1 r3 
+;$T13 :dirty    null    null    null
+move r3 $7 
+;$T13 :dirty    null    null    null
+;free $T13 
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 label label6 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 label label4 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 label label2 
-null    null    null    null
+;null    null    null    null
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
 label main 
-null    null    null    null
-link 3 
-null    null    null    null
+;null    null    null    null
+link 8 
+;null    null    null    null
 sys writes input 
-null    null    null    null
-sys readi $-2 
-null    null    null    null
-move 0 r0 
-$T1 :dirty    null    null    null
-move r1 r2 
-$T1 :dirty    $T1 :dirty    $L1 :dirty    null
-move r2 $-1 
+;null    null    null    null
+sys readi r3 
+;$L2 :dirty    null    null    null
+move 0 r2 
+;$L2 :dirty    $T1 :dirty    null    null
+move r2 r1 
+;$L2 :dirty    $T1 :dirty    $L1 :dirty    null
+;free $T1 
+;end of BLOCK 
+;free $L2 
+move r3 $-2 
+;free $L1 
+move r1 $-1 
 label label7 
-null    null    null    null
-move $-1 r0 
-move $-2 r1 
-$L1    $L2    null    null
-cmpi r0 r1 
+;null    null    null    null
+move $-1 r3 
+move $-2 r2 
+cmpi r3 r2 
+;end of BLOCK 
+;free $L1 
+;free $L2 
 jeq label8 
-$L1    $L2    null    null
+;null    null    null    null
+;end of BLOCK 
 push 
-null    null    null    null
-move $-1 r0 
-push r0 
-$L1    null    null    null
+;null    null    null    null
+move $-1 r3 
+push r3 
+;$L1    null    null    null
 push r0 
 push r1 
 push r2 
@@ -187,46 +282,47 @@ pop r3
 pop r2 
 pop r1 
 pop r0 
-$L1    null    null    null
+;$L1    null    null    null
 pop 
-$L1    null    null    null
-pop r1 
-$L1    $T2    null    null
-move r2 r3 
-$L1    $T2    $T2 :dirty    $L3 :dirty
-spill $T2 
-spill $T2 
-sys writei $-1 
-$L1    null    null    $L3 :dirty
+;$L1    null    null    null
+pop r2 
+;$L1    $T2    null    null
+move r2 r1 
+;$L1    $T2 :dirty    $L3 :dirty    null
+;free $T2 
+sys writei r3 
+;$L1    null    $L3 :dirty    null
 sys writes space 
-$L1    null    null    $L3 :dirty
-sys writei $-3 
-$L1    null    null    $L3 :dirty
-spill $L3 
+;$L1    null    $L3 :dirty    null
+sys writei r1 
+;$L1    null    $L3 :dirty    null
+;free $L3 
 sys writes eol 
-$L1    null    null    null
-move 1 r1 
-$L1    $T3 :dirty    null    null
-AOP 
-addi r0 r1 
-$L1    $T4 :dirty    null    null
-spill $L1 
-move r0 r2 
-$T4 :dirty    $T4 :dirty    $L1 :dirty    null
-spill $T4 
-spill $T4 
-jmp label7 
-null    null    $L1 :dirty    null
+;$L1    null    null    null
+move 1 r2 
+;$L1    $T3 :dirty    null    null
+;free $L1 
+addi r2 r3 
+;$T4 :dirty    $T3 :dirty    null    null
+;free $T3 
+move r3 r2 
+;$T4 :dirty    $L1 :dirty    null    null
+;free $T4 
+;end of BLOCK 
+;free $L1 
 move r2 $-1 
+jmp label7 
+;null    null    null    null
+;end of BLOCK 
 label label8 
-null    null    null    null
-move 0 r0 
-$T5 :dirty    null    null    null
-move r1 $6 
-$T5 :dirty    $T5 :dirty    null    null
-spill $T5 
-spill $T5 
+;null    null    null    null
+move 0 r3 
+;$T5 :dirty    null    null    null
+move r3 $6 
+;$T5 :dirty    null    null    null
+;free $T5 
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 end

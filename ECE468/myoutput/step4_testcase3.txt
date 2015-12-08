@@ -1,4 +1,31 @@
-;IR code
+;LABEL main 
+;LINK
+;STOREI 20 $T1
+;STOREI $T1 a
+;STOREI 30 $T2
+;STOREI $T2 b
+;STOREI 40 $T3
+;STOREI $T3 c
+;MULTI a b $T4
+;ADDI $T4 c $T5
+;DIVI $T5 a $T6
+;MULTI a b $T7
+;ADDI c $T7 $T8
+;ADDI $T8 $T6 $T9
+;STOREI 20 $T10
+;ADDI $T9 $T10 $T11
+;STOREI $T11 c
+;MULTI b b $T12
+;ADDI $T12 a $T13
+;STOREI $T13 b
+;MULTI b a $T14
+;DIVI $T14 a $T15
+;STOREI $T15 a
+;WRITEI c 
+;WRITEI b 
+;WRITEI a 
+;RET
+
 ;tiny code
 var a 
 var b 
@@ -11,101 +38,88 @@ push r3
 jsr main 
 sys halt 
 label main 
-null    null    null    null
-link 0 
-null    null    null    null
-move 20 r0 
-$T1 :dirty    null    null    null
-move r1 r2 
-$T1 :dirty    $T1 :dirty    a :dirty    null
-spill $T1 
-spill $T1 
-move 30 r0 
-$T2 :dirty    null    a :dirty    null
-move r1 r3 
-$T2 :dirty    $T2 :dirty    a :dirty    b :dirty
-spill $T2 
-spill $T2 
-move 40 r0 
-$T3 :dirty    null    a :dirty    b :dirty
+;null    null    null    null
+link 15 
+;null    null    null    null
+move 20 r3 
+;$T1 :dirty    null    null    null
+move r3 r2 
+;$T1 :dirty    a :dirty    null    null
+;free $T1 
+move 30 r3 
+;$T2 :dirty    a :dirty    null    null
+move r3 r1 
+;$T2 :dirty    a :dirty    b :dirty    null
+;free $T2 
+move 40 r3 
+;$T3 :dirty    a :dirty    b :dirty    null
+move r3 r0 
+;$T3 :dirty    a :dirty    b :dirty    c :dirty
+;free $T3 
+;free a 
 move r2 a 
-move r1 r2 
-$T3 :dirty    $T3 :dirty    c :dirty    b :dirty
-spill $T3 
-spill $T3 
-AOP 
-move a r0 
-muli r0 r3 
-move r3 b 
-a    null    c :dirty    $T4 :dirty
-AOP 
-addi r3 r2 
-move r2 c 
-a    null    $T5 :dirty    $T4 :dirty
-spill $T4 
-AOP 
-divi r2 r0 
-$T6 :dirty    null    $T5 :dirty    null
-spill $T5 
-AOP 
-move a r1 
-move b r2 
 muli r1 r2 
-$T6 :dirty    a    $T7 :dirty    null
-AOP 
-move c r3 
-addi r3 r2 
-$T6 :dirty    a    $T8 :dirty    c
-spill c 
-AOP 
-addi r2 r0 
-$T9 :dirty    a    $T8 :dirty    null
-spill $T8 
-move 20 r2 
-$T9 :dirty    a    $T10 :dirty    null
-AOP 
+;null    $T4 :dirty    b :dirty    c :dirty
+;free $T4 
 addi r0 r2 
-$T9 :dirty    a    $T11 :dirty    null
-spill $T9 
+;null    $T5 :dirty    b :dirty    c :dirty
+move a r3 
+;free $T5 
+divi r3 r2 
+;a    $T6 :dirty    b :dirty    c :dirty
+;free a 
+muli r1 r3 
+;$T7 :dirty    $T6 :dirty    b :dirty    c :dirty
+;free c 
+addi r3 r0 
+;$T7 :dirty    $T6 :dirty    b :dirty    $T8 :dirty
+;free $T7 
+;free $T8 
+addi r2 r0 
+;null    $T6 :dirty    b :dirty    $T9 :dirty
+;free $T6 
+move 20 r3 
+;$T10 :dirty    null    b :dirty    $T9 :dirty
+;free $T9 
+addi r3 r0 
+;$T10 :dirty    null    b :dirty    $T11 :dirty
+;free $T10 
 move r0 r3 
-$T11 :dirty    a    $T11 :dirty    c :dirty
-spill $T11 
-spill $T11 
-AOP 
-move b r0 
-muli r0 r0 
-$T12 :dirty    a    null    c :dirty
-AOP 
-addi r0 r1 
-$T12 :dirty    $T13 :dirty    null    c :dirty
-spill $T12 
-move r0 r2 
-$T13 :dirty    $T13 :dirty    b :dirty    c :dirty
-spill $T13 
-spill $T13 
-AOP 
-move a r0 
+;c :dirty    null    b :dirty    $T11 :dirty
+;free $T11 
+;free b 
+muli r1 r1 
+;c :dirty    null    $T12 :dirty    null
+move a r2 
+;free $T12 
+addi r2 r1 
+;c :dirty    a    $T13 :dirty    null
+move r1 r0 
+;c :dirty    a    $T13 :dirty    b :dirty
+;free $T13 
+;free b 
+move r0 b 
 muli r2 r0 
-$T14 :dirty    null    b :dirty    c :dirty
-AOP 
-move a r1 
-divi r0 r1 
-$T14 :dirty    $T15 :dirty    b :dirty    c :dirty
-spill $T14 
-move r2 b 
+;c :dirty    a    null    $T14 :dirty
+;free $T14 
+divi r2 r0 
+;c :dirty    a    null    $T15 :dirty
+;free a 
 move r0 r2 
-$T15 :dirty    $T15 :dirty    a :dirty    c :dirty
-spill $T15 
-spill $T15 
-sys writei c 
-null    null    a :dirty    c :dirty
-spill c 
-sys writei b 
-null    null    a :dirty    null
-sys writei a 
-null    null    a :dirty    null
-spill a 
+;c :dirty    a :dirty    null    $T15 :dirty
+;free $T15 
+sys writei r3 
+;c :dirty    a :dirty    null    null
+;free c 
+move b r3 
+sys writei r3 
+;b    a :dirty    null    null
+;free b 
+sys writei r2 
+;null    a :dirty    null    null
+;free a 
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 end

@@ -54,7 +54,7 @@ public class CustomListener extends MicroBaseListener {
         funcTable = new HashMap<String, Function>();
         leaders = new ArrayList<Ircode>();
         rgstrs = new ArrayList<Register>();
-        for(int i = 0; i < 4; i++){
+        for(int i = 3; i >= 0; i--){
             Register r = new Register(Integer.toString(i));
             rgstrs.add(r);
         }
@@ -120,12 +120,25 @@ public class CustomListener extends MicroBaseListener {
         }
         
         if(printIr == 0){
-            
-            System.out.println(";IR code");
+            /*
+            ircode.get(3).printCode();
+            for(String liveOut: ircode.get(3).out){
+                System.out.printf(liveOut + " ");
+            }
+            if(ircode.get(3).out.contains("$T1")){
+                System.out.println("true");
+            }
+            else{
+                System.out.println("false");
+            }
+            */
+            //System.out.println(";IR code");
             for(Ircode c: ircode){
-                //c.printCode();    
-                /*
-                System.out.println("liveOut:");
+                
+                c.printCode();    
+                
+                /*System.out.println(";liveOut:");
+                System.out.printf(";");
                 for(String liveOut: c.out){
                     System.out.printf(liveOut + " ");
                 }
@@ -224,6 +237,7 @@ public class CustomListener extends MicroBaseListener {
         Ircode c;
         if(printIr == 0)
         {
+            curFun.tn = tempNo;
             /*Irnode left = irnode.pop();
             Irnode result = new Irnode("return", left.dtype, "$R");
             if(left.dtype.equals("INT")){
@@ -1150,7 +1164,7 @@ public class CustomListener extends MicroBaseListener {
         //call main
         ac = new Acode("push");
         acode.add(ac);
-        for(i = 0; i <= 3; i++){
+        for(i = 3; i >= 0; i--){
             ac = new Acode("push", rgstrs.get(i).name);
             acode.add(ac);
         }
@@ -1196,6 +1210,12 @@ public class CustomListener extends MicroBaseListener {
                 aOp(c, op);
             }
             else if(c.opcode.equals("JUMP")){
+                acode.add(new Acode(";end of BLOCK"));
+                for(Register rgstr: rgstrs){
+                    if(rgstr.var != null){
+                        free(rgstr);
+                    }
+                }
                 op = "jmp";
                 ac = new Acode(op, c.result.value);
                 acode.add(ac);
@@ -1211,7 +1231,7 @@ public class CustomListener extends MicroBaseListener {
             }
             else if(c.opcode.equals("LINK")){
                 op = "link";
-                o1 = String.format("%d", curFun.ln - 1);
+                o1 = String.format("%d", curFun.tn + curFun.ln - 2);
                 ac = new Acode(op, o1);
                 acode.add(ac);
             }
@@ -1234,7 +1254,7 @@ public class CustomListener extends MicroBaseListener {
                     acode.add(ac);
                 }
                 else{
-                    Register r = ensure(c.result);
+                    Register r = ensureN(c.result);
                     ac = new Acode("push", r.name);
                     acode.add(ac); 
                 }
@@ -1245,7 +1265,7 @@ public class CustomListener extends MicroBaseListener {
                     acode.add(ac);
                 }
                 else{
-                    Register r = allocate(c.result);
+                    Register r = ensureS(c.result);
                     ac = new Acode("pop", r.name);
                     acode.add(ac);
                 }
@@ -1271,18 +1291,9 @@ public class CustomListener extends MicroBaseListener {
             updateR();
             //rgstrs.get(0).dirty = false;
             //updateR();
-            if(c.endofB == true){
-                for(Register rgstr: rgstrs){
-                    free(rgstr);
-                }
-            }
-            else{
-                for(Register rgstr: rgstrs){
-                    if(rgstr.var != null && !c.out.contains(rgstr.var.value)){
-                        acode.add(new Acode("spill",rgstr.var.value));
-                        free(rgstr);
-                    }
-                }
+            spill();
+            if(c.endofB){
+                reset();
             }
         }
     }
@@ -1298,15 +1309,17 @@ public class CustomListener extends MicroBaseListener {
         Acode ac;
         Register r1;
         Register r2;
-        acode.add(new Acode("AOP"));
-        r1 = ensure(c.oprand1);
-        r2 = ensure(c.oprand2);
-        ac = new Acode(op, r1.name, r2.name);
+        r1 = ensureN(c.oprand1);
+        r2 = ensureN(c.oprand2);
+        //ac =  new Acode("move", r2.name, aoprand(c.oprand2));
+        //acode.add(ac);
+        free(r1);
+        ac = new Acode(op,  r2.name, r1.name);
         acode.add(ac);
-        free(r2);
-        r2.var = c.result;
-        r2.isFree = false;
-        r2.isDirty = true;
+        
+        r1.var = c.result;
+        r1.isFree = false;
+        r1.isDirty = true;
         /*
         if(c.oprand1.gtype.equals("temp") && c.oprand2.gtype.equals("temp")){
             ac = new Acode(op, opr1, opr2);
@@ -1353,17 +1366,18 @@ public class CustomListener extends MicroBaseListener {
         Acode ac;
         String reg;
         String OP = c.opcode;
-        Register r1 = ensure(c.oprand1);
-        Register r2 = ensure(c.oprand2);
+        Register r1 = ensureN(c.oprand1);
+        Register r2 = ensureN(c.oprand2);
         if(c.oprand1.dtype.equals("INT")){
             op = "cmpi";
         }
         else{
             op = "cmpr";
         }
-        updateR();
         ac = new Acode(op, r1.name, r2.name);
         acode.add(ac);
+        spill();
+        reset();
         if(OP == "EQ"){
             op = "jeq";
         }
@@ -1402,22 +1416,23 @@ public class CustomListener extends MicroBaseListener {
         if(c.oprand1.gtype.equals("INTLITERAL") || c.oprand1.gtype.equals("FLOATLITERAL")){
             opr1 = c.oprand1.value;
             //System.out.println(c.result.value);
-            r = allocate(c.result);
+            r = ensureS(c.result);
             opr2 = r.name;
             r.isDirty = true;
             ac = new Acode(op, opr1, opr2);
             acode.add(ac);
         }
         else if(c.result.gtype.equals("return")){
-            r = allocate(c.oprand1);
+            r = ensureN(c.oprand1);
             r.isDirty = true;
             ac = new Acode(op, r.name, aoprand(c.result));
             acode.add(ac);
         }
         else{
-            Register r1 = allocate(c.oprand1);
+            //System.out.println(c.gtype)
+            Register r1 = ensureN(c.oprand1);
             r1.isDirty = true;
-            Register r2 = allocate(c.result);
+            Register r2 = ensureS(c.result);
             r2.isDirty = true;
             ac = new Acode(op, r1.name, r2.name);
             acode.add(ac);
@@ -1425,22 +1440,29 @@ public class CustomListener extends MicroBaseListener {
     }
 
     public void writeOp(Ircode c){
+        String opr1 = null;
         String op;
         if(c.opcode.equals("WRITEI")){
+            Register r = ensureN(c.result);
+            opr1 = r.name;
             op = "sys writei";
         }
         else if(c.opcode.equals("WRITEF")){
+            Register r = ensureN(c.result);
+            opr1 = r.name;
             op = "sys writer";
         }
         else{
+            opr1 = c.result.value;
             op = "sys writes";
         }
-        String opr1 = aoprand(c.result);
         Acode ac = new Acode(op, opr1);
         //ac.printCode();
         acode.add(ac);
     }
     public void readOp(Ircode c){
+        Register r = ensureS(c.result);
+        r.isDirty = true;
         String op;
         if(c.result.dtype.equals("INT")){
             op = "sys readi";
@@ -1448,7 +1470,7 @@ public class CustomListener extends MicroBaseListener {
         else{
             op = "sys readr";
         }
-        String opr1 = aoprand(c.result);
+        String opr1 = r.name;
         //System.out.println(c.result.gtype + " " + c.result.value);
         Acode ac = new Acode(op, opr1);
         //ac.printCode();
@@ -1501,13 +1523,30 @@ public class CustomListener extends MicroBaseListener {
         }
         return aop;
     }
-    
-    public Register ensure(Irnode opr){
-        for(Register rgstr : rgstrs){
-            if(rgstr.var != null && rgstr.var.equal(opr)){
 
+
+    public Register ensureS(Irnode opr){
+        for(Register rgstr : rgstrs){
+            if(rgstr.var != null ){
+                if(rgstr.var.equal(opr)){
+                    return rgstr;    
+                }
                 //acode.add(new Acode(rgstr.name, rgstr.var.value));
-                return rgstr;
+            }
+        }
+        Register rgstr = allocate(opr);
+
+        //Acode c = new Acode("move", aoprand(opr), rgstr.name);
+        //acode.add(c);
+        return rgstr;
+    }
+    public Register ensureN(Irnode opr){
+        for(Register rgstr : rgstrs){
+            if(rgstr.var != null ){
+                if(rgstr.var.equal(opr)){
+                    return rgstr;    
+                }
+                //acode.add(new Acode(rgstr.name, rgstr.var.value));
             }
         }
         Register rgstr = allocate(opr);
@@ -1517,7 +1556,8 @@ public class CustomListener extends MicroBaseListener {
         return rgstr;
     }
     public void free(Register r){
-        if(r.isDirty && currentIrcode.out.contains(r.var.value)){
+        acode.add(new Acode(";free",r.var.value));
+        if(r.isDirty&& currentIrcode.out.contains(r.var.value)){
             String var = aoprand(r.var);
             Acode c =  new Acode("move", r.name, var);
             acode.add(c);
@@ -1529,8 +1569,9 @@ public class CustomListener extends MicroBaseListener {
     
     public Register allocate(Irnode opr){
         boolean rfree = false;
+        Register r = null;
         for(Register rgstr : rgstrs){
-            if(rgstr.isFree == true){
+            if(rgstr.isFree){
                 rgstr.var = opr;
                 rgstr.isFree = false;
                 return rgstr;
@@ -1542,7 +1583,8 @@ public class CustomListener extends MicroBaseListener {
                     free(rgstr);
                     rgstr.var = opr;
                     rgstr.isFree = false;
-                    return rgstr;
+                    r = rgstr;
+                    break;
                 }
             }
             else if(currentIrcode.oprand1 != null){
@@ -1550,17 +1592,22 @@ public class CustomListener extends MicroBaseListener {
                     free(rgstr);
                     rgstr.var = opr;
                     rgstr.isFree = false;
-                    return rgstr; 
+                    r = rgstr;
+                    break; 
                 }    
             }
             else{
                 free(rgstr);
                 rgstr.var = opr;
                 rgstr.isFree = false;
-                return rgstr;  
+                r = rgstr;  
+                break;
             }
         }
-        return null;
+        if(r == null){
+            System.out.println("Shit should not be happenning here");
+        }
+        return r;
     }
     
     /******************************************************
@@ -1787,7 +1834,7 @@ public class CustomListener extends MicroBaseListener {
                 c.gen.add(c.oprand2.value);
                 c.kill.add(c.result.value);
             }
-            else if(c.opcode.equals("SUBI") || c.opcode.equals("SUBIF")){
+            else if(c.opcode.equals("SUBI") || c.opcode.equals("SUBF")){
                 c.gen.add(c.oprand1.value);
                 c.gen.add(c.oprand2.value);
                 c.kill.add(c.result.value);
@@ -1809,15 +1856,28 @@ public class CustomListener extends MicroBaseListener {
                 c.kill.add(c.result.value);
             }
             else if((c.opcode.equals("WRITEI") || c.opcode.equals("WRITEF") || c.opcode.equals("WRITES"))&& c.result != null){
-                c.gen.add(c.result.value);
+                    c.gen.add(c.result.value);
+                
             }
             else if((c.opcode.equals("READI") || c.opcode.equals("READF")) && c.result != null){
-                c.kill.add(c.result.value);
+                    c.kill.add(c.result.value);
             }
             else if(c.opcode.equals("JSR")){
+                /*for(String s: globalTable.keySet()){
+                    Symbol var = globalTable.get(s);
+                    if(!var.type.equals("STRING")){
+                        c.gen.add(s);
+                    }
+                }*/
                 //c.gen.addAll(globalTable.keySet());
             }
             else if(c.opcode.equals("RET")){
+                /* for(String s: globalTable.keySet()){
+                    Symbol var = globalTable.get(s);
+                    if(!var.type.equals("STRING")){
+                        c.out.add(s);
+                    }
+                }*/
                 //c.out.addAll(globalTable.keySet());
                     //System.out.println(s.value);
             }
@@ -1833,6 +1893,11 @@ public class CustomListener extends MicroBaseListener {
             LinkedHashSet<String> cloneIn = new LinkedHashSet<String>();
             cloneIn.addAll(c.in);//(LinkedHashSet<String>)c.in.clone();
             
+            for(Ircode s: c.successors){
+                if(!c.out.containsAll(s.in)){
+                    c.out.addAll(s.in);
+                }
+            }
             if(!c.in.containsAll(c.out)){
                 c.in.addAll(c.out);
             }
@@ -1844,12 +1909,7 @@ public class CustomListener extends MicroBaseListener {
             if(!c.in.containsAll( c.gen)){
                 c.in.addAll(c.gen);
             }
-            for(Ircode s: c.successors){
-                if(!c.out.containsAll(s.in)){
-                    c.out.addAll(s.in);
-                }
-            }
-
+            
             if(c.in.size()!= cloneIn.size()){
                 update = true;
             }
@@ -1878,10 +1938,10 @@ public class CustomListener extends MicroBaseListener {
                 dirty = " :dirty";
             }
         if(rgstrs.get(0).var!=null){
-            r0 = rgstrs.get(0).var.value + dirty;
+            r0 = ";" + rgstrs.get(0).var.value + dirty;
         }
         else{
-            r0 = "null" + dirty;
+            r0 = ";null" + dirty;
         }
         dirty = "";
         if(rgstrs.get(1).isDirty){
@@ -1917,5 +1977,21 @@ public class CustomListener extends MicroBaseListener {
         acode.add(c);
     }
     
-    
+    public void spill(){
+        for(Register rgstr: rgstrs){
+            if(rgstr.var != null){
+                if(!currentIrcode.out.contains(rgstr.var.value)){   
+                    free(rgstr);
+                }
+            }
+        }
+    }
+    public void reset(){
+        acode.add(new Acode(";end of BLOCK"));
+        for(Register rgstr: rgstrs){
+            if(rgstr.var != null){
+                free(rgstr);
+            }
+        }
+    }
 }

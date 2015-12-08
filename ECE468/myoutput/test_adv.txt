@@ -1,4 +1,55 @@
-;IR code
+;LABEL main 
+;LINK
+;STOREF 0.0001 $T1
+;STOREF $T1 tolerance
+;STOREF 7.0 $T2
+;STOREF $T2 num
+;STOREF num approx
+;STOREI 0 $T3
+;STOREI $T3 count
+;STOREF 0.0 $T4
+;STOREF $T4 diff
+;STOREI 0 $T5
+;STOREI $T5 enough
+;LABEL label1 
+;STOREI 1 $T6
+;EQ enough $T6 label2
+;STOREI 1 $T7
+;ADDI count $T7 $T8
+;STOREI $T8 count
+;DIVF num approx $T9
+;ADDF approx $T9 $T10
+;STOREF 0.5 $T11
+;MULTF $T11 $T10 $T12
+;STOREF $T12 newapprox
+;SUBF approx newapprox $T13
+;STOREF $T13 diff
+;STOREF 0.0 $T14
+;LE diff $T14 label3
+;GE diff tolerance label5
+;STOREI 1 $T15
+;STOREI $T15 enough
+;JUMP label6 
+;LABEL label5 
+;LABEL label6 
+;JUMP label4 
+;LABEL label3 
+;STOREF 0.0 $T16
+;SUBF $T16 tolerance $T17
+;LE diff $T17 label7
+;STOREI 1 $T18
+;STOREI $T18 enough
+;JUMP label8 
+;LABEL label7 
+;LABEL label8 
+;LABEL label4 
+;STOREF newapprox approx
+;JUMP label1 
+;LABEL label2 
+;WRITEF approx 
+;WRITEI count 
+;RET
+
 ;tiny code
 var count 
 var enough 
@@ -15,170 +66,196 @@ push r3
 jsr main 
 sys halt 
 label main 
-null    null    null    null
-link 0 
-null    null    null    null
-move 0.0001 r0 
-$T1 :dirty    null    null    null
-move r1 r2 
-$T1 :dirty    $T1 :dirty    tolerance :dirty    null
-spill $T1 
-spill $T1 
-move 7.0 r0 
-$T2 :dirty    null    tolerance :dirty    null
+;null    null    null    null
+link 18 
+;null    null    null    null
+move 0.0001 r3 
+;$T1 :dirty    null    null    null
+move r3 r2 
+;$T1 :dirty    tolerance :dirty    null    null
+;free $T1 
+move 7.0 r3 
+;$T2 :dirty    tolerance :dirty    null    null
+move r3 r1 
+;$T2 :dirty    tolerance :dirty    num :dirty    null
+;free $T2 
 move r1 r3 
-$T2 :dirty    $T2 :dirty    tolerance :dirty    num :dirty
-spill $T2 
-spill $T2 
-move r0 r1 
-num :dirty    approx :dirty    tolerance :dirty    num :dirty
-move r0 num 
+;approx :dirty    tolerance :dirty    num :dirty    null
 move 0 r0 
-$T3 :dirty    approx :dirty    tolerance :dirty    num :dirty
-move r1 approx 
+;approx :dirty    tolerance :dirty    num :dirty    $T3 :dirty
+;free approx 
+move r3 approx 
+move r0 r3 
+;count :dirty    tolerance :dirty    num :dirty    $T3 :dirty
+;free $T3 
+move 0.0 r0 
+;count :dirty    tolerance :dirty    num :dirty    $T4 :dirty
+;free count 
+move r3 count 
+move r0 r3 
+;diff :dirty    tolerance :dirty    num :dirty    $T4 :dirty
+;free diff 
+;free $T4 
+move 0 r3 
+;$T5 :dirty    tolerance :dirty    num :dirty    null
+move r3 r0 
+;$T5 :dirty    tolerance :dirty    num :dirty    enough :dirty
+;free $T5 
+;end of BLOCK 
+;free tolerance 
 move r2 tolerance 
-move r1 r2 
-$T3 :dirty    $T3 :dirty    count :dirty    num :dirty
-spill $T3 
-spill $T3 
-move 0.0 r0 
-$T4 :dirty    null    count :dirty    num :dirty
-move r2 count 
-move r1 r2 
-$T4 :dirty    $T4 :dirty    diff :dirty    num :dirty
-spill $T4 
-spill $T4 
-spill diff 
-move 0 r0 
-$T5 :dirty    null    null    num :dirty
-move r1 r2 
-$T5 :dirty    $T5 :dirty    enough :dirty    num :dirty
-move r2 enough 
-move r3 num 
+;free num 
+move r1 num 
+;free enough 
+move r0 enough 
 label label1 
-null    null    null    null
-move 1 r0 
-$T6 :dirty    null    null    null
-move enough r1 
-$T6 :dirty    enough    null    null
-cmpi r1 r0 
+;null    null    null    null
+move 1 r3 
+;$T6 :dirty    null    null    null
+move enough r2 
+cmpi r2 r3 
+;free $T6 
+;end of BLOCK 
+;free enough 
 jeq label2 
-$T6 :dirty    enough    null    null
-move 1 r0 
-$T7 :dirty    null    null    null
-AOP 
-move count r1 
-addi r1 r0 
-$T8 :dirty    count    null    null
-spill count 
-move r1 r2 
-$T8 :dirty    $T8 :dirty    count :dirty    null
-spill $T8 
-spill $T8 
-spill count 
-AOP 
-move num r0 
+;null    null    null    null
+;end of BLOCK 
+move 1 r3 
+;$T7 :dirty    null    null    null
+move count r2 
+;free count 
+addi r3 r2 
+;$T7 :dirty    $T8 :dirty    null    null
+;free $T7 
+move r2 r3 
+;count :dirty    $T8 :dirty    null    null
+;free $T8 
+move num r2 
 move approx r1 
-divr r0 r1 
-num    $T9 :dirty    null    null
-spill num 
-AOP 
-move approx r0 
-addr r0 r1 
-approx    $T10 :dirty    null    null
-spill approx 
-move 0.5 r0 
-$T11 :dirty    $T10 :dirty    null    null
-AOP 
-mulr r0 r1 
-$T11 :dirty    $T12 :dirty    null    null
-spill $T11 
-move r0 r2 
-$T12 :dirty    $T12 :dirty    newapprox :dirty    null
-spill $T12 
-spill $T12 
-AOP 
-move approx r0 
-subr r0 r2 
-move r2 newapprox 
-approx    null    $T13 :dirty    null
-spill approx 
-move r0 r1 
-$T13 :dirty    diff :dirty    $T13 :dirty    null
-spill $T13 
-spill $T13 
-move 0.0 r0 
-$T14 :dirty    diff :dirty    null    null
-$T14 :dirty    diff :dirty    null    null
-cmpr r1 r0 
+;free num 
+divr r1 r2 
+;count :dirty    $T9 :dirty    approx    null
+;free approx 
+addr r2 r1 
+;count :dirty    $T9 :dirty    $T10 :dirty    null
+;free $T9 
+move 0.5 r2 
+;count :dirty    $T11 :dirty    $T10 :dirty    null
+;free $T11 
+mulr r1 r2 
+;count :dirty    $T12 :dirty    $T10 :dirty    null
+;free $T10 
+move r2 r1 
+;count :dirty    $T12 :dirty    newapprox :dirty    null
+;free $T12 
+move approx r2 
+;free approx 
+subr r1 r2 
+;count :dirty    $T13 :dirty    newapprox :dirty    null
+move r2 r0 
+;count :dirty    $T13 :dirty    newapprox :dirty    diff :dirty
+;free $T13 
+move 0.0 r2 
+;count :dirty    $T14 :dirty    newapprox :dirty    diff :dirty
+cmpr r0 r2 
+;free $T14 
+;end of BLOCK 
+;free count 
+move r3 count 
+;free newapprox 
+move r1 newapprox 
+;free diff 
+move r0 diff 
 jle label3 
-$T14 :dirty    diff :dirty    null    null
-move r1 diff 
-move diff r0 
-move tolerance r1 
-diff    tolerance    null    null
-cmpr r0 r1 
+;null    null    null    null
+;end of BLOCK 
+move diff r3 
+move tolerance r2 
+cmpr r3 r2 
+;free diff 
+;end of BLOCK 
+;free tolerance 
 jge label5 
-diff    tolerance    null    null
-move 1 r0 
-$T15 :dirty    null    null    null
-move r1 r2 
-$T15 :dirty    $T15 :dirty    enough :dirty    null
-spill $T15 
-spill $T15 
-spill enough 
-jmp label6 
-null    null    null    null
-label label5 
-null    null    null    null
-label label6 
-null    null    null    null
-jmp label4 
-null    null    null    null
-label label3 
-null    null    null    null
-move 0.0 r0 
-$T16 :dirty    null    null    null
-spill $T16 
-AOP 
-move $-16 r0 
-move tolerance r1 
-subr r0 r1 
-$T16    $T17 :dirty    null    null
-spill $T16 
-move diff r0 
-diff    $T17 :dirty    null    null
-cmpr r0 r1 
-jle label7 
-diff    $T17 :dirty    null    null
-move 1 r0 
-$T18 :dirty    null    null    null
-move r1 r2 
-$T18 :dirty    $T18 :dirty    enough :dirty    null
-spill $T18 
-spill $T18 
-jmp label8 
-null    null    enough :dirty    null
+;null    null    null    null
+;end of BLOCK 
+move 1 r3 
+;$T15 :dirty    null    null    null
+move r3 r2 
+;$T15 :dirty    enough :dirty    null    null
+;free $T15 
+;end of BLOCK 
+;free enough 
 move r2 enough 
+jmp label6 
+;null    null    null    null
+;end of BLOCK 
+label label5 
+;null    null    null    null
+;end of BLOCK 
+label label6 
+;null    null    null    null
+;end of BLOCK 
+jmp label4 
+;null    null    null    null
+;end of BLOCK 
+label label3 
+;null    null    null    null
+move 0.0 r3 
+;$T16 :dirty    null    null    null
+move tolerance r2 
+;free $T16 
+subr r2 r3 
+;$T17 :dirty    tolerance    null    null
+move diff r1 
+cmpr r1 r3 
+;free $T17 
+;free diff 
+;end of BLOCK 
+;free tolerance 
+jle label7 
+;null    null    null    null
+;end of BLOCK 
+move 1 r3 
+;$T18 :dirty    null    null    null
+move r3 r2 
+;$T18 :dirty    enough :dirty    null    null
+;free $T18 
+;end of BLOCK 
+;free enough 
+move r2 enough 
+jmp label8 
+;null    null    null    null
+;end of BLOCK 
 label label7 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 label label8 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 label label4 
-null    null    null    null
-move r0 r1 
-newapprox :dirty    approx :dirty    null    null
-spill newapprox 
+;null    null    null    null
+move newapprox r3 
+move r3 r2 
+;newapprox :dirty    approx :dirty    null    null
+;free newapprox 
+;end of BLOCK 
+;free approx 
+move r2 approx 
 jmp label1 
-null    approx :dirty    null    null
-move r1 approx 
+;null    null    null    null
+;end of BLOCK 
 label label2 
-null    null    null    null
-sys writer approx 
-null    null    null    null
-sys writei count 
-null    null    null    null
+;null    null    null    null
+move approx r3 
+sys writer r3 
+;approx    null    null    null
+;free approx 
+move count r3 
+sys writei r3 
+;count    null    null    null
+;free count 
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 end

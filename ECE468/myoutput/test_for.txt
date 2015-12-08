@@ -1,4 +1,29 @@
-;IR code
+;LABEL main 
+;LINK
+;STOREF 7.0 $T1
+;STOREF $T1 num
+;STOREI 1 $T2
+;STOREI $T2 j
+;STOREF num approx
+;STOREI 100 $T3
+;STOREI $T3 i
+;LABEL label1 
+;STOREI 0 $T4
+;EQ i $T4 label2
+;DIVF num approx $T5
+;ADDF approx $T5 $T6
+;STOREF 0.5 $T7
+;MULTF $T7 $T6 $T8
+;STOREF $T8 newapprox
+;STOREF newapprox approx
+;STOREI 1 $T9
+;SUBI i $T9 $T10
+;STOREI $T10 i
+;JUMP label1 
+;LABEL label2 
+;WRITEF approx 
+;RET
+
 ;tiny code
 var i 
 var j 
@@ -13,86 +38,93 @@ push r3
 jsr main 
 sys halt 
 label main 
-null    null    null    null
-link 0 
-null    null    null    null
-move 7.0 r0 
-$T1 :dirty    null    null    null
-move r1 r2 
-$T1 :dirty    $T1 :dirty    num :dirty    null
-spill $T1 
-spill $T1 
-move 1 r0 
-$T2 :dirty    null    num :dirty    null
-move r1 r3 
-$T2 :dirty    $T2 :dirty    num :dirty    j :dirty
-spill $T2 
-spill $T2 
-spill j 
-move r0 r1 
-num :dirty    approx :dirty    num :dirty    null
-move 100 r3 
-num :dirty    approx :dirty    num :dirty    $T3 :dirty
-move r0 num 
-move r1 approx 
-move r0 r1 
-$T3 :dirty    i :dirty    num :dirty    $T3 :dirty
-move r1 i 
+;null    null    null    null
+link 10 
+;null    null    null    null
+move 7.0 r3 
+;$T1 :dirty    null    null    null
+move r3 r2 
+;$T1 :dirty    num :dirty    null    null
+;free $T1 
+move 1 r3 
+;$T2 :dirty    num :dirty    null    null
+move r3 r1 
+;$T2 :dirty    num :dirty    j :dirty    null
+;free $T2 
+;free j 
+move r2 r3 
+;approx :dirty    num :dirty    null    null
+move 100 r1 
+;approx :dirty    num :dirty    $T3 :dirty    null
+move r1 r0 
+;approx :dirty    num :dirty    $T3 :dirty    i :dirty
+;free $T3 
+;end of BLOCK 
+;free approx 
+move r3 approx 
+;free num 
 move r2 num 
+;free i 
+move r0 i 
 label label1 
-null    null    null    null
-move 0 r0 
-$T4 :dirty    null    null    null
-move i r1 
-$T4 :dirty    i    null    null
-cmpi r1 r0 
+;null    null    null    null
+move 0 r3 
+;$T4 :dirty    null    null    null
+move i r2 
+cmpi r2 r3 
+;free $T4 
+;end of BLOCK 
+;free i 
 jeq label2 
-$T4 :dirty    i    null    null
-AOP 
-move num r0 
-move approx r1 
-divr r0 r1 
-num    $T5 :dirty    null    null
-spill num 
-AOP 
-move approx r0 
-addr r0 r1 
-approx    $T6 :dirty    null    null
-spill approx 
-move 0.5 r0 
-$T7 :dirty    $T6 :dirty    null    null
-AOP 
-mulr r0 r1 
-$T7 :dirty    $T8 :dirty    null    null
-spill $T7 
-move r0 r2 
-$T8 :dirty    $T8 :dirty    newapprox :dirty    null
-spill $T8 
-spill $T8 
-move r0 r1 
-newapprox :dirty    approx :dirty    newapprox :dirty    null
-spill newapprox 
-spill approx 
-spill newapprox 
-move 1 r0 
-$T9 :dirty    null    null    null
-AOP 
+;null    null    null    null
+;end of BLOCK 
+move num r3 
+move approx r2 
+;free num 
+divr r2 r3 
+;$T5 :dirty    approx    null    null
+;free approx 
+addr r3 r2 
+;$T5 :dirty    $T6 :dirty    null    null
+;free $T5 
+move 0.5 r3 
+;$T7 :dirty    $T6 :dirty    null    null
+;free $T7 
+mulr r2 r3 
+;$T8 :dirty    $T6 :dirty    null    null
+;free $T6 
+move r3 r2 
+;$T8 :dirty    newapprox :dirty    null    null
+;free $T8 
+move r2 r3 
+;approx :dirty    newapprox :dirty    null    null
+;free newapprox 
+move 1 r2 
+;approx :dirty    $T9 :dirty    null    null
 move i r1 
-subi r1 r0 
-$T10 :dirty    i    null    null
-spill i 
+;free i 
+subi r2 r1 
+;approx :dirty    $T9 :dirty    $T10 :dirty    null
+;free $T9 
 move r1 r2 
-$T10 :dirty    $T10 :dirty    i :dirty    null
-spill $T10 
-spill $T10 
-jmp label1 
-null    null    i :dirty    null
+;approx :dirty    i :dirty    $T10 :dirty    null
+;free $T10 
+;end of BLOCK 
+;free approx 
+move r3 approx 
+;free i 
 move r2 i 
+jmp label1 
+;null    null    null    null
+;end of BLOCK 
 label label2 
-null    null    null    null
-sys writer approx 
-null    null    null    null
+;null    null    null    null
+move approx r3 
+sys writer r3 
+;approx    null    null    null
+;free approx 
 unlnk 
 ret 
-null    null    null    null
+;null    null    null    null
+;end of BLOCK 
 end
