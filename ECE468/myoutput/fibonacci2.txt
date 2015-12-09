@@ -91,8 +91,8 @@ move 2 r3
 ;$T1 :dirty    null    null    null
 move $6 r2 
 cmpi r2 r3 
-;free $T1 
 ;end of BLOCK 
+;free $T1 
 ;free $P1 
 jle label1 
 ;null    null    null    null
@@ -175,8 +175,8 @@ move 0 r3
 ;$T9 :dirty    null    null    null
 move $6 r2 
 cmpi r2 r3 
-;free $T9 
 ;end of BLOCK 
+;free $T9 
 ;free $P1 
 jne label3 
 ;null    null    null    null
@@ -199,9 +199,9 @@ move 1 r3
 ;$T11 :dirty    null    null    null
 move $6 r2 
 cmpi r2 r3 
+;end of BLOCK 
 ;free $T11 
 ;free $P1 
-;end of BLOCK 
 jne label5 
 ;null    null    null    null
 ;end of BLOCK 

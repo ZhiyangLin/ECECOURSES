@@ -114,8 +114,8 @@ move 1 r3
 ;$T6 :dirty    null    null    null
 move enough r2 
 cmpi r2 r3 
-;free $T6 
 ;end of BLOCK 
+;free $T6 
 ;free enough 
 jeq label2 
 ;null    null    null    null
@@ -158,10 +158,10 @@ move r2 r0
 move 0.0 r2 
 ;count :dirty    $T14 :dirty    newapprox :dirty    diff :dirty
 cmpr r0 r2 
-;free $T14 
 ;end of BLOCK 
 ;free count 
 move r3 count 
+;free $T14 
 ;free newapprox 
 move r1 newapprox 
 ;free diff 
@@ -172,8 +172,8 @@ jle label3
 move diff r3 
 move tolerance r2 
 cmpr r3 r2 
-;free diff 
 ;end of BLOCK 
+;free diff 
 ;free tolerance 
 jge label5 
 ;null    null    null    null
@@ -208,10 +208,10 @@ subr r2 r3
 ;$T17 :dirty    tolerance    null    null
 move diff r1 
 cmpr r1 r3 
-;free $T17 
-;free diff 
 ;end of BLOCK 
+;free $T17 
 ;free tolerance 
+;free diff 
 jle label7 
 ;null    null    null    null
 ;end of BLOCK 

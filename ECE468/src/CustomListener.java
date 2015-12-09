@@ -1376,7 +1376,6 @@ public class CustomListener extends MicroBaseListener {
         }
         ac = new Acode(op, r1.name, r2.name);
         acode.add(ac);
-        spill();
         reset();
         if(OP == "EQ"){
             op = "jeq";

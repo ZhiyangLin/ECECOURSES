@@ -63,8 +63,8 @@ move r3 r0
 move 5 r3 
 ;$T4 :dirty    num :dirty    i :dirty    a :dirty
 cmpi r1 r3 
-;free $T4 
 ;end of BLOCK 
+;free $T4 
 ;free num 
 move r2 num 
 ;free i 
@@ -86,12 +86,12 @@ move 3 r3
 ;$T6 :dirty    a    num :dirty    null
 move i r0 
 cmpi r0 r3 
-;free $T6 
-;free i 
 ;end of BLOCK 
+;free $T6 
 ;free a 
 ;free num 
 move r1 num 
+;free i 
 jge label3 
 ;null    null    null    null
 ;end of BLOCK 
@@ -125,9 +125,9 @@ move 5 r3
 ;$T8 :dirty    null    null    null
 move i r2 
 cmpi r2 r3 
+;end of BLOCK 
 ;free $T8 
 ;free i 
-;end of BLOCK 
 jlt label5 
 ;null    null    null    null
 ;end of BLOCK 

@@ -74,8 +74,8 @@ move 10 r3
 ;$T4 :dirty    null    null    null
 move i r2 
 cmpi r2 r3 
-;free $T4 
 ;end of BLOCK 
+;free $T4 
 ;free i 
 jeq label2 
 ;null    null    null    null
@@ -85,9 +85,9 @@ sys readi r3
 move 10 r2 
 ;p :dirty    $T5 :dirty    null    null
 cmpi r3 r2 
+;end of BLOCK 
 ;free p 
 ;free $T5 
-;end of BLOCK 
 jle label3 
 ;null    null    null    null
 ;end of BLOCK 

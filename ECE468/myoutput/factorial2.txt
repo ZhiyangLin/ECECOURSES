@@ -69,8 +69,8 @@ move 1 r3
 ;$T1 :dirty    null    null    null
 move $6 r2 
 cmpi r2 r3 
-;free $T1 
 ;end of BLOCK 
+;free $T1 
 ;free $P1 
 jne label1 
 ;null    null    null    null
@@ -149,10 +149,10 @@ sys readi r3
 move 1 r2 
 ;$L1 :dirty    $T1 :dirty    null    null
 cmpi r3 r2 
-;free $T1 
 ;end of BLOCK 
 ;free $L1 
 move r3 $-1 
+;free $T1 
 jne label3 
 ;null    null    null    null
 ;end of BLOCK 
@@ -173,8 +173,8 @@ move 1 r3
 ;$T3 :dirty    null    null    null
 move $-1 r2 
 cmpi r2 r3 
-;free $T3 
 ;end of BLOCK 
+;free $T3 
 ;free $L1 
 jle label5 
 ;null    null    null    null

@@ -72,8 +72,8 @@ move 0 r3
 ;$T4 :dirty    null    null    null
 move i r2 
 cmpi r2 r3 
-;free $T4 
 ;end of BLOCK 
+;free $T4 
 ;free i 
 jeq label2 
 ;null    null    null    null

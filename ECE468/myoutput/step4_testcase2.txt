@@ -92,8 +92,8 @@ move 120 r3
 ;$T3 :dirty    null    null    null
 move a r2 
 cmpi r2 r3 
-;free $T3 
 ;end of BLOCK 
+;free $T3 
 ;free a 
 jgt label2 
 ;null    null    null    null
@@ -102,8 +102,8 @@ move 1 r3
 ;$T4 :dirty    null    null    null
 move b r2 
 cmpi r2 r3 
-;free $T4 
 ;end of BLOCK 
+;free $T4 
 ;free b 
 jne label3 
 ;null    null    null    null
@@ -131,8 +131,8 @@ move 2 r3
 ;$T7 :dirty    null    null    null
 move b r2 
 cmpi r2 r3 
-;free $T7 
 ;end of BLOCK 
+;free $T7 
 ;free b 
 jne label5 
 ;null    null    null    null
@@ -160,8 +160,8 @@ move 3 r3
 ;$T10 :dirty    null    null    null
 move b r2 
 cmpi r2 r3 
-;free $T10 
 ;end of BLOCK 
+;free $T10 
 ;free b 
 jne label7 
 ;null    null    null    null
@@ -189,8 +189,8 @@ move 4 r3
 ;$T13 :dirty    null    null    null
 move b r2 
 cmpi r2 r3 
-;free $T13 
 ;end of BLOCK 
+;free $T13 
 ;free b 
 jne label9 
 ;null    null    null    null
