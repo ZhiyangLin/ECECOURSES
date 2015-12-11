@@ -1,0 +1,1 @@
+java -cp lib/antlr.jar:step7.jar Micro test_funinfun.micro > test_funinfun.out
