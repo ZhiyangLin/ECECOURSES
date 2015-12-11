@@ -10,3 +10,5 @@ java -cp lib/antlr.jar:classes/ Micro testcase/test_adv.micro > myoutput/test_ad
 java -cp lib/antlr.jar:classes/ Micro testcase/test_expr.micro > myoutput/test_expr.txt
 java -cp lib/antlr.jar:classes/ Micro testcase/test_for.micro > myoutput/test_for.txt
 java -cp lib/antlr.jar:classes/ Micro testcase/test_if.micro > myoutput/test_if.txt
+java -cp lib/antlr.jar:classes/ Micro testcase/test_funinfun.micro > myoutput/test_funinfun.txt
+
