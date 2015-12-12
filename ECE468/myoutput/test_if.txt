@@ -1,4 +1,4 @@
-;LABEL main 
+;LABEL main
 ;LINK
 ;STOREI 7 $T1
 ;STOREI $T1 num
@@ -14,20 +14,20 @@
 ;GE i $T6 label3
 ;ADDI num a $T7
 ;STOREI $T7 num
-;JUMP label4 
-;LABEL label3 
-;LABEL label4 
-;JUMP label2 
-;LABEL label1 
+;JUMP label4
+;LABEL label3
+;LABEL label4
+;JUMP label2
+;LABEL label1
 ;STOREI 5 $T8
 ;LT i $T8 label5
 ;SUBI num a $T9
 ;STOREI $T9 num
-;JUMP label6 
-;LABEL label5 
-;LABEL label6 
-;LABEL label2 
-;WRITEI num 
+;JUMP label6
+;LABEL label5
+;LABEL label6
+;LABEL label2
+;WRITEI num
 ;RET
 
 ;tiny code
@@ -41,27 +41,37 @@ push r2
 push r3 
 jsr main 
 sys halt 
+;LABEL main 
 label main 
-;null    null    null    null
-link 9 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;LINK 
+link 10 
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;STOREI 7 $T1 
 move 7 r3 
-;$T1 :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: $T1 :dirty
+;STOREI $T1 num 
 move r3 r2 
-;$T1 :dirty    num :dirty    null    null
+;r0: null    ;r1: null    ;r2: num :dirty    ;r3: $T1 :dirty
 ;free $T1 
+;STOREI 2 $T2 
 move 2 r3 
-;$T2 :dirty    num :dirty    null    null
+;r0: null    ;r1: null    ;r2: num :dirty    ;r3: $T2 :dirty
+;STOREI $T2 i 
 move r3 r1 
-;$T2 :dirty    num :dirty    i :dirty    null
+;r0: null    ;r1: i :dirty    ;r2: num :dirty    ;r3: $T2 :dirty
 ;free $T2 
+;STOREI 42 $T3 
 move 42 r3 
-;$T3 :dirty    num :dirty    i :dirty    null
+;r0: null    ;r1: i :dirty    ;r2: num :dirty    ;r3: $T3 :dirty
+;STOREI $T3 a 
 move r3 r0 
-;$T3 :dirty    num :dirty    i :dirty    a :dirty
+;r0: a :dirty    ;r1: i :dirty    ;r2: num :dirty    ;r3: $T3 :dirty
 ;free $T3 
+;STOREI 5 $T4 
 move 5 r3 
-;$T4 :dirty    num :dirty    i :dirty    a :dirty
+;r0: a :dirty    ;r1: i :dirty    ;r2: num :dirty    ;r3: $T4 :dirty
+;GE i $T4 label1 
 cmpi r1 r3 
 ;end of BLOCK 
 ;free $T4 
@@ -72,18 +82,22 @@ move r1 i
 ;free a 
 move r0 a 
 jge label1 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
+;ADDI num a $T5 
 move num r3 
 move a r2 
 ;free num 
 addi r2 r3 
-;$T5 :dirty    a    null    null
+;r0: null    ;r1: null    ;r2: a    ;r3: $T5 :dirty
+;STOREI $T5 num 
 move r3 r1 
-;$T5 :dirty    a    num :dirty    null
+;r0: null    ;r1: num :dirty    ;r2: a    ;r3: $T5 :dirty
 ;free $T5 
+;STOREI 3 $T6 
 move 3 r3 
-;$T6 :dirty    a    num :dirty    null
+;r0: null    ;r1: num :dirty    ;r2: a    ;r3: $T6 :dirty
+;GE i $T6 label3 
 move i r0 
 cmpi r0 r3 
 ;end of BLOCK 
@@ -93,73 +107,90 @@ cmpi r0 r3
 move r1 num 
 ;free i 
 jge label3 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
+;ADDI num a $T7 
 move num r3 
 move a r2 
 ;free num 
 addi r2 r3 
-;$T7 :dirty    a    null    null
+;r0: null    ;r1: null    ;r2: a    ;r3: $T7 :dirty
 ;free a 
+;STOREI $T7 num 
 move r3 r2 
-;$T7 :dirty    num :dirty    null    null
+;r0: null    ;r1: null    ;r2: num :dirty    ;r3: $T7 :dirty
 ;free $T7 
+;JUMP label4 
 ;end of BLOCK 
 ;free num 
 move r2 num 
 jmp label4 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
+;LABEL label3 
 label label3 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
+;LABEL label4 
 label label4 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;JUMP label2 
 ;end of BLOCK 
 jmp label2 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
+;LABEL label1 
 label label1 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;STOREI 5 $T8 
 move 5 r3 
-;$T8 :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: $T8 :dirty
+;LT i $T8 label5 
 move i r2 
 cmpi r2 r3 
 ;end of BLOCK 
 ;free $T8 
 ;free i 
 jlt label5 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
+;SUBI num a $T9 
 move num r3 
 move a r2 
 ;free num 
 subi r2 r3 
-;$T9 :dirty    a    null    null
+;r0: null    ;r1: null    ;r2: a    ;r3: $T9 :dirty
 ;free a 
+;STOREI $T9 num 
 move r3 r2 
-;$T9 :dirty    num :dirty    null    null
+;r0: null    ;r1: null    ;r2: num :dirty    ;r3: $T9 :dirty
 ;free $T9 
+;JUMP label6 
 ;end of BLOCK 
 ;free num 
 move r2 num 
 jmp label6 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
+;LABEL label5 
 label label5 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
+;LABEL label6 
 label label6 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
+;LABEL label2 
 label label2 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;WRITEI num 
 move num r3 
 sys writei r3 
-;num    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: num
 ;free num 
+;RET 
 unlnk 
 ret 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
 end

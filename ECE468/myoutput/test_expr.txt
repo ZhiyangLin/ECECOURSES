@@ -1,4 +1,4 @@
-;LABEL main 
+;LABEL main
 ;LINK
 ;STOREI 1 $T1
 ;STOREI $T1 a
@@ -8,25 +8,25 @@
 ;STOREI $T3 c
 ;STOREI 20 $T4
 ;STOREI $T4 d
-;WRITEI a 
-;WRITEI b 
-;WRITEI c 
-;WRITEI d 
+;WRITEI a
+;WRITEI b
+;WRITEI c
+;WRITEI d
 ;ADDI a b $T5
 ;STOREI $T5 a
-;WRITEI a 
+;WRITEI a
 ;MULTI a c $T6
 ;STOREI $T6 b
-;WRITEI b 
+;WRITEI b
 ;STOREI 0 $T7
 ;SUBI $T7 a $T8
 ;ADDI $T8 b $T9
 ;STOREI $T9 c
-;WRITEI c 
+;WRITEI c
 ;STOREI 0 $T10
 ;SUBI $T10 d $T11
 ;STOREI $T11 d
-;WRITEI d 
+;WRITEI d
 ;ADDI a b $T12
 ;ADDI $T12 c $T13
 ;ADDI $T13 d $T14
@@ -36,45 +36,45 @@
 ;MULTI $T17 $T16 $T18
 ;SUBI $T18 $T15 $T19
 ;STOREI $T19 a
-;WRITEI a 
+;WRITEI a
 ;STOREI 10 $T20
 ;ADDI a $T20 $T21
 ;STOREI $T21 a
-;WRITEI a 
+;WRITEI a
 ;ADDI b a $T22
 ;STOREI 10 $T23
 ;ADDI $T22 $T23 $T24
 ;STOREI $T24 b
-;WRITEI b 
+;WRITEI b
 ;STOREI 0 $T25
 ;STOREI 10 $T26
 ;SUBI $T25 $T26 $T27
 ;STOREI $T27 c
-;WRITEI c 
+;WRITEI c
 ;STOREF 1.0 $T28
 ;STOREF $T28 x
 ;STOREF 2.0 $T29
 ;STOREF $T29 y
 ;STOREF 3.14159 $T30
 ;STOREF $T30 z
-;WRITEF x 
-;WRITEF z 
-;WRITEF y 
+;WRITEF x
+;WRITEF z
+;WRITEF y
 ;STOREF 2.0 $T31
 ;DIVF z $T31 $T32
 ;STOREF $T32 x
 ;DIVF z y $T33
 ;STOREF $T33 y
-;WRITEF x 
-;WRITEF y 
+;WRITEF x
+;WRITEF y
 ;ADDF x y $T34
 ;ADDF $T34 z $T35
 ;DIVF $T35 z $T36
 ;STOREF $T36 t
-;WRITEF t 
+;WRITEF t
 ;MULTF t t $T37
 ;STOREF $T37 t
-;WRITEF t 
+;WRITEF t
 ;STOREF 7.0 $T38
 ;DIVF z $T38 $T39
 ;STOREF 6.0 $T40
@@ -93,7 +93,7 @@
 ;ADDF $T52 $T41 $T53
 ;ADDF $T53 $T39 $T54
 ;STOREF $T54 t
-;WRITEF t 
+;WRITEF t
 ;RET
 
 ;tiny code
@@ -112,319 +112,416 @@ push r2
 push r3 
 jsr main 
 sys halt 
+;LABEL main 
 label main 
-;null    null    null    null
-link 54 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;LINK 
+link 55 
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;STOREI 1 $T1 
 move 1 r3 
-;$T1 :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: $T1 :dirty
+;STOREI $T1 a 
 move r3 r2 
-;$T1 :dirty    a :dirty    null    null
+;r0: null    ;r1: null    ;r2: a :dirty    ;r3: $T1 :dirty
 ;free $T1 
+;STOREI 2 $T2 
 move 2 r3 
-;$T2 :dirty    a :dirty    null    null
+;r0: null    ;r1: null    ;r2: a :dirty    ;r3: $T2 :dirty
+;STOREI $T2 b 
 move r3 r1 
-;$T2 :dirty    a :dirty    b :dirty    null
+;r0: null    ;r1: b :dirty    ;r2: a :dirty    ;r3: $T2 :dirty
 ;free $T2 
+;STOREI 10 $T3 
 move 10 r3 
-;$T3 :dirty    a :dirty    b :dirty    null
+;r0: null    ;r1: b :dirty    ;r2: a :dirty    ;r3: $T3 :dirty
+;STOREI $T3 c 
 move r3 r0 
-;$T3 :dirty    a :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: a :dirty    ;r3: $T3 :dirty
 ;free $T3 
+;STOREI 20 $T4 
 move 20 r3 
-;$T4 :dirty    a :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: a :dirty    ;r3: $T4 :dirty
+;STOREI $T4 d 
 ;free a 
 move r2 a 
 move r3 r2 
-;$T4 :dirty    d :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: d :dirty    ;r3: $T4 :dirty
 ;free $T4 
+;WRITEI a 
 move a r3 
 sys writei r3 
-;a    d :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: d :dirty    ;r3: a
+;WRITEI b 
 sys writei r1 
-;a    d :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: d :dirty    ;r3: a
+;WRITEI c 
 sys writei r0 
-;a    d :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: d :dirty    ;r3: a
+;WRITEI d 
 sys writei r2 
-;a    d :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: d :dirty    ;r3: a
+;ADDI a b $T5 
 ;free a 
 addi r1 r3 
-;$T5 :dirty    d :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: d :dirty    ;r3: $T5 :dirty
 ;free b 
+;STOREI $T5 a 
 move r3 r1 
-;$T5 :dirty    d :dirty    a :dirty    c :dirty
+;r0: c :dirty    ;r1: a :dirty    ;r2: d :dirty    ;r3: $T5 :dirty
 ;free $T5 
+;WRITEI a 
 sys writei r1 
-;null    d :dirty    a :dirty    c :dirty
+;r0: c :dirty    ;r1: a :dirty    ;r2: d :dirty    ;r3: null
+;MULTI a c $T6 
 ;free a 
 move r1 a 
 muli r0 r1 
-;null    d :dirty    $T6 :dirty    c :dirty
+;r0: c :dirty    ;r1: $T6 :dirty    ;r2: d :dirty    ;r3: null
 ;free c 
+;STOREI $T6 b 
 move r1 r3 
-;b :dirty    d :dirty    $T6 :dirty    null
+;r0: null    ;r1: $T6 :dirty    ;r2: d :dirty    ;r3: b :dirty
 ;free $T6 
+;WRITEI b 
 sys writei r3 
-;b :dirty    d :dirty    null    null
+;r0: null    ;r1: null    ;r2: d :dirty    ;r3: b :dirty
+;STOREI 0 $T7 
 move 0 r1 
-;b :dirty    d :dirty    $T7 :dirty    null
+;r0: null    ;r1: $T7 :dirty    ;r2: d :dirty    ;r3: b :dirty
+;SUBI $T7 a $T8 
 move a r0 
 ;free $T7 
 subi r0 r1 
-;b :dirty    d :dirty    $T8 :dirty    a
+;r0: a    ;r1: $T8 :dirty    ;r2: d :dirty    ;r3: b :dirty
+;ADDI $T8 b $T9 
 ;free $T8 
 addi r3 r1 
-;b :dirty    d :dirty    $T9 :dirty    a
+;r0: a    ;r1: $T9 :dirty    ;r2: d :dirty    ;r3: b :dirty
+;STOREI $T9 c 
 ;free b 
 move r3 b 
 move r1 r3 
-;c :dirty    d :dirty    $T9 :dirty    a
+;r0: a    ;r1: $T9 :dirty    ;r2: d :dirty    ;r3: c :dirty
 ;free $T9 
+;WRITEI c 
 sys writei r3 
-;c :dirty    d :dirty    null    a
+;r0: a    ;r1: null    ;r2: d :dirty    ;r3: c :dirty
+;STOREI 0 $T10 
 move 0 r1 
-;c :dirty    d :dirty    $T10 :dirty    a
+;r0: a    ;r1: $T10 :dirty    ;r2: d :dirty    ;r3: c :dirty
+;SUBI $T10 d $T11 
 ;free $T10 
 subi r2 r1 
-;c :dirty    d :dirty    $T11 :dirty    a
+;r0: a    ;r1: $T11 :dirty    ;r2: d :dirty    ;r3: c :dirty
 ;free d 
+;STOREI $T11 d 
 move r1 r2 
-;c :dirty    d :dirty    $T11 :dirty    a
+;r0: a    ;r1: $T11 :dirty    ;r2: d :dirty    ;r3: c :dirty
 ;free $T11 
+;WRITEI d 
 sys writei r2 
-;c :dirty    d :dirty    null    a
+;r0: a    ;r1: null    ;r2: d :dirty    ;r3: c :dirty
+;ADDI a b $T12 
 move b r1 
 ;free a 
 addi r1 r0 
-;c :dirty    d :dirty    b    $T12 :dirty
+;r0: $T12 :dirty    ;r1: b    ;r2: d :dirty    ;r3: c :dirty
+;ADDI $T12 c $T13 
 ;free $T12 
 addi r3 r0 
-;c :dirty    d :dirty    b    $T13 :dirty
+;r0: $T13 :dirty    ;r1: b    ;r2: d :dirty    ;r3: c :dirty
+;ADDI $T13 d $T14 
 ;free $T13 
 addi r2 r0 
-;c :dirty    d :dirty    b    $T14 :dirty
+;r0: $T14 :dirty    ;r1: b    ;r2: d :dirty    ;r3: c :dirty
+;DIVI $T14 a $T15 
 ;free c 
 move r3 c 
 move a r3 
 ;free $T14 
 divi r3 r0 
-;a    d :dirty    b    $T15 :dirty
+;r0: $T15 :dirty    ;r1: b    ;r2: d :dirty    ;r3: a
+;ADDI d c $T16 
 ;free a 
 move c r3 
 ;free d 
 addi r3 r2 
-;c    $T16 :dirty    b    $T15 :dirty
+;r0: $T15 :dirty    ;r1: b    ;r2: $T16 :dirty    ;r3: c
 ;free c 
+;ADDI a b $T17 
 move a r3 
 ;free a 
 addi r1 r3 
-;$T17 :dirty    $T16 :dirty    b    $T15 :dirty
+;r0: $T15 :dirty    ;r1: b    ;r2: $T16 :dirty    ;r3: $T17 :dirty
+;MULTI $T17 $T16 $T18 
 ;free $T17 
 muli r2 r3 
-;$T18 :dirty    $T16 :dirty    b    $T15 :dirty
+;r0: $T15 :dirty    ;r1: b    ;r2: $T16 :dirty    ;r3: $T18 :dirty
 ;free $T16 
+;SUBI $T18 $T15 $T19 
 ;free $T18 
 subi r0 r3 
-;$T19 :dirty    null    b    $T15 :dirty
+;r0: $T15 :dirty    ;r1: b    ;r2: null    ;r3: $T19 :dirty
 ;free $T15 
+;STOREI $T19 a 
 move r3 r2 
-;$T19 :dirty    a :dirty    b    null
+;r0: null    ;r1: b    ;r2: a :dirty    ;r3: $T19 :dirty
 ;free $T19 
+;WRITEI a 
 sys writei r2 
-;null    a :dirty    b    null
+;r0: null    ;r1: b    ;r2: a :dirty    ;r3: null
+;STOREI 10 $T20 
 move 10 r3 
-;$T20 :dirty    a :dirty    b    null
+;r0: null    ;r1: b    ;r2: a :dirty    ;r3: $T20 :dirty
+;ADDI a $T20 $T21 
 ;free a 
 addi r3 r2 
-;$T20 :dirty    $T21 :dirty    b    null
+;r0: null    ;r1: b    ;r2: $T21 :dirty    ;r3: $T20 :dirty
 ;free $T20 
+;STOREI $T21 a 
 move r2 r3 
-;a :dirty    $T21 :dirty    b    null
+;r0: null    ;r1: b    ;r2: $T21 :dirty    ;r3: a :dirty
 ;free $T21 
+;WRITEI a 
 sys writei r3 
-;a :dirty    null    b    null
+;r0: null    ;r1: b    ;r2: null    ;r3: a :dirty
+;ADDI b a $T22 
 ;free b 
 addi r3 r1 
-;a :dirty    null    $T22 :dirty    null
+;r0: null    ;r1: $T22 :dirty    ;r2: null    ;r3: a :dirty
 ;free a 
+;STOREI 10 $T23 
 move 10 r3 
-;$T23 :dirty    null    $T22 :dirty    null
+;r0: null    ;r1: $T22 :dirty    ;r2: null    ;r3: $T23 :dirty
+;ADDI $T22 $T23 $T24 
 ;free $T22 
 addi r3 r1 
-;$T23 :dirty    null    $T24 :dirty    null
+;r0: null    ;r1: $T24 :dirty    ;r2: null    ;r3: $T23 :dirty
 ;free $T23 
+;STOREI $T24 b 
 move r1 r3 
-;b :dirty    null    $T24 :dirty    null
+;r0: null    ;r1: $T24 :dirty    ;r2: null    ;r3: b :dirty
 ;free $T24 
+;WRITEI b 
 sys writei r3 
-;b :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: b :dirty
 ;free b 
+;STOREI 0 $T25 
 move 0 r3 
-;$T25 :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: $T25 :dirty
+;STOREI 10 $T26 
 move 10 r2 
-;$T25 :dirty    $T26 :dirty    null    null
+;r0: null    ;r1: null    ;r2: $T26 :dirty    ;r3: $T25 :dirty
+;SUBI $T25 $T26 $T27 
 ;free $T25 
 subi r2 r3 
-;$T27 :dirty    $T26 :dirty    null    null
+;r0: null    ;r1: null    ;r2: $T26 :dirty    ;r3: $T27 :dirty
 ;free $T26 
+;STOREI $T27 c 
 move r3 r2 
-;$T27 :dirty    c :dirty    null    null
+;r0: null    ;r1: null    ;r2: c :dirty    ;r3: $T27 :dirty
 ;free $T27 
+;WRITEI c 
 sys writei r2 
-;null    c :dirty    null    null
+;r0: null    ;r1: null    ;r2: c :dirty    ;r3: null
 ;free c 
+;STOREF 1.0 $T28 
 move 1.0 r3 
-;$T28 :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: $T28 :dirty
+;STOREF $T28 x 
 move r3 r2 
-;$T28 :dirty    x :dirty    null    null
+;r0: null    ;r1: null    ;r2: x :dirty    ;r3: $T28 :dirty
 ;free $T28 
+;STOREF 2.0 $T29 
 move 2.0 r3 
-;$T29 :dirty    x :dirty    null    null
+;r0: null    ;r1: null    ;r2: x :dirty    ;r3: $T29 :dirty
+;STOREF $T29 y 
 move r3 r1 
-;$T29 :dirty    x :dirty    y :dirty    null
+;r0: null    ;r1: y :dirty    ;r2: x :dirty    ;r3: $T29 :dirty
 ;free $T29 
+;STOREF 3.14159 $T30 
 move 3.14159 r3 
-;$T30 :dirty    x :dirty    y :dirty    null
+;r0: null    ;r1: y :dirty    ;r2: x :dirty    ;r3: $T30 :dirty
+;STOREF $T30 z 
 move r3 r0 
-;$T30 :dirty    x :dirty    y :dirty    z :dirty
+;r0: z :dirty    ;r1: y :dirty    ;r2: x :dirty    ;r3: $T30 :dirty
 ;free $T30 
+;WRITEF x 
 sys writer r2 
-;null    x :dirty    y :dirty    z :dirty
+;r0: z :dirty    ;r1: y :dirty    ;r2: x :dirty    ;r3: null
 ;free x 
+;WRITEF z 
 sys writer r0 
-;null    null    y :dirty    z :dirty
+;r0: z :dirty    ;r1: y :dirty    ;r2: null    ;r3: null
+;WRITEF y 
 sys writer r1 
-;null    null    y :dirty    z :dirty
+;r0: z :dirty    ;r1: y :dirty    ;r2: null    ;r3: null
+;STOREF 2.0 $T31 
 move 2.0 r3 
-;$T31 :dirty    null    y :dirty    z :dirty
+;r0: z :dirty    ;r1: y :dirty    ;r2: null    ;r3: $T31 :dirty
+;DIVF z $T31 $T32 
 ;free z 
 move r0 z 
 divr r3 r0 
-;$T31 :dirty    null    y :dirty    $T32 :dirty
+;r0: $T32 :dirty    ;r1: y :dirty    ;r2: null    ;r3: $T31 :dirty
 ;free $T31 
+;STOREF $T32 x 
 move r0 r3 
-;x :dirty    null    y :dirty    $T32 :dirty
+;r0: $T32 :dirty    ;r1: y :dirty    ;r2: null    ;r3: x :dirty
 ;free $T32 
+;DIVF z y $T33 
 move z r2 
 ;free z 
 divr r1 r2 
-;x :dirty    $T33 :dirty    y :dirty    null
+;r0: null    ;r1: y :dirty    ;r2: $T33 :dirty    ;r3: x :dirty
 ;free y 
+;STOREF $T33 y 
 move r2 r1 
-;x :dirty    $T33 :dirty    y :dirty    null
+;r0: null    ;r1: y :dirty    ;r2: $T33 :dirty    ;r3: x :dirty
 ;free $T33 
+;WRITEF x 
 sys writer r3 
-;x :dirty    null    y :dirty    null
+;r0: null    ;r1: y :dirty    ;r2: null    ;r3: x :dirty
+;WRITEF y 
 sys writer r1 
-;x :dirty    null    y :dirty    null
+;r0: null    ;r1: y :dirty    ;r2: null    ;r3: x :dirty
+;ADDF x y $T34 
 ;free x 
 addr r1 r3 
-;$T34 :dirty    null    y :dirty    null
+;r0: null    ;r1: y :dirty    ;r2: null    ;r3: $T34 :dirty
 ;free y 
+;ADDF $T34 z $T35 
 move z r2 
 ;free $T34 
 addr r2 r3 
-;$T35 :dirty    z    null    null
+;r0: null    ;r1: null    ;r2: z    ;r3: $T35 :dirty
+;DIVF $T35 z $T36 
 ;free $T35 
 divr r2 r3 
-;$T36 :dirty    z    null    null
+;r0: null    ;r1: null    ;r2: z    ;r3: $T36 :dirty
+;STOREF $T36 t 
 move r3 r1 
-;$T36 :dirty    z    t :dirty    null
+;r0: null    ;r1: t :dirty    ;r2: z    ;r3: $T36 :dirty
 ;free $T36 
+;WRITEF t 
 sys writer r1 
-;null    z    t :dirty    null
+;r0: null    ;r1: t :dirty    ;r2: z    ;r3: null
+;MULTF t t $T37 
 ;free t 
 mulr r1 r1 
-;null    z    $T37 :dirty    null
+;r0: null    ;r1: $T37 :dirty    ;r2: z    ;r3: null
+;STOREF $T37 t 
 move r1 r3 
-;t :dirty    z    $T37 :dirty    null
+;r0: null    ;r1: $T37 :dirty    ;r2: z    ;r3: t :dirty
 ;free $T37 
+;WRITEF t 
 sys writer r3 
-;t :dirty    z    null    null
+;r0: null    ;r1: null    ;r2: z    ;r3: t :dirty
+;STOREF 7.0 $T38 
 move 7.0 r1 
-;t :dirty    z    $T38 :dirty    null
+;r0: null    ;r1: $T38 :dirty    ;r2: z    ;r3: t :dirty
+;DIVF z $T38 $T39 
 ;free z 
 divr r1 r2 
-;t :dirty    $T39 :dirty    $T38 :dirty    null
+;r0: null    ;r1: $T38 :dirty    ;r2: $T39 :dirty    ;r3: t :dirty
 ;free $T38 
+;STOREF 6.0 $T40 
 move 6.0 r1 
-;t :dirty    $T39 :dirty    $T40 :dirty    null
+;r0: null    ;r1: $T40 :dirty    ;r2: $T39 :dirty    ;r3: t :dirty
+;DIVF z $T40 $T41 
 move z r0 
 ;free z 
 divr r1 r0 
-;t :dirty    $T39 :dirty    $T40 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T40 :dirty    ;r2: $T39 :dirty    ;r3: t :dirty
 ;free $T40 
+;STOREF 5.0 $T42 
 move 5.0 r1 
-;t :dirty    $T39 :dirty    $T42 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T42 :dirty    ;r2: $T39 :dirty    ;r3: t :dirty
+;DIVF z $T42 $T43 
 ;free t 
 move r3 t 
 move z r3 
 ;free z 
 divr r1 r3 
-;$T43 :dirty    $T39 :dirty    $T42 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T42 :dirty    ;r2: $T39 :dirty    ;r3: $T43 :dirty
 ;free $T42 
+;STOREF 4.0 $T44 
 move 4.0 r1 
-;$T43 :dirty    $T39 :dirty    $T44 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T44 :dirty    ;r2: $T39 :dirty    ;r3: $T43 :dirty
+;DIVF z $T44 $T45 
 ;free $T43 
 move r3 $-43 
 move z r3 
 ;free z 
 divr r1 r3 
-;$T45 :dirty    $T39 :dirty    $T44 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T44 :dirty    ;r2: $T39 :dirty    ;r3: $T45 :dirty
 ;free $T44 
+;STOREF 2.0 $T46 
 move 2.0 r1 
-;$T45 :dirty    $T39 :dirty    $T46 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T46 :dirty    ;r2: $T39 :dirty    ;r3: $T45 :dirty
+;DIVF t $T46 $T47 
 ;free $T45 
 move r3 $-45 
 move t r3 
 ;free t 
 divr r1 r3 
-;$T47 :dirty    $T39 :dirty    $T46 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T46 :dirty    ;r2: $T39 :dirty    ;r3: $T47 :dirty
 ;free $T46 
+;ADDF t z $T48 
 move t r1 
 ;free $T47 
 move r3 $-47 
 move z r3 
 ;free t 
 addr r3 r1 
-;z    $T39 :dirty    $T48 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T48 :dirty    ;r2: $T39 :dirty    ;r3: z
 ;free z 
+;ADDF $T48 t $T49 
 move t r3 
 ;free $T48 
 addr r3 r1 
-;t    $T39 :dirty    $T49 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T49 :dirty    ;r2: $T39 :dirty    ;r3: t
 ;free t 
+;ADDF $T49 $T47 $T50 
 move $-47 r3 
 ;free $T49 
 addr r3 r1 
-;$T47    $T39 :dirty    $T50 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T50 :dirty    ;r2: $T39 :dirty    ;r3: $T47
 ;free $T47 
+;ADDF $T50 $T45 $T51 
 move $-45 r3 
 ;free $T50 
 addr r3 r1 
-;$T45    $T39 :dirty    $T51 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T51 :dirty    ;r2: $T39 :dirty    ;r3: $T45
 ;free $T45 
+;ADDF $T51 $T43 $T52 
 move $-43 r3 
 ;free $T51 
 addr r3 r1 
-;$T43    $T39 :dirty    $T52 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T52 :dirty    ;r2: $T39 :dirty    ;r3: $T43
 ;free $T43 
+;ADDF $T52 $T41 $T53 
 ;free $T52 
 addr r0 r1 
-;null    $T39 :dirty    $T53 :dirty    $T41 :dirty
+;r0: $T41 :dirty    ;r1: $T53 :dirty    ;r2: $T39 :dirty    ;r3: null
 ;free $T41 
+;ADDF $T53 $T39 $T54 
 ;free $T53 
 addr r2 r1 
-;null    $T39 :dirty    $T54 :dirty    null
+;r0: null    ;r1: $T54 :dirty    ;r2: $T39 :dirty    ;r3: null
 ;free $T39 
+;STOREF $T54 t 
 move r1 r3 
-;t :dirty    null    $T54 :dirty    null
+;r0: null    ;r1: $T54 :dirty    ;r2: null    ;r3: t :dirty
 ;free $T54 
+;WRITEF t 
 sys writer r3 
-;t :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: t :dirty
 ;free t 
+;RET 
 unlnk 
 ret 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
 end

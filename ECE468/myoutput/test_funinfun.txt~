@@ -11,12 +11,34 @@
 ;STOREF $T1 $L1
 ;PUSH
 ;PUSH $L1
-;PUSH $P2
+;PUSH $P1
 ;JSR add
 ;POP
 ;POP
 ;POP $T2
-;STOREF $T2 $R
+;PUSH
+;PUSH $T2
+;PUSH $P1
+;JSR add
+;POP
+;POP
+;POP $T3
+;PUSH
+;PUSH $L1
+;PUSH $P1
+;JSR add
+;POP
+;POP
+;POP $T4
+;PUSH
+;PUSH $T4
+;PUSH $P1
+;JSR add
+;POP
+;POP
+;POP $T5
+;ADDF $T3 $T5 $T6
+;STOREF $T6 $R
 ;RET
 
 ;LABEL main
@@ -53,8 +75,8 @@
 ;POP
 ;POP $T4
 ;PUSH
-;PUSH $T4
 ;PUSH $L5
+;PUSH $T4
 ;JSR add
 ;POP
 ;POP
@@ -93,7 +115,7 @@ sys halt
 label add 
 ;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;LINK 
-link 3 
+link 2
 ;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;ADDF $P1 $P2 $T1 
 move $7 r3 
@@ -118,7 +140,7 @@ ret
 label multiply 
 ;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;LINK 
-link 4 
+link 7
 ;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;MULTF $P1 $P2 $T1 
 move $7 r3 
@@ -126,21 +148,21 @@ move $6 r2
 ;free $P1 
 mulr r2 r3 
 ;r0: null    ;r1: null    ;r2: $P2    ;r3: $T1 :dirty
+;free $P2 
 ;STOREF $T1 $L1 
-move r3 r1 
-;r0: null    ;r1: $L1 :dirty    ;r2: $P2    ;r3: $T1 :dirty
+move r3 r2 
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: $T1 :dirty
 ;free $T1 
 ;PUSH 
 push 
-;r0: null    ;r1: $L1 :dirty    ;r2: $P2    ;r3: null
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: null
 ;PUSH $L1 
-push r1 
-;r0: null    ;r1: $L1 :dirty    ;r2: $P2    ;r3: null
-;free $L1 
-;PUSH $P2 
 push r2 
-;r0: null    ;r1: null    ;r2: $P2    ;r3: null
-;free $P2 
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: null
+;PUSH $P1 
+move $7 r3 
+push r3 
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: $P1
 ;JSR add 
 push r0 
 push r1 
@@ -151,20 +173,116 @@ pop r3
 pop r2 
 pop r1 
 pop r0 
-;r0: null    ;r1: null    ;r2: null    ;r3: null
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: $P1
 ;POP 
 pop 
-;r0: null    ;r1: null    ;r2: null    ;r3: null
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: $P1
 ;POP 
 pop 
-;r0: null    ;r1: null    ;r2: null    ;r3: null
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: $P1
 ;POP $T2 
-pop r3 
-;r0: null    ;r1: null    ;r2: null    ;r3: $T2 :dirty
-;STOREF $T2 $R 
-move r3 $8 
-;r0: null    ;r1: null    ;r2: null    ;r3: $T2 :dirty
+pop r1 
+;r0: null    ;r1: $T2    ;r2: $L1 :dirty    ;r3: $P1
+;PUSH 
+push 
+;r0: null    ;r1: $T2    ;r2: $L1 :dirty    ;r3: $P1
+;PUSH $T2 
+push r1 
+;r0: null    ;r1: $T2    ;r2: $L1 :dirty    ;r3: $P1
 ;free $T2 
+;PUSH $P1 
+push r3 
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: $P1
+;JSR add 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr add 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: $P1
+;POP 
+pop 
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: $P1
+;POP 
+pop 
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: $P1
+;POP $T3 
+pop r1 
+;r0: null    ;r1: $T3    ;r2: $L1 :dirty    ;r3: $P1
+;PUSH 
+push 
+;r0: null    ;r1: $T3    ;r2: $L1 :dirty    ;r3: $P1
+;PUSH $L1 
+push r2 
+;r0: null    ;r1: $T3    ;r2: $L1 :dirty    ;r3: $P1
+;free $L1 
+;PUSH $P1 
+push r3 
+;r0: null    ;r1: $T3    ;r2: null    ;r3: $P1
+;JSR add 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr add 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+;r0: null    ;r1: $T3    ;r2: null    ;r3: $P1
+;POP 
+pop 
+;r0: null    ;r1: $T3    ;r2: null    ;r3: $P1
+;POP 
+pop 
+;r0: null    ;r1: $T3    ;r2: null    ;r3: $P1
+;POP $T4 
+pop r2 
+;r0: null    ;r1: $T3    ;r2: $T4    ;r3: $P1
+;PUSH 
+push 
+;r0: null    ;r1: $T3    ;r2: $T4    ;r3: $P1
+;PUSH $T4 
+push r2 
+;r0: null    ;r1: $T3    ;r2: $T4    ;r3: $P1
+;free $T4 
+;PUSH $P1 
+push r3 
+;r0: null    ;r1: $T3    ;r2: null    ;r3: $P1
+;free $P1 
+;JSR add 
+push r0 
+push r1 
+push r2 
+push r3 
+jsr add 
+pop r3 
+pop r2 
+pop r1 
+pop r0 
+;r0: null    ;r1: $T3    ;r2: null    ;r3: null
+;POP 
+pop 
+;r0: null    ;r1: $T3    ;r2: null    ;r3: null
+;POP 
+pop 
+;r0: null    ;r1: $T3    ;r2: null    ;r3: null
+;POP $T5 
+pop r3 
+;r0: null    ;r1: $T3    ;r2: null    ;r3: $T5
+;ADDF $T3 $T5 $T6 
+;free $T3 
+addr r3 r1 
+;r0: null    ;r1: $T6 :dirty    ;r2: null    ;r3: $T5
+;free $T5 
+;STOREF $T6 $R 
+move r1 $8 
+;r0: null    ;r1: $T6 :dirty    ;r2: null    ;r3: null
+;free $T6 
 ;RET 
 unlnk 
 ret 
@@ -224,16 +342,16 @@ pop
 ;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
 ;POP $T1 
 pop r0 
-;r0: $T1 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;r0: $T1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
 ;PUSH 
 push 
-;r0: $T1 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;r0: $T1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
 ;PUSH $L1 
 push r3 
-;r0: $T1 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;r0: $T1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
 ;PUSH $L2 
 push r2 
-;r0: $T1 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;r0: $T1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
 ;JSR add 
 push r0 
 push r1 
@@ -244,22 +362,22 @@ pop r3
 pop r2 
 pop r1 
 pop r0 
-;r0: $T1 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;r0: $T1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
 ;POP 
 pop 
-;r0: $T1 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;r0: $T1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
 ;POP 
 pop 
-;r0: $T1 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;r0: $T1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
 ;POP $T2 
 ;free $L1 
 move r3 $-1 
 pop r3 
-;r0: $T1 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T2 :dirty
+;r0: $T1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T2
 ;ADDF $T1 $T2 $T3 
 ;free $T1 
 addr r3 r0 
-;r0: $T3 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T2 :dirty
+;r0: $T3 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T2
 ;free $T2 
 ;STOREF $T3 $L5 
 move r0 r3 
@@ -299,19 +417,21 @@ pop
 ;free $L5 
 move r3 $-5 
 pop r3 
-;r0: $L1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T4 :dirty
+;r0: $L1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T4
 ;PUSH 
 push 
-;r0: $L1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T4 :dirty
-;PUSH $T4 
-push r3 
-;r0: $L1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T4 :dirty
-;free $T4 
+;r0: $L1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T4
 ;PUSH $L5 
+;free $T4 
 move $-5 r3 
 push r3 
 ;r0: $L1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L5
 ;free $L5 
+;PUSH $T4 
+move $-9 r3 
+push r3 
+;r0: $L1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T4
+;free $T4 
 ;JSR add 
 push r0 
 push r1 
@@ -331,7 +451,7 @@ pop
 ;r0: $L1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: null
 ;POP $T5 
 pop r3 
-;r0: $L1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T5 :dirty
+;r0: $L1    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T5
 ;STOREF $T5 $L4 
 ;free $L2 
 move r2 $-2 

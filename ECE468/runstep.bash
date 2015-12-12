@@ -1,5 +1,3 @@
-make clean
-make compiler
 java -cp lib/antlr.jar:classes/ Micro testcase/fma.micro > myoutput/fma.txt
 java -cp lib/antlr.jar:classes/ Micro testcase/fibonacci2.micro > myoutput/fibonacci2.txt
 java -cp lib/antlr.jar:classes/ Micro testcase/factorial2.micro > myoutput/factorial2.txt

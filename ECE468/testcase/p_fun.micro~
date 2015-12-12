@@ -20,7 +20,7 @@ BEGIN
 	BEGIN
 	  FLOAT result;
 		result := a*b;
-		RETURN add(result,b);
+		RETURN add(add(result,a),a) + add(add(result,a),a);
 	END
 	
 	FUNCTION INT main ()
@@ -34,9 +34,7 @@ BEGIN
 		WRITE(third);
 		READ(c);
 		multiplyresult := multiply(a,b) + add(a,b);
-		WRITE(multiplyresult);
-		addresult := add(multiply(a,b), multiplyresult );
-		WRITE(addresult);
+		addresult := add(multiplyresult, multiply(a,b));
 		WRITE(a,star,b,plus,c,equal,addresult,eol);
 		RETURN 0;
 	END

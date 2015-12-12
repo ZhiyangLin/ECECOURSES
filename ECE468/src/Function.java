@@ -6,9 +6,9 @@ import java.util.Stack;
 public class Function {
     String name;
     String retType;
-    int tn = 1;
-    int pn = 1;
-    int ln = 1;
+    int tn = 0;
+    int pn = 0;
+    int ln = 0;
     HashMap<String, Symbol> paramTable = new HashMap<String, Symbol>();
     HashMap<String, Symbol> localTable = new HashMap<String, Symbol>();
     public Function(String _name ,String _retType)

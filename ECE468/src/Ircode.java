@@ -6,6 +6,7 @@ public class Ircode {
 	public Irnode oprand1;
 	public Irnode oprand2;
 	public Irnode result;
+	public String code;
 	public boolean endofF = false;
 	public boolean endofB = false;
 	public int debug = 0;
@@ -18,69 +19,31 @@ public class Ircode {
 
 	public Ircode(String _opcode){
 		opcode = _opcode;
+		code = ";" + opcode;
 	}
 	public Ircode(String _opcode, Irnode _result){
 		opcode = _opcode;
 		result = _result;
+		code = ";" + opcode + " " + result.value;
 	}
 	public Ircode(String _opcode, Irnode _oprand1, Irnode _result){
 		opcode = _opcode;
 		oprand1 = _oprand1;
 		result = _result;
+		code = ";" + opcode + " " + oprand1.value + " " + result.value;
 	}
 	public Ircode(String _opcode, Irnode _oprand1, Irnode _oprand2, Irnode _result){
 		opcode = _opcode;
 		oprand1 = _oprand1;
 		oprand2 = _oprand2;
 		result = _result;
+		code = ";" + opcode + " " + oprand1.value + " " + oprand2.value + " " + result.value;
 	}
 
 	public void printCode(){
-		if(oprand1 == null && oprand2 == null && result == null){
-			System.out.println(";" + opcode);
-		}
-		else if(oprand1 == null && oprand2 == null){
-			System.out.printf(";%s %s \n",opcode, result.value);
-		}
-		else if(oprand2 == null){
-			System.out.printf(";%s %s %s\n",opcode, oprand1.value, result.value);	
-		}
-		else{
-			System.out.printf(";%s %s %s %s\n",opcode, oprand1.value, oprand2.value, result.value);
-		}
+		System.out.println(code);
 		if(endofF == true){
 			System.out.println();
 		}
-	}
-
-	public void printGenKill(){
-		if(oprand1 == null && oprand2 == null && result == null){
-			System.out.println(";" + opcode);
-		}
-		else if(oprand1 == null && oprand2 == null){
-			System.out.printf(";%s %s \n",opcode, result.value);
-		}
-		else if(oprand2 == null){
-			System.out.printf(";%s %s %s\n",opcode, oprand1.value, result.value);	
-		}
-		else{
-			System.out.printf(";%s %s %s %s\n",opcode, oprand1.value, oprand2.value, result.value);
-		}
-		if(endofF == true){
-			System.out.println();
-		}
-		System.out.printf("Gen: ");
-		for(String s: gen){
-			System.out.printf(s+" ");
-		}
-		System.out.println();
-		System.out.printf("kill: ");
-		for(String s: kill){
-			System.out.printf(s+" ");
-		}
-		System.out.println();
-	}
-
-	
-	
+	}	
 }

@@ -1,4 +1,4 @@
-;LABEL main 
+;LABEL main
 ;LINK
 ;STOREI 20 $T1
 ;STOREI $T1 a
@@ -21,9 +21,9 @@
 ;MULTI b a $T14
 ;DIVI $T14 a $T15
 ;STOREI $T15 a
-;WRITEI c 
-;WRITEI b 
-;WRITEI a 
+;WRITEI c
+;WRITEI b
+;WRITEI a
 ;RET
 
 ;tiny code
@@ -37,89 +37,116 @@ push r2
 push r3 
 jsr main 
 sys halt 
+;LABEL main 
 label main 
-;null    null    null    null
-link 15 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;LINK 
+link 16 
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;STOREI 20 $T1 
 move 20 r3 
-;$T1 :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: $T1 :dirty
+;STOREI $T1 a 
 move r3 r2 
-;$T1 :dirty    a :dirty    null    null
+;r0: null    ;r1: null    ;r2: a :dirty    ;r3: $T1 :dirty
 ;free $T1 
+;STOREI 30 $T2 
 move 30 r3 
-;$T2 :dirty    a :dirty    null    null
+;r0: null    ;r1: null    ;r2: a :dirty    ;r3: $T2 :dirty
+;STOREI $T2 b 
 move r3 r1 
-;$T2 :dirty    a :dirty    b :dirty    null
+;r0: null    ;r1: b :dirty    ;r2: a :dirty    ;r3: $T2 :dirty
 ;free $T2 
+;STOREI 40 $T3 
 move 40 r3 
-;$T3 :dirty    a :dirty    b :dirty    null
+;r0: null    ;r1: b :dirty    ;r2: a :dirty    ;r3: $T3 :dirty
+;STOREI $T3 c 
 move r3 r0 
-;$T3 :dirty    a :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: a :dirty    ;r3: $T3 :dirty
 ;free $T3 
+;MULTI a b $T4 
 ;free a 
 move r2 a 
 muli r1 r2 
-;null    $T4 :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: $T4 :dirty    ;r3: null
+;ADDI $T4 c $T5 
 ;free $T4 
 addi r0 r2 
-;null    $T5 :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: $T5 :dirty    ;r3: null
+;DIVI $T5 a $T6 
 move a r3 
 ;free $T5 
 divi r3 r2 
-;a    $T6 :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: $T6 :dirty    ;r3: a
+;MULTI a b $T7 
 ;free a 
 muli r1 r3 
-;$T7 :dirty    $T6 :dirty    b :dirty    c :dirty
+;r0: c :dirty    ;r1: b :dirty    ;r2: $T6 :dirty    ;r3: $T7 :dirty
+;ADDI c $T7 $T8 
 ;free c 
 addi r3 r0 
-;$T7 :dirty    $T6 :dirty    b :dirty    $T8 :dirty
+;r0: $T8 :dirty    ;r1: b :dirty    ;r2: $T6 :dirty    ;r3: $T7 :dirty
 ;free $T7 
+;ADDI $T8 $T6 $T9 
 ;free $T8 
 addi r2 r0 
-;null    $T6 :dirty    b :dirty    $T9 :dirty
+;r0: $T9 :dirty    ;r1: b :dirty    ;r2: $T6 :dirty    ;r3: null
 ;free $T6 
+;STOREI 20 $T10 
 move 20 r3 
-;$T10 :dirty    null    b :dirty    $T9 :dirty
+;r0: $T9 :dirty    ;r1: b :dirty    ;r2: null    ;r3: $T10 :dirty
+;ADDI $T9 $T10 $T11 
 ;free $T9 
 addi r3 r0 
-;$T10 :dirty    null    b :dirty    $T11 :dirty
+;r0: $T11 :dirty    ;r1: b :dirty    ;r2: null    ;r3: $T10 :dirty
 ;free $T10 
+;STOREI $T11 c 
 move r0 r3 
-;c :dirty    null    b :dirty    $T11 :dirty
+;r0: $T11 :dirty    ;r1: b :dirty    ;r2: null    ;r3: c :dirty
 ;free $T11 
+;MULTI b b $T12 
 ;free b 
 muli r1 r1 
-;c :dirty    null    $T12 :dirty    null
+;r0: null    ;r1: $T12 :dirty    ;r2: null    ;r3: c :dirty
+;ADDI $T12 a $T13 
 move a r2 
 ;free $T12 
 addi r2 r1 
-;c :dirty    a    $T13 :dirty    null
+;r0: null    ;r1: $T13 :dirty    ;r2: a    ;r3: c :dirty
+;STOREI $T13 b 
 move r1 r0 
-;c :dirty    a    $T13 :dirty    b :dirty
+;r0: b :dirty    ;r1: $T13 :dirty    ;r2: a    ;r3: c :dirty
 ;free $T13 
+;MULTI b a $T14 
 ;free b 
 move r0 b 
 muli r2 r0 
-;c :dirty    a    null    $T14 :dirty
+;r0: $T14 :dirty    ;r1: null    ;r2: a    ;r3: c :dirty
+;DIVI $T14 a $T15 
 ;free $T14 
 divi r2 r0 
-;c :dirty    a    null    $T15 :dirty
+;r0: $T15 :dirty    ;r1: null    ;r2: a    ;r3: c :dirty
 ;free a 
+;STOREI $T15 a 
 move r0 r2 
-;c :dirty    a :dirty    null    $T15 :dirty
+;r0: $T15 :dirty    ;r1: null    ;r2: a :dirty    ;r3: c :dirty
 ;free $T15 
+;WRITEI c 
 sys writei r3 
-;c :dirty    a :dirty    null    null
+;r0: null    ;r1: null    ;r2: a :dirty    ;r3: c :dirty
 ;free c 
+;WRITEI b 
 move b r3 
 sys writei r3 
-;b    a :dirty    null    null
+;r0: null    ;r1: null    ;r2: a :dirty    ;r3: b
 ;free b 
+;WRITEI a 
 sys writei r2 
-;null    a :dirty    null    null
+;r0: null    ;r1: null    ;r2: a :dirty    ;r3: null
 ;free a 
+;RET 
 unlnk 
 ret 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
 end

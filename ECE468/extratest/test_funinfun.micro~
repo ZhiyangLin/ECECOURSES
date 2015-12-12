@@ -20,7 +20,7 @@ BEGIN
 	BEGIN
 	  FLOAT result;
 		result := a*b;
-		RETURN add(result,b);
+		RETURN add(add(result,a),a) + add(add(result,a),a);
 	END
 	
 	FUNCTION INT main ()

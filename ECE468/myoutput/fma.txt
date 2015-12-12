@@ -1,50 +1,50 @@
-;LABEL add 
+;LABEL add
 ;LINK
 ;ADDF $P1 $P2 $T1
 ;STOREF $T1 $L1
 ;STOREF $L1 $R
 ;RET
 
-;LABEL multiply 
+;LABEL multiply
 ;LINK
 ;MULTF $P1 $P2 $T1
 ;STOREF $T1 $L1
 ;STOREF $L1 $R
 ;RET
 
-;LABEL main 
+;LABEL main
 ;LINK
-;WRITES intro 
-;WRITES first 
-;READF $L1 
-;WRITES second 
-;READF $L2 
-;WRITES third 
-;READF $L3 
+;WRITES intro
+;WRITES first
+;READF $L1
+;WRITES second
+;READF $L2
+;WRITES third
+;READF $L3
 ;PUSH
-;PUSH $L1 
-;PUSH $L2 
-;JSR multiply 
+;PUSH $L1
+;PUSH $L2
+;JSR multiply
 ;POP
 ;POP
-;POP $T1 
+;POP $T1
 ;STOREF $T1 $L5
 ;PUSH
-;PUSH $L5 
-;PUSH $L3 
-;JSR add 
+;PUSH $L5
+;PUSH $L3
+;JSR add
 ;POP
 ;POP
-;POP $T2 
+;POP $T2
 ;STOREF $T2 $L4
-;WRITEF $L1 
-;WRITES star 
-;WRITEF $L2 
-;WRITES plus 
-;WRITEF $L3 
-;WRITES equal 
-;WRITEF $L4 
-;WRITES eol 
+;WRITEF $L1
+;WRITES star
+;WRITEF $L2
+;WRITES plus
+;WRITEF $L3
+;WRITES equal
+;WRITEF $L4
+;WRITES eol
 ;STOREI 0 $T3
 ;STOREI $T3 $R
 ;RET
@@ -65,68 +65,93 @@ push r2
 push r3 
 jsr main 
 sys halt 
+;LABEL add 
 label add 
-;null    null    null    null
-link 2 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;LINK 
+link 3 
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;ADDF $P1 $P2 $T1 
 move $7 r3 
 move $6 r2 
 ;free $P1 
 addr r2 r3 
-;$T1 :dirty    $P2    null    null
+;r0: null    ;r1: null    ;r2: $P2    ;r3: $T1 :dirty
 ;free $P2 
+;STOREF $T1 $L1 
 move r3 r2 
-;$T1 :dirty    $L1 :dirty    null    null
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: $T1 :dirty
 ;free $T1 
+;STOREF $L1 $R 
 move r2 $8 
-;null    $L1 :dirty    null    null
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: null
 ;free $L1 
+;RET 
 unlnk 
 ret 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;LABEL multiply 
 label multiply 
-;null    null    null    null
-link 2 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;LINK 
+link 3 
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;MULTF $P1 $P2 $T1 
 move $7 r3 
 move $6 r2 
 ;free $P1 
 mulr r2 r3 
-;$T1 :dirty    $P2    null    null
+;r0: null    ;r1: null    ;r2: $P2    ;r3: $T1 :dirty
 ;free $P2 
+;STOREF $T1 $L1 
 move r3 r2 
-;$T1 :dirty    $L1 :dirty    null    null
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: $T1 :dirty
 ;free $T1 
+;STOREF $L1 $R 
 move r2 $8 
-;null    $L1 :dirty    null    null
+;r0: null    ;r1: null    ;r2: $L1 :dirty    ;r3: null
 ;free $L1 
+;RET 
 unlnk 
 ret 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;LABEL main 
 label main 
-;null    null    null    null
-link 8 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;LINK 
+link 9 
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;WRITES intro 
 sys writes intro 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;WRITES first 
 sys writes first 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;READF $L1 
 sys readr r3 
-;$L1 :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: $L1 :dirty
+;WRITES second 
 sys writes second 
-;$L1 :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: $L1 :dirty
+;READF $L2 
 sys readr r2 
-;$L1 :dirty    $L2 :dirty    null    null
+;r0: null    ;r1: null    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;WRITES third 
 sys writes third 
-;$L1 :dirty    $L2 :dirty    null    null
+;r0: null    ;r1: null    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;READF $L3 
 sys readr r1 
-;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;PUSH 
 push 
-;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;PUSH $L1 
 push r3 
-;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;PUSH $L2 
 push r2 
-;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;JSR multiply 
 push r0 
 push r1 
 push r2 
@@ -136,25 +161,33 @@ pop r3
 pop r2 
 pop r1 
 pop r0 
-;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;POP 
 pop 
-;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;POP 
 pop 
-;$L1 :dirty    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;POP $T1 
 pop r0 
-;$L1 :dirty    $L2 :dirty    $L3 :dirty    $T1
+;r0: $T1 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1 :dirty
+;STOREF $T1 $L5 
 ;free $L1 
 move r3 $-1 
 move r0 r3 
-;$L5 :dirty    $L2 :dirty    $L3 :dirty    $T1 :dirty
+;r0: $T1 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L5 :dirty
 ;free $T1 
+;PUSH 
 push 
-;$L5 :dirty    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L5 :dirty
+;PUSH $L5 
 push r3 
-;$L5 :dirty    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L5 :dirty
 ;free $L5 
+;PUSH $L3 
 push r1 
-;null    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: null
+;JSR add 
 push r0 
 push r1 
 push r2 
@@ -164,44 +197,59 @@ pop r3
 pop r2 
 pop r1 
 pop r0 
-;null    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: null
+;POP 
 pop 
-;null    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: null
+;POP 
 pop 
-;null    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: null
+;POP $T2 
 pop r3 
-;$T2    $L2 :dirty    $L3 :dirty    null
+;r0: null    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T2 :dirty
+;STOREF $T2 $L4 
 move r3 r0 
-;$T2 :dirty    $L2 :dirty    $L3 :dirty    $L4 :dirty
+;r0: $L4 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $T2 :dirty
 ;free $T2 
+;WRITEF $L1 
 move $-1 r3 
 sys writer r3 
-;$L1    $L2 :dirty    $L3 :dirty    $L4 :dirty
+;r0: $L4 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: $L1
 ;free $L1 
+;WRITES star 
 sys writes star 
-;null    $L2 :dirty    $L3 :dirty    $L4 :dirty
+;r0: $L4 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: null
+;WRITEF $L2 
 sys writer r2 
-;null    $L2 :dirty    $L3 :dirty    $L4 :dirty
+;r0: $L4 :dirty    ;r1: $L3 :dirty    ;r2: $L2 :dirty    ;r3: null
 ;free $L2 
+;WRITES plus 
 sys writes plus 
-;null    null    $L3 :dirty    $L4 :dirty
+;r0: $L4 :dirty    ;r1: $L3 :dirty    ;r2: null    ;r3: null
+;WRITEF $L3 
 sys writer r1 
-;null    null    $L3 :dirty    $L4 :dirty
+;r0: $L4 :dirty    ;r1: $L3 :dirty    ;r2: null    ;r3: null
 ;free $L3 
+;WRITES equal 
 sys writes equal 
-;null    null    null    $L4 :dirty
+;r0: $L4 :dirty    ;r1: null    ;r2: null    ;r3: null
+;WRITEF $L4 
 sys writer r0 
-;null    null    null    $L4 :dirty
+;r0: $L4 :dirty    ;r1: null    ;r2: null    ;r3: null
 ;free $L4 
+;WRITES eol 
 sys writes eol 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
+;STOREI 0 $T3 
 move 0 r3 
-;$T3 :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: $T3 :dirty
+;STOREI $T3 $R 
 move r3 $6 
-;$T3 :dirty    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: $T3 :dirty
 ;free $T3 
+;RET 
 unlnk 
 ret 
-;null    null    null    null
+;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;end of BLOCK 
 end
