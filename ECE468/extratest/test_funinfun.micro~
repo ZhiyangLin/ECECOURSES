@@ -5,7 +5,7 @@ BEGIN
 	STRING second := "Please enter the second float number: ";
 	STRING third := "Please enter the third float number: ";
 	STRING eol := "\n";
-        STRING star := "*";
+     STRING star := "*";
 	STRING plus := "+";
 	STRING equal := "=";
 	
@@ -20,23 +20,20 @@ BEGIN
 	BEGIN
 	  FLOAT result;
 		result := a*b;
-		RETURN add(add(result,a),a) + add(add(result,a),a);
+		RETURN add(result,add(a,b)) + add(add(a,b), result) ;
 	END
 	
 	FUNCTION INT main ()
 	BEGIN
 		FLOAT a,b,c;
-		FLOAT addresult,multiplyresult;
+		FLOAT addresult;
 		WRITE(intro,first);
 		READ(a);
 		WRITE(second);
 		READ(b);
 		WRITE(third);
 		READ(c);
-		multiplyresult := multiply(a,b) + add(a,b);
-		WRITE(multiplyresult);
-		addresult := add(multiply(a,b), multiplyresult );
-		WRITE(addresult);
+		addresult := add(multiply(a,b),c);
 		WRITE(a,star,b,plus,c,equal,addresult,eol);
 		RETURN 0;
 	END

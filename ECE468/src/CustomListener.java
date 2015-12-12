@@ -161,6 +161,10 @@ public class CustomListener extends MicroBaseListener {
         Symbol var = new Symbol(varType, varValue);
         Scope top = scopes.peek();
         checkDeclError(top.table, varName);
+        if(curFun != null){
+            checkShadow(curFun.localTable, varName);    
+        }
+        
         //top.table.put(varName, var);
         //top.keys.add(varName);
         
@@ -195,6 +199,9 @@ public class CustomListener extends MicroBaseListener {
             String lv;
             Symbol var = new Symbol(varType, varValue);
             checkDeclError(top.table, name);
+            if(curFun != null){
+                checkShadow(curFun.localTable, name);    
+            }
             top.table.put(name, var);
             
             if(top.type.equals("GLOBAL")){
@@ -905,6 +912,12 @@ public class CustomListener extends MicroBaseListener {
             System.exit(1);
         }
     }
+
+    public void checkShadow(HashMap funTable, String varName){
+         if(funTable.get(varName) != null){
+            System.out.println(";SHADOW WARNING " + varName);
+        }
+    }    
 
     public void Generate3AC(Irnode opcode, Irnode left, Irnode right){
         //System.out.println("gen3ac");

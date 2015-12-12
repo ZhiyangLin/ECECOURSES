@@ -26,7 +26,8 @@
 ;STOREI 0 $T9
 ;NE $P1 $T9 label3
 ;STOREI 0 $T10
-;STOREI $T10 $R
+;STOREI $T10 $L3
+;STOREI $L3 $R
 ;RET
 ;JUMP label4
 ;LABEL label3
@@ -87,7 +88,7 @@ sys halt
 label F 
 ;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;LINK 
-link 16 
+link 17 
 ;r0: null    ;r1: null    ;r2: null    ;r3: null
 ;STOREI 2 $T1 
 move 2 r3 
@@ -211,10 +212,14 @@ jne label3
 ;STOREI 0 $T10 
 move 0 r3 
 ;r0: null    ;r1: null    ;r2: null    ;r3: $T10 :dirty
-;STOREI $T10 $R 
-move r3 $7 
-;r0: null    ;r1: null    ;r2: null    ;r3: $T10 :dirty
+;STOREI $T10 $L3 
+move r3 r2 
+;r0: null    ;r1: null    ;r2: $L3 :dirty    ;r3: $T10 :dirty
 ;free $T10 
+;STOREI $L3 $R 
+move r2 $7 
+;r0: null    ;r1: null    ;r2: $L3 :dirty    ;r3: null
+;free $L3 
 ;RET 
 unlnk 
 ret 
